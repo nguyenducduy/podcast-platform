@@ -1,0 +1,27 @@
+# http://editorconfig.org
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{ts,js,css,vue,scss,html,graphql}]
+indent_size = 2
+indent_style = space
+
+[*.{json,yml,toml}]
+indent_size = 2
+
+[*.proto]
+indent_size = 2
+indent_style = space
+
+[*.md]
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab

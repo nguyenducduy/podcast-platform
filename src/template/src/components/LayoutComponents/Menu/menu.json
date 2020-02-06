@@ -1,0 +1,54 @@
+{
+  "items": [
+    {
+      "title": "Trang chủ",
+      "key": "home",
+      "url": "/",
+      "icon": "icmn icmn-home"
+    },
+    {
+      "title": "Thành viên",
+      "key": "user",
+      "icon": "icmn icmn-users",
+      "children": [
+        {
+          "title": "Thêm",
+          "key": "user-add",
+          "url": "/user/add",
+          "icon": "icmn icmn-plus"
+        },
+        {
+          "title": "Danh sách",
+          "key": "user-list",
+          "url": "/user",
+          "icon": "icmn icmn-list"
+        }
+      ]
+    },
+    {
+      "title": "Podcast",
+      "key": "podcast", 
+      "icon": "icmn icmn-podcast",
+      "children": [
+        {
+          "title": "Danh sách",
+          "key": "podcast-list",
+          "url": "/podcast",
+          "icon": "icmn icmn-list"
+        },
+        {
+          "title": "Audio Tool",
+          "key": "podcast-compose",
+          "url": "/podcast/compose",
+          "icon": "icmn icmn-insert-template"
+        },
+        {
+          "title": "Thu âm",
+          "key": "podcast-record",
+          "url": "/podcast/record",
+          "icon": "icmn icmn-mic"
+        }
+      ]
+    }
+  ]
+}

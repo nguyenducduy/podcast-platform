@@ -1,0 +1,15 @@
+.visual {
+  background-color: #fff;
+  text-align: center;
+  position: relative;
+}
+.playBtnContainer {
+  line-height: 90px;
+  height: 80px;
+}
+:global(#wavesurfer-mix-to-track-container) {
+  position: relative !important; // for accurate wavesurfer cursor
+}
+:global(#wavesurfer-mix-from-track-container) {
+  position: relative !important; // for accurate wavesurfer cursor
+}

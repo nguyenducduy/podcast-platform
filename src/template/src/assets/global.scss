@@ -1,0 +1,53 @@
+@import '~bootstrap-css-only/css/bootstrap.min.css';
+@import './styles/Antd/antd.cleanui';
+@import './styles/Bootstrap/bootstrap.cleanui';
+@import './styles/CleanUI/cleanui';
+@import './styles/Nprogress/nprogress.cleanui';
+@import './styles/Rcdrawer/rcdrawer.cleanui';
+@import './styles/PerfectScrollbar/perfectscrollbar.cleanui';
+
+.anticon {
+  vertical-align: 0.025em;
+}
+.ant-table-small {
+  border: 0 !important;
+}
+.ant-table-body {
+  margin: 0 !important;
+}
+body {
+  background-color: #fff;
+}
+.ant-layout-sider-children {
+  background-color: #fff;
+}
+.podcast-cover-image-upload {
+  .ant-upload-select-picture-card {
+    width: 155px;
+    height: 155px;
+  }
+}
+.ant-tooltip {
+  font-size: 12px !important;
+}
+.ant-tooltip-inner {
+  min-height: 25px !important;
+  padding: 2px 6px !important;
+}
+// .sfx-upload-area,
+// .music-upload-area,
+// .voice-upload-area {
+//   .ant-upload {
+//     width: 100%;
+//   }
+// }
+
+// .sfx-menu {
+//   .ant-menu-submenu-title {
+//     border: 1px dashed lightgrey;
+//     font-weight: 600;;
+//   }
+//   .ant-menu-item {
+//     padding-left: 5px !important;
+//   }
+// }

@@ -1,0 +1,33 @@
+:global(.moving-card) {
+  @apply opacity-50 bg-gray-100 border border-blue-500;
+}
+
+:global(.ant-spin-nested-loading) {
+  width: 100% !important;
+}
+
+:global(.compose-list) {
+  li {
+    border: 1px solid #c6cbef;
+    border-radius: 5px;
+    text-align: left;
+  }
+  // li:first-child {
+  //   border-bottom: 1px solid #fff8cd;
+  //   border-top: 1px solid white;
+  // }
+  // li:last-child {
+  //   border-top: 1px solid #c6cbef;
+  //   border-bottom: 1px solid white;
+  // }
+}
+
+.composeTitle {
+  word-break: break-word;
+  max-width: 40%;
+  font-size: 13px;
+  overflow: hidden;
+  max-height: 50px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
