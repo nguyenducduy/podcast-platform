@@ -6,6 +6,10 @@ pip install -r requirements.txt
 python app.py
 ```
 
+# Run flask CLI
+```bash
+FLASK_APP=cli.py flask <command-name>
+```
 
 # format to mp3
 ```bash
@@ -106,7 +110,7 @@ Suite (Audio tool):
 
 Podcast:
 * create podcast from scratch
-* import from existing podcast platform like Soundcloud, AudioBoom, Spreaker, ...
+* import from existing podcast platform like Apple podcast, Soundcloud, AudioBoom, Spreaker, ...
 * RSS feed for podcast
 * Schedule Episode
 * Podcast distribution to Apple podcast, Spotify, Google Music, TuneIn, Amazon Alexa, ...

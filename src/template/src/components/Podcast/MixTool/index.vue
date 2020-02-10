@@ -2,10 +2,13 @@
   <div>
     <a-modal centered :maskClosable="false" v-model="visible">
       <template slot="title">
-        mix <a-tag>{{ fromTrack.name }}</a-tag> to
+        mix
+        <a-tag>{{ fromTrack.name }}</a-tag>to
         <a-tag color="rgb(252, 194, 158)">{{ toTrack.name }}</a-tag>
         <span v-if="mixStart !== null">
-          at <strong>{{ mixStart }}</strong> <small>seconds</small>
+          at
+          <strong>{{ mixStart }}</strong>
+          <small>seconds</small>
         </span>
       </template>
       <div :class="$style.visual">
@@ -17,14 +20,14 @@
               size="large"
               type="link"
               :icon="!fromTrackPlaying ? `caret-right` : `pause`"
-            ></a-button> -->
+            ></a-button>-->
           </div>
           <div class="col-lg-11">
             <div id="wavesurfer-mix-from-track-container"></div>
             <div id="timeline-mix-from-track-container"></div>
-            <small
-              ><i>{{ fromTrack.name }}</i></small
-            >
+            <small>
+              <i>{{ fromTrack.name }}</i>
+            </small>
           </div>
           <div class="col-lg-1">
             <a-button
@@ -42,10 +45,11 @@
               :max="maxDuration"
               @change="onSlideChange"
             />
-            <small
-              >Slide to set duration of <i>{{ fromTrack.name }}</i> mix to
-              <i>{{ toTrack.name }}</i> track.</small
-            >
+            <small>
+              Slide to set duration of
+              <i>{{ fromTrack.name }}</i> mix to
+              <i>{{ toTrack.name }}</i> track.
+            </small>
           </div>
         </div>
         <!-- TO TRACK -->
@@ -61,24 +65,20 @@
           <div class="col-lg-11">
             <div id="wavesurfer-mix-to-track-container"></div>
             <div id="timeline-mix-to-track-container"></div>
-            <small
-              ><i>{{ toTrack.name }}</i></small
-            >
+            <small>
+              <i>{{ toTrack.name }}</i>
+            </small>
           </div>
         </div>
       </div>
       <template slot="footer">
         <div class="row">
           <div class="col-lg-6 text-left">
-            <a-button type="dashed" @click="onTry()" :loading="loading">
-              Try
-            </a-button>
+            <a-button type="dashed" @click="onTry()" :loading="loading">Try</a-button>
           </div>
           <div class="col-lg-6 text-right">
             <a-button @click="onClose">Close</a-button>
-            <a-button type="primary" @click="onMix()" :loading="loading">
-              Mix
-            </a-button>
+            <a-button type="primary" @click="onMix()" :loading="loading">Mix</a-button>
           </div>
         </div>
       </template>
@@ -272,6 +272,9 @@ export default class MixTool extends Vue {
         waveColor: "#000",
         cursorColor: "#f50",
         cursorWidth: 1,
+        barWidth: 3,
+        barRadius: 3,
+        barGap: 3,
         backend: "MediaElement",
         mediaType: "audio",
         plugins: [
@@ -319,6 +322,9 @@ export default class MixTool extends Vue {
         waveColor: "rgb(252, 194, 158)",
         cursorColor: "#f50",
         cursorWidth: 1,
+        barWidth: 3,
+        barRadius: 3,
+        barGap: 3,
         backend: "MediaElement",
         mediaType: "audio",
         plugins: [

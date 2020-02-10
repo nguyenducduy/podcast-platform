@@ -5,7 +5,7 @@ from flask_cors import CORS
 from root_schema import schema
 from graphene_file_upload.flask import FileUploadGraphQLView
 
-app = Flask(__name__, static_folder='uploads')
+app = Flask(__name__, static_folder='storage')
 app.debug = True
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})

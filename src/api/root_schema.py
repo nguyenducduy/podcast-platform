@@ -73,6 +73,7 @@ class Mutation(graphene.ObjectType):
     # revision
     create_revision = revision_schema.CreateRevision.Field()
     detach_revision = revision_schema.DetachRevision.Field()
+    change_file_order_in_revision = revision_schema.ChangeFileOrderInRevision.Field()
     # podcast
     create_podcast = podcast_schema.CreatePodcast.Field()
     update_podcast = podcast_schema.UpdatePodcast.Field()

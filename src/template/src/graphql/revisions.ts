@@ -96,3 +96,22 @@ export const DETACH_REVISION = gql`
     }
   }
 `;
+
+export const CHANGE_FILE_ORDER_IN_REVISION = gql`
+  mutation changeFileOrderInRevision(
+    $newTracksOrder: String!,
+    $sessionId: String!,
+    $version: Int!
+  ) {
+    changeFileOrderInRevision(
+      newTracksOrder: $newTracksOrder,
+      sessionId: $sessionId,
+      version: $version
+    ) {
+      revision {
+        id
+        version
+      }
+    }
+  }
+`;

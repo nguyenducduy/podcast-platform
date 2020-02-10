@@ -1,7 +1,5 @@
 <template>
-  <a-layout-content class="p-4 bg-white rounded-lg h-max-full h-screen">
-    Dashboard
-  </a-layout-content>
+  <a-layout-content class="p-4 bg-white rounded-lg">Dashboard</a-layout-content>
 </template>
 
 <script lang="ts">

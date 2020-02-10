@@ -71,6 +71,9 @@ export default class PodcastVisual extends Vue {
         // progressColor: "rgb(252, 194, 158)",
         cursorColor: "#fff",
         cursorWidth: 1,
+        barWidth: 3,
+        barRadius: 3,
+        barGap: 3,
         backend: "MediaElement",
         mediaType: "audio",
         plugins: [

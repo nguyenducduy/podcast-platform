@@ -1,13 +1,8 @@
 <template>
-  <div class="mb-3">
-    <a-upload
-      :fileList="files"
-      :multiple="true"
-      :beforeUpload="beforeUpload"
-      :remove="onRemove"
-    >
+  <div class="mb-3 mt-3">
+    <a-upload :fileList="files" :multiple="true" :beforeUpload="beforeUpload" :remove="onRemove">
       <a-button type="link" block>
-        <a-icon type="desktop" /> Upload file từ máy tính
+        <a-icon type="desktop" />Upload file từ máy tính
       </a-button>
     </a-upload>
     <a-button
@@ -19,7 +14,7 @@
       :loading="$apollo.loading"
       :disabled="files.length === 0"
     >
-      <a-icon type="upload" /> Upload
+      <a-icon type="upload" />Upload
     </a-button>
   </div>
 </template>

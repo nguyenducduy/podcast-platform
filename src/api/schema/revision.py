@@ -320,7 +320,6 @@ class DetachRevision(graphene.Mutation):
         # get last revision
         myLastRevision = Revision.query.filter(
             Revision.session_id == sessionId,
-            Revision.u_id == uId,
             Revision.version == version,
         ).order_by(Revision.version.desc()).first()
 
@@ -371,6 +370,80 @@ class DetachRevision(graphene.Mutation):
                 content=json.dumps(revisionContent),
                 mixed_id=new_filedrive.id,
                 files_used=("%s" % myLastRevision.mixed_id)
+            )
+            save_changes(new_revision)
+
+        return CreateRevision(revision=new_revision)
+
+
+class ChangeFileOrderInRevision(graphene.Mutation):
+    class Arguments:
+        session_id = graphene.String(required=True)
+        version = graphene.Int(required=True)
+        new_tracks_order = graphene.String(required=True)
+
+    revision = graphene.Field(lambda: RevisionNode)
+
+    @require_auth
+    def mutate(self, info, **kwargs):
+        uId = kwargs.get('user').id
+        sessionId = kwargs.get('session_id')
+        version = kwargs.get('version')
+        newTracksOrder = kwargs.get('new_tracks_order')
+
+        myRevision = Revision.query.filter(
+            Revision.session_id == sessionId,
+            Revision.version == version,
+        ).order_by(Revision.version.desc()).first()
+
+        revisionContent = json.loads(myRevision.content)
+        newArrOrder = []
+        for index in newTracksOrder.split(','):
+            newArrOrder.append(revisionContent[int(index)])
+
+        cmd, fileName = buildCmd(newArrOrder, uId, sessionId)
+
+        print(cmd.split(" "))
+        out = subprocess.Popen(
+            cmd.split(" "),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT
+        )
+
+        # waiting for command run complete
+        stdout, stderr = out.communicate()
+        print(stdout)
+
+        currentEpDir = os.path.join(
+            upload_dir, ("audio/%s/%s" % (uId, sessionId)))
+        os.makedirs(currentEpDir, exist_ok=True)
+        mixedFilePath = os.path.join(currentEpDir, ("%s.mp3" % fileName))
+
+        # success command
+        if os.path.isfile(mixedFilePath):
+            size = os.stat(mixedFilePath).st_size
+            duration = librosa.get_duration(filename=mixedFilePath)
+
+            # create mixed file
+            new_filedrive = Filedrive(
+                u_id=uId,
+                name=("%s.mp3" % fileName),
+                path=("%s/%s/%s.mp3" % (uId, sessionId, fileName)),
+                size=size,
+                duration=duration,
+                type=Filedrive.TYPE_MIXED,
+                is_tmp=Filedrive.IS_NOT_TMP,
+                is_common=Filedrive.IS_NOT_COMMON
+            )
+            save_changes(new_filedrive)
+
+            new_revision = Revision(
+                session_id=sessionId,
+                u_id=uId,
+                version=myRevision.version + 1,
+                content=json.dumps(newArrOrder),
+                mixed_id=new_filedrive.id,
+                files_used=("%s" % myRevision.mixed_id)
             )
             save_changes(new_revision)
 

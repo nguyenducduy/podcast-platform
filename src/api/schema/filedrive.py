@@ -4,6 +4,7 @@ from graphql import GraphQLError
 from helper.decorator import require_auth
 from helper import filedrive
 from model.filedrive import Filedrive
+from model.user import User
 from config import upload_dir
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -35,10 +36,17 @@ class FiledriveFilter(FilterSet):
         fields = {
             'id': [...],
             'type': [...],
-            'u_id': [...],
             'is_tmp': [...],
             'is_common': [...]
         }
+
+    is_owner = graphene.Boolean()
+
+    @staticmethod
+    def is_owner_filter(info, query, value):
+        if value:
+            auth_resp = User.decode_auth_token(info.context)
+            return Filedrive.u_id == User.query.filter_by(id=auth_resp).first().id
 
 
 # QUERY

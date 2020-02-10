@@ -1,16 +1,13 @@
 <template>
   <div>
     <div class="p-3 mb-3 justify-start">
-      <h3>HISTORY</h3>
-      <small>Click on session ID tag to resume session</small>
+      <h3>Lịch sử chỉnh sửa</h3>
+      <small>Nhấn vào Session ID để tiếp tục</small>
     </div>
-    <div
-      v-if="historiesGraph.edges.length === 0"
-      class="min-h-screen flex justify-center"
-    >
+    <div v-if="historiesGraph.edges.length === 0" class="flex justify-center">
       <a-empty />
     </div>
-    <div v-else class="">
+    <div v-else class>
       <a-timeline>
         <a-timeline-item v-for="(item, idx) in historiesGraph.edges" :key="idx">
           <div class="row">
@@ -19,15 +16,13 @@
                 size="small"
                 type="primary"
                 @click="onSessionSelect(item.node.sessionId, item.node.version)"
-              >
-                {{ item.node.sessionId }} . Revision {{ item.node.version }}
-              </a-button>
+              >{{ item.node.sessionId }} #{{ item.node.version }}</a-button>
               {{ item.node.createdAt | moment("Do MMMM YYYY, h:mm a") }}
             </div>
             <!-- <div class="col-lg-2">
               <a-button size="small" icon="undo" type="link" style="font-size: 11px"></a-button
               >
-            </div> -->
+            </div>-->
           </div>
         </a-timeline-item>
       </a-timeline>

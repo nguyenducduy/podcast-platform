@@ -38,6 +38,35 @@ export const GET_COMMON_FILEDRIVE = gql`
   }
 `;
 
+export const GET_USER_FILEDRIVE = gql`
+  query userFiledriveList($first: Int, $last: Int) {
+    viewer {
+      filedriveList(
+        first: $first
+        last: $last
+        sort: [ID_ASC]
+        filters: {
+          isCommon: 3,
+          isOwner: true
+        }
+      ) {
+        totalCount
+        edges {
+          cursor
+          node {
+            id
+            name
+            size
+            duration
+            path
+            type
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_FILES_TO_MIX = gql`
   query filedriveList($first: Int, $fromTrack: ID!, $toTrack: ID!) {
     viewer {
