@@ -2,7 +2,7 @@
   <div class="mb-3 mt-3">
     <a-upload :fileList="files" :multiple="true" :beforeUpload="beforeUpload" :remove="onRemove">
       <a-button type="link" block>
-        <a-icon type="desktop" />Upload file từ máy tính
+        <a-icon type="desktop" />Upload từ máy tính
       </a-button>
     </a-upload>
     <a-button

@@ -9,13 +9,13 @@
       :icon="!playing ? `caret-right` : `pause`"
       style="font-size: 16px;"
     ></a-button>
+    <small class="region-label-hover mb-1">{{ regionDisplayName }}</small>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { bus } from "@/helpers/utils";
-import { sleep } from "@/helpers/utils";
+import { bus, sleep } from "@/helpers/utils";
 import WaveSurfer from "wavesurfer.js";
 import Cursor from "@/plugins/Wavesurfer/cursor";
 import RegionPlugin from "@/plugins/Wavesurfer/region";
@@ -28,6 +28,7 @@ export default class PodcastVisual extends Vue {
   instance: any = null;
   playing: boolean = false;
   visible: boolean = false;
+  regionDisplayName: string = "";
 
   onPlayPause() {
     this.playing ? this.instance.pause() : this.instance.play();
@@ -96,7 +97,10 @@ export default class PodcastVisual extends Vue {
         ]
       });
 
-      this.instance.on("region-click", region => {});
+      this.instance.on("region-mouseenter", region => {
+        this.regionDisplayName = region.attributes.label;
+        // console.log(region.attributes.label);
+      });
 
       this.instance.on("seek", seekTime => {
         const currentTime = seekTime * this.instance.getDuration();

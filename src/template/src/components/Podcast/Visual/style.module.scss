@@ -14,7 +14,8 @@
     background: #000;
     font-size: 10px;
     max-width: auto;
-    overflow: hidden;
+    max-height: auto;
+    // overflow: hidden;
     word-break: break-word;
     padding: 0 4px;
   }
@@ -22,7 +23,7 @@
 
 .play-btn {
   margin-bottom: 10px;
-  
+
   i {
     font-size: 24px;
   }

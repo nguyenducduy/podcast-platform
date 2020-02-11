@@ -324,6 +324,7 @@ class DetachRevision(graphene.Mutation):
         ).order_by(Revision.version.desc()).first()
 
         revisionContent = json.loads(myLastRevision.content)
+        # print(revisionContent)
         detachSegment = [index for index, segment in enumerate(
             revisionContent) if index == detachIndex]
         del revisionContent[detachSegment[0]]
@@ -338,7 +339,7 @@ class DetachRevision(graphene.Mutation):
 
         # waiting for command run complete
         stdout, stderr = out.communicate()
-        print(stdout)
+        # print(stdout)
 
         currentEpDir = os.path.join(
             upload_dir, ("audio/%s/%s" % (uId, sessionId)))
@@ -373,7 +374,7 @@ class DetachRevision(graphene.Mutation):
             )
             save_changes(new_revision)
 
-        return CreateRevision(revision=new_revision)
+            return CreateRevision(revision=new_revision)
 
 
 class ChangeFileOrderInRevision(graphene.Mutation):
@@ -403,7 +404,7 @@ class ChangeFileOrderInRevision(graphene.Mutation):
 
         cmd, fileName = buildCmd(newArrOrder, uId, sessionId)
 
-        print(cmd.split(" "))
+        # print(cmd.split(" "))
         out = subprocess.Popen(
             cmd.split(" "),
             stdout=subprocess.PIPE,
@@ -476,7 +477,7 @@ def buildCmd(data, uId, sessionId):
             lastCrossfadeIdx = idx
             crossfadeList.append(rev)
             crossfadeString += "[%s]acrossfade=d=2:c1=tri:c2=tri[aud%s]%s%s" % (str(idx), str(idx), ';' if len(
-                crossfadeList) < len(data) else '', '[aud' + str(idx) + ']' if len(crossfadeList) < len(data) else '')
+                crossfadeList) < len(data) else "", '[aud' + str(idx) + ']' if len(crossfadeList) < len(data) else "")
         if rev['type'] == 'mix':
             mixList.append(rev)
             mixString += "[%s]atrim=%s:%s[%strim];[%strim]adelay=%s|%s[aud%s];" % (str(
@@ -493,12 +494,12 @@ def buildCmd(data, uId, sessionId):
     else:
         if len(crossfadeList) > len(data):
             crossfadeString = crossfadeString[:-1]
-        crossfadeString += "\" -map [aud%s]" % lastCrossfadeIdx
+        crossfadeString += " -map [aud%s]" % lastCrossfadeIdx
 
     currentEpDir = os.path.join(upload_dir, ("audio/%s/%s" % (uId, sessionId)))
     os.makedirs(currentEpDir, exist_ok=True)
     mixedFilePath = os.path.join(currentEpDir, ("%s.mp3" % fileName))
-    # print(crossfadeString)
+    print(crossfadeString)
     # print(mixString)
 
     filterComplexString += crossfadeString + mixString

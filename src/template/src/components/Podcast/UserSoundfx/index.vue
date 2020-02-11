@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h3 class="mt-4">FILE CỦA BẠN</h3>
     <a-table
       class="soundfx"
       :dataSource="filedrivesGraph.edges"
@@ -20,7 +21,10 @@
       </template>
       <template slot="__type_slot" slot-scope="record">
         <a-tag color="blue" v-if="record.node.type === 1">sound</a-tag>
-        <a-tag color="red" v-if="record.node.type === 3">record</a-tag>
+        <a-tag color="pink" v-if="record.node.type === 3">recorded</a-tag>
+        <a-tag color="orange" v-if="record.node.type === 5">trimed</a-tag>
+        <a-tag color="cyan" v-if="record.node.type === 7">crossfaded</a-tag>
+        <a-tag color="purple" v-if="record.node.type === 9">mixed</a-tag>
       </template>
       <template slot="__actions_slot" slot-scope="record">
         <a-button
@@ -42,9 +46,9 @@
         <a-tooltip title="Mix">
           <a-button type="link" icon="shrink" :disabled="lock" @click="onMixTo(record.node)"></a-button>
         </a-tooltip>
-        <a-tooltip title="Trim silence">
+        <!-- <a-tooltip title="Trim silence">
           <a-button type="link" icon="scissor" :disabled="lock" @click="onTrimSilence(record.node)"></a-button>
-        </a-tooltip>
+        </a-tooltip>-->
       </template>
     </a-table>
   </div>
@@ -99,18 +103,19 @@ export default class UserSoundfx extends Vue {
     total: 0,
     pageSize: 10,
     showTotal: total => `Total ${total}`,
-    showQuickJumper: true
+    showQuickJumper: true,
+    hideOnSinglePage: true
   };
   // data table
   columns: any = [
     {
-      title: "File",
+      title: "",
       scopedSlots: {
         customRender: "__name_slot"
       }
     },
     {
-      title: "Type",
+      title: "",
       scopedSlots: {
         customRender: "__type_slot"
       }
@@ -227,7 +232,7 @@ export default class UserSoundfx extends Vue {
   td {
     .duration {
       font-size: 11px;
-      color: #ccc;
+      color: #aaa;
     }
     font-size: 12px;
     padding: 3px 3px !important;

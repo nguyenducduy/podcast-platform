@@ -34,11 +34,11 @@
                   >{{ track.start }} -> {{ track.end }}</small
                 >
                 &nbsp;-->
-                <a-button
+                <!-- <a-button
                   type="link"
                   icon="sound"
                   class="focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
-                ></a-button>
+                ></a-button>-->
                 <a-tag :color="track.type == 'crossfade' ? 'cyan' : 'purple'">
                   {{
                   track.type
@@ -145,6 +145,7 @@ export default class ComposeTool extends Vue {
         version: res.data.changeFileOrderInRevision.revision.version
       });
 
+      this.version = res.data.changeFileOrderInRevision.revision.version;
       this._loadRevision();
       this.spinning = false;
       bus.$emit("history:refresh");
@@ -178,6 +179,7 @@ export default class ComposeTool extends Vue {
         version: res.data.detachRevision.revision.version
       });
 
+      this.version = res.data.detachRevision.revision.version;
       this._loadRevision();
       this.spinning = false;
       bus.$emit("history:refresh");
@@ -215,6 +217,7 @@ export default class ComposeTool extends Vue {
           version: res.data.createRevision.revision.version
         });
 
+        this.version = res.data.createRevision.revision.version;
         this._loadRevision();
         this.spinning = false;
       } catch (error) {
@@ -234,6 +237,7 @@ export default class ComposeTool extends Vue {
         sessionId: this.sessionId,
         version: version
       });
+      this.version = version;
       this._loadRevision();
     });
 
