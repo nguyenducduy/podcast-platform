@@ -246,7 +246,7 @@ class CreateRevision(graphene.Mutation):
 
             # waiting for command run complete
             stdout, stderr = out.communicate()
-            print(stdout)
+            # print(stdout)
 
             # success command
             if os.path.isfile(mixedFilePath):
@@ -398,7 +398,9 @@ class ChangeFileOrderInRevision(graphene.Mutation):
         ).order_by(Revision.version.desc()).first()
 
         revisionContent = json.loads(myRevision.content)
+        print(revisionContent)
         newArrOrder = []
+        newRevisionContent = []
         for index in newTracksOrder.split(','):
             newArrOrder.append(revisionContent[int(index)])
 
@@ -413,7 +415,7 @@ class ChangeFileOrderInRevision(graphene.Mutation):
 
         # waiting for command run complete
         stdout, stderr = out.communicate()
-        print(stdout)
+        # print(stdout)
 
         currentEpDir = os.path.join(
             upload_dir, ("audio/%s/%s" % (uId, sessionId)))
@@ -438,6 +440,22 @@ class ChangeFileOrderInRevision(graphene.Mutation):
             )
             save_changes(new_filedrive)
 
+            for idx, track in enumerate(newArrOrder):
+                print(track)
+                myFile = Filedrive.query.filter_by(id=track['fdId']).first()
+                # calculate region start/end to display in visual
+                if idx == 0:
+                    track['start'] = 0
+                    track['end'] = myFile.duration
+                else:
+                    myPreviousFile = Filedrive.query.filter_by(
+                        id=newArrOrder[idx - 1]['fdId']).first()
+                    track['start'] = myPreviousFile.duration
+                    track['end'] = myFile.duration
+                    if idx == len(newArrOrder) - 1:
+                        track['end'] = duration
+
+            print(newArrOrder)
             new_revision = Revision(
                 session_id=sessionId,
                 u_id=uId,
