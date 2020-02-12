@@ -8,7 +8,7 @@
         <span v-if="mixStart !== null">
           at
           <strong>{{ mixStart }}</strong>
-          <small>seconds</small>
+          <small>&nbsp; sec</small>
         </span>
       </template>
       <div :class="$style.visual">
@@ -73,9 +73,9 @@
       </div>
       <template slot="footer">
         <div class="row">
-          <div class="col-lg-6 text-left">
+          <!-- <div class="col-lg-6 text-left">
             <a-button type="dashed" @click="onTry()" :loading="loading">Try</a-button>
-          </div>
+          </div>-->
           <div class="col-lg-6 text-right">
             <a-button @click="onClose">Close</a-button>
             <a-button type="primary" @click="onMix()" :loading="loading">Mix</a-button>

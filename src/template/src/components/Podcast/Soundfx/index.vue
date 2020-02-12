@@ -35,12 +35,12 @@
           cancelText="No"
           placement="left"
         >
-          <a-tooltip title="Append">
-            <a-button type="link" icon="enter" :disabled="lock"></a-button>
+          <a-tooltip title="Merge">
+            <a-button type="link" icon="arrow-right" :disabled="lock"></a-button>
           </a-tooltip>
         </a-popconfirm>
         <a-tooltip title="Mix">
-          <a-button type="link" icon="shrink" :disabled="lock" @click="onMixTo(record.node)"></a-button>
+          <a-button type="link" icon="experiment" :disabled="lock" @click="onMixTo(record.node)"></a-button>
         </a-tooltip>
         <!-- <a-tooltip title="Trim silence">
           <a-button type="link" icon="scissor" :disabled="lock" @click="onTrimSilence(record.node)"></a-button>

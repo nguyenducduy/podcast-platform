@@ -364,11 +364,29 @@ class DetachRevision(graphene.Mutation):
             )
             save_changes(new_filedrive)
 
+            newRevisonContent = []
+            for idx, track in enumerate(revisionContent):
+                myFile = Filedrive.query.filter_by(id=track['fdId']).first()
+                # calculate region start/end to display in visual
+                if idx == 0:
+                    track['start'] = 0
+                    track['end'] = myFile.duration
+                else:
+                    myPreviousFile = Filedrive.query.filter_by(
+                        id=revisionContent[idx - 1]['fdId']).first()
+                    track['start'] = myPreviousFile.duration
+                    track['end'] = myFile.duration
+                    if idx == len(revisionContent) - 1:
+                        track['end'] = duration
+
+                print(track)
+                newRevisonContent.append(track)
+
             new_revision = Revision(
                 session_id=sessionId,
                 u_id=uId,
                 version=myLastRevision.version + 1,
-                content=json.dumps(revisionContent),
+                content=json.dumps(newRevisonContent),
                 mixed_id=new_filedrive.id,
                 files_used=("%s" % myLastRevision.mixed_id)
             )
@@ -398,7 +416,7 @@ class ChangeFileOrderInRevision(graphene.Mutation):
         ).order_by(Revision.version.desc()).first()
 
         revisionContent = json.loads(myRevision.content)
-        print(revisionContent)
+
         newArrOrder = []
         newRevisionContent = []
         for index in newTracksOrder.split(','):
@@ -441,7 +459,6 @@ class ChangeFileOrderInRevision(graphene.Mutation):
             save_changes(new_filedrive)
 
             for idx, track in enumerate(newArrOrder):
-                print(track)
                 myFile = Filedrive.query.filter_by(id=track['fdId']).first()
                 # calculate region start/end to display in visual
                 if idx == 0:
@@ -517,7 +534,7 @@ def buildCmd(data, uId, sessionId):
     currentEpDir = os.path.join(upload_dir, ("audio/%s/%s" % (uId, sessionId)))
     os.makedirs(currentEpDir, exist_ok=True)
     mixedFilePath = os.path.join(currentEpDir, ("%s.mp3" % fileName))
-    print(crossfadeString)
+    # print(crossfadeString)
     # print(mixString)
 
     filterComplexString += crossfadeString + mixString

@@ -10,7 +10,7 @@
       <a-empty />
     </div>
     <div v-else class="flex items-start">
-      <a-spin tip="Processing..." :spinning="spinning">
+      <a-spin tip="Đang xử lý..." :spinning="spinning">
         <div class="spin-content">
           <draggable
             tag="ul"
@@ -20,6 +20,7 @@
             ghost-class="moving-card"
             filter=".action-button"
             style="text-align: center"
+            :sort="dragEnable"
             @change="onChange"
           >
             <li
@@ -121,8 +122,18 @@ export default class ComposeTool extends Vue {
   spinning: boolean = false;
   sessionId: string = "";
   version: number = 0;
+  dragEnable: boolean = true;
 
   async onChange(evt) {
+    if (this.dragEnable === false) {
+      this.$notification.error({
+        message: "Không thể thay đổi thứ tự vì Session ID này đã đc MIX",
+        description: "",
+        duration: 10
+      });
+      return;
+    }
+
     let arrChanged = "";
     this.tracks.map(track => {
       arrChanged += track.key + ",";
@@ -259,6 +270,7 @@ export default class ComposeTool extends Vue {
   }
 
   _loadRevision() {
+    this.dragEnable = true;
     this.tracks = [];
 
     if (this.revisionsGraph.edges.length > 0) {
@@ -266,6 +278,10 @@ export default class ComposeTool extends Vue {
 
       JSON.parse(revisionData.content).forEach(track => {
         let count = this.tracks.length;
+
+        if (track.type == "mix") {
+          this.dragEnable = false;
+        }
 
         this.tracks.push({
           key: count++,
