@@ -2,7 +2,7 @@
   <div>
     <div :class="$style.logo">
       <div :class="$style.logoContainer">
-        <img src="images/logo.png" alt />
+        <img src="/images/logo.png" alt />
       </div>
     </div>
     <div :class="[$style.navigation, $style.light]">

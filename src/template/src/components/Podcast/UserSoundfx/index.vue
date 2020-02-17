@@ -211,6 +211,9 @@ export default class UserSoundfx extends Vue {
     bus.$on("composer:sessionSelected", async data => {
       this.sessionId = data["sessionId"];
     });
+    bus.$on("soundfx:updateSessionId", sessionId => {
+      this.sessionId = sessionId;
+    });
   }
 
   async created() {

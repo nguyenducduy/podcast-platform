@@ -76,7 +76,7 @@
           <!-- <div class="col-lg-6 text-left">
             <a-button type="dashed" @click="onTry()" :loading="loading">Try</a-button>
           </div>-->
-          <div class="col-lg-6 text-right">
+          <div class="col-lg-12">
             <a-button @click="onClose">Close</a-button>
             <a-button type="primary" @click="onMix()" :loading="loading">Mix</a-button>
           </div>
@@ -152,36 +152,39 @@ export default class MixTool extends Vue {
   rangeValue: any = [];
   loading: boolean = false;
 
-  async onTry() {
-    this.loading = true;
+  // async onTry() {
+  //   this.loading = true;
 
-    try {
-      const res = await this.$apollo.mutate({
-        mutation: CREATE_REVISION,
-        variables: {
-          epId: 2,
-          content: JSON.stringify({
-            type: "try",
-            action: "mix",
-            fdId: this.fromTrack.id,
-            start: this.mixStart,
-            duration: this.rangeValue
-          })
-        }
-      });
-      console.dir(res);
-    } catch (error) {
-      this.$notification.error({
-        message: "Fail to try mixed!",
-        description: error.toString(),
-        duration: 5
-      });
-    }
+  //   try {
+  //     const res = await this.$apollo.mutate({
+  //       mutation: CREATE_REVISION,
+  //       variables: {
+  //         sessionId: this.sessionId,
+  //         content: JSON.stringify({
+  //           type: "try",
+  //           action: "mix",
+  //           fdId: this.fromTrack.id,
+  //           start: this.mixStart,
+  //           duration: this.rangeValue
+  //         })
+  //       }
+  //     });
+  //   } catch (error) {
+  //     this.$notification.error({
+  //       message: "Fail to try mixed!",
+  //       description: error.toString(),
+  //       duration: 5
+  //     });
+  //   }
 
-    this.loading = false;
-  }
+  //   this.loading = false;
+  // }
 
   async onMix() {
+    if (this.sessionId.length === 0) {
+      alert("SESSION NULL");
+      return;
+    }
     this.loading = true;
 
     const res = await this.$apollo.mutate({

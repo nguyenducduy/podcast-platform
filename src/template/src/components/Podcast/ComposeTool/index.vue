@@ -241,6 +241,7 @@ export default class ComposeTool extends Vue {
       }
 
       bus.$emit("soundfx:unLockAppend");
+      bus.$emit("soundfx:updateSessionId", this.sessionId);
     });
 
     bus.$on("composer:mixSuccess", async version => {

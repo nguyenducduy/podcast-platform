@@ -41,7 +41,7 @@ export const GET_HISTORIES = gql`
       historyList(
         first: $first
         last: $last
-        sort: [SESSION_ID_DESC, VERSION_DESC]
+        sort: [CREATED_AT_DESC, SESSION_ID_DESC, VERSION_DESC]
         filters: { isOwner: true }
       ) {
         totalCount
