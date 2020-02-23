@@ -14,7 +14,6 @@ import graphene
 import os
 import librosa
 import pendulum
-import subprocess
 
 
 # DEFINE NODE
@@ -90,6 +89,45 @@ class FiledriveUpload(graphene.Mutation):
                 duration=duration,
                 path=uploadedPath,
                 type=Filedrive.TYPE_FX,
+                is_tmp=Filedrive.IS_NOT_TMP,
+                is_common=Filedrive.IS_NOT_COMMON
+            )
+            save_changes(new_filedrive)
+
+            return FiledriveUpload(path=new_filedrive.path)
+
+        raise GraphQLError('Upload failed!')
+
+
+class RecordUpload(graphene.Mutation):
+    class Arguments:
+        record_file = Upload()
+
+    path = graphene.String()
+
+    @require_auth
+    def mutate(self, info, **kwargs):
+        uploadFile = kwargs.get('record_file')
+        uploadedPath = filedrive.save('audio', uploadFile, True)
+        filePath = filedrive.getRelativePath('audio', uploadedPath)
+
+        name = secure_filename(uploadFile.filename.rsplit('.', 1)[0].lower())
+        ext = uploadFile.filename.rsplit('.', 1)[1].lower()
+
+        if os.path.isfile(filePath):
+            # get more file info
+            size = os.stat(filePath).st_size
+            duration = librosa.get_duration(filename=filePath)
+
+            # store to db
+            new_filedrive = Filedrive(
+                u_id=kwargs.get('user').id,
+                name=name,
+                ext='mp3',
+                size=size,
+                duration=duration,
+                path=uploadedPath,
+                type=Filedrive.TYPE_RECORD,
                 is_tmp=Filedrive.IS_NOT_TMP,
                 is_common=Filedrive.IS_NOT_COMMON
             )

@@ -16,7 +16,8 @@
                 size="small"
                 type="primary"
                 @click="onSessionSelect(item.node.sessionId, item.node.version)"
-              >{{ item.node.sessionId }} #{{ item.node.version }}</a-button>
+                >{{ item.node.sessionId }} #{{ item.node.version }}</a-button
+              >
               {{ item.node.createdAt | moment("Do MMMM YYYY, h:mm a") }}
             </div>
             <!-- <div class="col-lg-2">

@@ -8,6 +8,14 @@ export const UPLOAD = gql`
   }
 `;
 
+export const RECORD_UPLOAD = gql`
+  mutation recordUpload($file: Upload) {
+    recordUpload(recordFile: $file) {
+      path
+    }
+  }
+`;
+
 export const GET_COMMON_FILEDRIVE = gql`
   query commonFiledriveList($first: Int, $last: Int) {
     viewer {
@@ -17,8 +25,7 @@ export const GET_COMMON_FILEDRIVE = gql`
         sort: [ID_ASC]
         filters: {
           isTmp: 3
-          # isCommon: 1,
-          typeIn: [1, 3]
+          isCommon: 1
         }
       ) {
         totalCount
@@ -44,11 +51,8 @@ export const GET_USER_FILEDRIVE = gql`
       filedriveList(
         first: $first
         last: $last
-        sort: [ID_ASC]
-        filters: {
-          isCommon: 3,
-          isOwner: true
-        }
+        sort: [ID_DESC]
+        filters: { isCommon: 3, isOwner: true }
       ) {
         totalCount
         edges {

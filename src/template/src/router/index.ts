@@ -45,6 +45,13 @@ let router = new VueRouter({
       meta: {
         middleware: [auth]
       }
+    },
+    {
+      path: "/podcast/record",
+      component: require("@/views/Podcast/record").default,
+      meta: {
+        middleware: [auth]
+      }
     }
     // {
     //   path: "/install",

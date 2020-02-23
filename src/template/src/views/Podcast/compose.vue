@@ -1,5 +1,8 @@
 <template>
   <div class="row">
+    <div class="col-lg-12 mb-3">
+      <podcast-visual />
+    </div>
     <div class="col-lg-4 bg-gray-100 rounded-lg">
       <podcast-upload />
       <soundfx />
@@ -14,11 +17,6 @@
           <podcast-history />
         </div>
       </div>
-    </div>
-    <div class="w-full">
-      <a-affix :offsetBottom="0">
-        <podcast-visual />
-      </a-affix>
     </div>
   </div>
 </template>

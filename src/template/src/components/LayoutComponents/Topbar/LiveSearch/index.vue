@@ -9,7 +9,9 @@
     >
       <a-icon slot="prefix" type="search" />
     </a-input>
-    <div :class="[$style.livesearch, showSearch ? $style.livesearchVisible : '']">
+    <div
+      :class="[$style.livesearch, showSearch ? $style.livesearchVisible : '']"
+    >
       <button @click="closeSearch" :class="$style.close" type="button">
         <span class="utils__visibilityHidden">Закрыть</span>
         <i class="icmn-cross"></i>
@@ -19,7 +21,11 @@
           <div :class="$style.logoContainer">
             <img :class="$style.logo" src="/images/logo.png" />
           </div>
-          <a-input :class="$style.searchInput" placeholder="Type to search..." ref="innerInput" />
+          <a-input
+            :class="$style.searchInput"
+            placeholder="Type to search..."
+            ref="innerInput"
+          />
           <ul :class="$style.options">
             <li :class="[$style.option, $style.optionCheckbox]">
               <a-checkbox>Search within page</a-checkbox>
@@ -38,9 +44,13 @@
                     :style="{
                       backgroundImage: 'url(\'resources/images/photos/1.jpeg\')'
                     }"
-                  >#1</div>
+                  >
+                    #1
+                  </div>
                   <div :class="$style.result">
-                    <div :class="$style.resultText">Text from input field must be here</div>
+                    <div :class="$style.resultText">
+                      Text from input field must be here
+                    </div>
                     <div :class="$style.resultSource">In some partition</div>
                   </div>
                 </div>
@@ -50,9 +60,13 @@
                     :style="{
                       backgroundImage: 'url(\'resources/images/photos/2.jpeg\')'
                     }"
-                  >#2</div>
+                  >
+                    #2
+                  </div>
                   <div :class="$style.result">
-                    <div :class="$style.resultText">Text from input field must be here</div>
+                    <div :class="$style.resultText">
+                      Text from input field must be here
+                    </div>
                     <div :class="$style.resultSource">In some partition</div>
                   </div>
                 </div>
@@ -62,9 +76,13 @@
                     :style="{
                       backgroundImage: 'url(\'resources/images/photos/3.jpeg\')'
                     }"
-                  >#3</div>
+                  >
+                    #3
+                  </div>
                   <div :class="$style.result">
-                    <div :class="$style.resultText">Text from input field must be here</div>
+                    <div :class="$style.resultText">
+                      Text from input field must be here
+                    </div>
                     <div :class="$style.resultSource">In some partition</div>
                   </div>
                 </div>
@@ -73,21 +91,27 @@
                 <div :class="$style.resultContent">
                   <div :class="$style.resultThumb">01</div>
                   <div :class="$style.result">
-                    <div :class="$style.resultText">Text from input field must be here</div>
+                    <div :class="$style.resultText">
+                      Text from input field must be here
+                    </div>
                     <div :class="$style.resultSource">In some partition</div>
                   </div>
                 </div>
                 <div :class="$style.resultContent">
                   <div :class="$style.resultThumb">02</div>
                   <div :class="$style.result">
-                    <div :class="$style.resultText">Text from input field must be here</div>
+                    <div :class="$style.resultText">
+                      Text from input field must be here
+                    </div>
                     <div :class="$style.resultSource">In some partition</div>
                   </div>
                 </div>
                 <div :class="$style.resultContent">
                   <div :class="$style.resultThumb">03</div>
                   <div :class="$style.result">
-                    <div :class="$style.resultText">Text from input field must be here</div>
+                    <div :class="$style.resultText">
+                      Text from input field must be here
+                    </div>
                     <div :class="$style.resultSource">In some partition</div>
                   </div>
                 </div>

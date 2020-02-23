@@ -41,9 +41,7 @@
                   class="focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
                 ></a-button>-->
                 <a-tag :color="track.type == 'crossfade' ? 'cyan' : 'purple'">
-                  {{
-                  track.type
-                  }}
+                  {{ track.type }}
                 </a-tag>
                 <a-button
                   @click="onRemove(idx)"

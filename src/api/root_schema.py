@@ -70,6 +70,7 @@ class Mutation(graphene.ObjectType):
     avatar_upload = user_schema.AvatarUpload.Field()
     # filedrive
     filedrive_upload = filedrive_schema.FiledriveUpload.Field()
+    record_upload = filedrive_schema.RecordUpload.Field()
     # revision
     create_revision = revision_schema.CreateRevision.Field()
     detach_revision = revision_schema.DetachRevision.Field()

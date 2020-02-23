@@ -4,6 +4,7 @@ from flask_graphql import GraphQLView
 from flask_cors import CORS
 from root_schema import schema
 from graphene_file_upload.flask import FileUploadGraphQLView
+from middleware.auth import AuthorizationMiddleware
 
 app = Flask(__name__, static_folder='storage')
 app.debug = True
@@ -13,7 +14,7 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 app.add_url_rule(
     '/graphql',
     view_func=FileUploadGraphQLView.as_view(
-        'graphql', schema=schema, graphiql=True)
+        'graphql', schema=schema, graphiql=True, middleware=[AuthorizationMiddleware()])
 )
 
 

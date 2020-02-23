@@ -11,12 +11,14 @@
       :loading="$apollo.loading"
       @change="onPageChange"
     >
-      <template slot="__name_slot" slot-scope="record" :className="$style.soundfx">
+      <template
+        slot="__name_slot"
+        slot-scope="record"
+        :className="$style.soundfx"
+      >
         {{ record.node.name }}
         <span class="duration">
-          {{
-          record.node.duration | numeralFormat("00:00")
-          }}
+          {{ record.node.duration | numeralFormat("00:00") }}
         </span>
       </template>
       <template slot="__type_slot" slot-scope="record">
@@ -36,11 +38,20 @@
           placement="left"
         >
           <a-tooltip title="Merge">
-            <a-button type="link" icon="arrow-right" :disabled="lock"></a-button>
+            <a-button
+              type="link"
+              icon="arrow-right"
+              :disabled="lock"
+            ></a-button>
           </a-tooltip>
         </a-popconfirm>
         <a-tooltip title="Mix">
-          <a-button type="link" icon="experiment" :disabled="lock" @click="onMixTo(record.node)"></a-button>
+          <a-button
+            type="link"
+            icon="experiment"
+            :disabled="lock"
+            @click="onMixTo(record.node)"
+          ></a-button>
         </a-tooltip>
         <!-- <a-tooltip title="Trim silence">
           <a-button type="link" icon="scissor" :disabled="lock" @click="onTrimSilence(record.node)"></a-button>

@@ -5,13 +5,14 @@ from werkzeug.utils import secure_filename
 from graphql import GraphQLError
 import urllib.request
 import re
+import subprocess
 
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def save(folder_name, fileObj):
+def save(folder_name, fileObj, mp3_format=False):
     if fileObj and allowed_file(fileObj.filename):
         # get file info
         name = fileObj.filename.rsplit('.', 1)[0].lower()
@@ -36,6 +37,36 @@ def save(folder_name, fileObj):
             file_path = os.path.join(currentDateDir, filename)
 
         fileObj.save(file_path)
+
+        if mp3_format:
+            filename = '%s_%s.mp3' % (secure_filename(name), timestamp)
+
+            out = subprocess.Popen([
+                'ffmpeg',
+                '-y',
+                '-i',
+                file_path,
+                '-filter_complex',
+                '[0:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo[a0]',
+                '-map',
+                '[a0]',
+                '-ar',
+                '44100',
+                '-ac',
+                '2',
+                '-b:a',
+                '128k',
+                '-acodec',
+                'libmp3lame',
+                '-f',
+                'mp3',
+                os.path.join(currentDateDir, filename)
+            ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT)
+
+            # waiting for command run complete
+            stdout, stderr = out.communicate()
 
         return datetime.today().strftime('%Y/%m') + '/' + filename
     else:

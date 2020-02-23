@@ -4,14 +4,19 @@
       <div class="row">
         <div class="col-sm-12">
           <div :class="$style.copyright">
-            <img src="/images/logo.png" rel="noopener noreferrer" alt="MK Software" />
+            <img
+              src="/images/logo.png"
+              rel="noopener noreferrer"
+              alt="MK Software"
+            />
             <span>
               © 2019
               <a
                 href="http://mksoftware.co/"
                 target="_blank"
                 rel="noopener noreferrer"
-              >OLLI Technology</a>
+                >OLLI Technology</a
+              >
               <br />All rights reserved
             </span>
           </div>

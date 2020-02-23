@@ -8,6 +8,12 @@ import graphene
 import time
 
 
+class GroupID(graphene.Enum):
+    ADMIN = 1
+    MODERATOR = 5
+    GUEST = 0
+
+
 class CommonDictType(graphene.ObjectType):
     text = graphene.String()
     value = graphene.String()

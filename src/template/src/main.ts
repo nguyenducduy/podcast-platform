@@ -28,7 +28,6 @@ const getHeaders = () => {
   return headers;
 };
 
-
 const client = new ApolloClient({
   link: createUploadLink({
     uri: `${process.env.VUE_APP_GRAPHQL_URI}`,

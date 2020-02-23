@@ -3,7 +3,8 @@
     <a-modal centered :maskClosable="false" v-model="visible">
       <template slot="title">
         mix
-        <a-tag>{{ fromTrack.name }}</a-tag>to
+        <a-tag>{{ fromTrack.name }}</a-tag
+        >to
         <a-tag color="rgb(252, 194, 158)">{{ toTrack.name }}</a-tag>
         <span v-if="mixStart !== null">
           at
@@ -78,7 +79,9 @@
           </div>-->
           <div class="col-lg-12">
             <a-button @click="onClose">Close</a-button>
-            <a-button type="primary" @click="onMix()" :loading="loading">Mix</a-button>
+            <a-button type="primary" @click="onMix()" :loading="loading"
+              >Mix</a-button
+            >
           </div>
         </div>
       </template>
