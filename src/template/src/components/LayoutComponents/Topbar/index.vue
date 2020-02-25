@@ -4,7 +4,7 @@
       <live-search />
     </div>
     <div class="mr-4">
-      <language-selector />
+      <!-- <language-selector /> -->
     </div>
     <profile-menu />
   </div>

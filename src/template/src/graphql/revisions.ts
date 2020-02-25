@@ -46,7 +46,6 @@ export const GET_HISTORIES = gql`
       ) {
         totalCount
         edges {
-          cursor
           node {
             id
             sessionId
@@ -55,10 +54,10 @@ export const GET_HISTORIES = gql`
             filesUsed
             version
             createdAt
-            mixedFile {
-              id
-              path
-            }
+            # mixedFile {
+            #   id
+            #   path
+            # }
           }
         }
       }

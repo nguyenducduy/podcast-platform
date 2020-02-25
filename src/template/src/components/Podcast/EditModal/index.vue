@@ -1,11 +1,5 @@
 <template>
-  <a-modal
-    centered
-    :maskClosable="false"
-    v-model="visible"
-    onOk="onSubmit"
-    width="960px"
-  >
+  <a-modal centered :maskClosable="false" v-model="visible" onOk="onSubmit" width="960px">
     <div slot="title">Sửa podcast #{{ podcastId }}</div>
     <div class="row">
       <a-form class="mt-3" :form="form" @submit="onSubmit" layout="vertical">
@@ -28,16 +22,19 @@
                     :beforeUpload="onBeforeUpload"
                     :showUploadList="false"
                   >
-                    <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+                    <img
+                      v-if="imageUrl"
+                      :src="imageUrl"
+                      alt="avatar"
+                      onerror="this.onerror=null;this.src='/images/no-img.png';"
+                    />
                     <a-icon v-else type="plus" />
                   </a-upload>
                 </a-form-item>
                 <p
                   class="text-sm text-gray-500 text-center"
                   style="margin-top: -25px;"
-                >
-                  Nhấn vào hình và chọn hình mới để thay đổi hình đại diện
-                </p>
+                >Nhấn vào hình và chọn hình mới để thay đổi hình đại diện</p>
               </div>
               <div class="col-lg-8">
                 <a-form-item label="Tiêu đề">
@@ -70,12 +67,8 @@
                     ]"
                     placeholder="Chọn trạng thái"
                   >
-                    <a-select-option value="3">
-                      Nháp
-                    </a-select-option>
-                    <a-select-option value="1">
-                      Xuất bản
-                    </a-select-option>
+                    <a-select-option value="3">Nháp</a-select-option>
+                    <a-select-option value="1">Xuất bản</a-select-option>
                   </a-select>
                 </a-form-item>
               </div>
@@ -83,25 +76,13 @@
           </div>
           <div class="col-lg-4">
             <a-form-item label="Email liên hệ">
-              <a-input
-                v-decorator="['contactEmail']"
-                placeholder="someone@gmail.com"
-              >
-              </a-input>
+              <a-input v-decorator="['contactEmail']" placeholder="someone@gmail.com"></a-input>
             </a-form-item>
             <a-form-item label="Website URL">
-              <a-input
-                v-decorator="['websiteUrl']"
-                placeholder="http|https://somedomain.com"
-              >
-              </a-input>
+              <a-input v-decorator="['websiteUrl']" placeholder="http|https://somedomain.com"></a-input>
             </a-form-item>
             <a-form-item label="Copyright">
-              <a-input
-                v-decorator="['copyright']"
-                placeholder="All right reserved"
-              >
-              </a-input>
+              <a-input v-decorator="['copyright']" placeholder="All right reserved"></a-input>
             </a-form-item>
           </div>
           <div class="col-lg-12">
@@ -111,10 +92,7 @@
               extra="This description may be used in several places including your RSS feed. Apple Podcasts will use this as your episode's description unless you set the `summary` field in your feed destination."
             >
               <div :class="$style.editor">
-                <quill-editor
-                  v-model="summarize"
-                  :options="editorOption"
-                ></quill-editor>
+                <quill-editor v-model="summarize" :options="editorOption"></quill-editor>
               </div>
             </a-form-item>
           </div>
@@ -122,18 +100,14 @@
       </a-form>
     </div>
     <template slot="footer">
-      <a-button key="back" @click="onClose()">
-        Huỷ
-      </a-button>
+      <a-button key="back" @click="onClose()">Huỷ</a-button>
       <a-button
         key="submit"
         type="primary"
         icon="save"
         :loading="$apollo.loading"
         @click="onSubmit"
-      >
-        Lưu
-      </a-button>
+      >Lưu</a-button>
     </template>
   </a-modal>
 </template>

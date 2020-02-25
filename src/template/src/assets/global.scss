@@ -19,7 +19,7 @@ body {
   background-color: #fff;
 }
 .ant-layout-sider-children {
-  background-color: #fff;
+  background-color: #fafafa;
 }
 .podcast-cover-image-upload {
   .ant-upload-select-picture-card {
@@ -36,6 +36,15 @@ body {
 }
 .ant-layout {
   overflow-x: inherit !important;
+}
+.ps-container {
+  background-color: #fafafa;
+}
+.ant-menu-inline {
+  background-color: #fafafa;
+}
+.ant-menu-sub.ant-menu-inline {
+  background-color: #fafafa;
 }
 // .sfx-upload-area,
 // .music-upload-area,

@@ -117,16 +117,16 @@ export default class MainLayout extends Vue {
     }
   }
   detectViewPortListener() {
-    this.detectViewPort(false);
+    // this.detectViewPort(false);
   }
 
   mounted() {
-    this.detectViewPort(true);
-    window.addEventListener("resize", this.detectViewPortListener);
+    // this.detectViewPort(true);
+    // window.addEventListener("resize", this.detectViewPortListener);
   }
 
   beforeDestroy() {
-    window.removeEventListener("resize", this.detectViewPortListener);
+    // window.removeEventListener("resize", this.detectViewPortListener);
   }
 }
 </script>

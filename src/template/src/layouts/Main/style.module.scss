@@ -17,11 +17,11 @@
 }
 
 .light {
-  background: $white;
-  
+  background: #fafafa;
+
   :global(.ant-layout-sider-trigger) {
     color: inherit;
-    background: $white !important;
+    background: #fafafa !important;
   }
 }
 

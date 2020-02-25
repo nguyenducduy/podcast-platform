@@ -459,8 +459,10 @@ class ChangeFileOrderInRevision(graphene.Mutation):
             save_changes(new_filedrive)
 
             for idx, track in enumerate(newArrOrder):
+                print(idx)
+                # print(track)
                 myFile = Filedrive.query.filter_by(id=track['fdId']).first()
-                # calculate region start/end to display in visual
+                # # calculate region start/end to display in visual
                 if idx == 0:
                     track['start'] = 0
                     track['end'] = myFile.duration
@@ -472,7 +474,10 @@ class ChangeFileOrderInRevision(graphene.Mutation):
                     if idx == len(newArrOrder) - 1:
                         track['end'] = duration
 
-            print(newArrOrder)
+                print(track)
+                print('----------------------')
+
+            # print(newArrOrder)
             new_revision = Revision(
                 session_id=sessionId,
                 u_id=uId,
