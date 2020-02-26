@@ -21,7 +21,7 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Missmilano88@35.186.152.113/podcast'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Missmilano88@35.198.216.121/podcast'
 
 
 config_by_name = dict(
