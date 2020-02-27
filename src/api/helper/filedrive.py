@@ -102,7 +102,7 @@ def saveToFile(folder_name, name, ext, data):
 
     # write file
     file = open(file_path, "w")
-    file.write(data.encode("utf-8", errors="ignore"))
+    file.write(data)
     file.close()
 
     return datetime.today().strftime('%Y/%m') + '/' + filename
