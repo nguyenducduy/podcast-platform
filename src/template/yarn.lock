@@ -12125,10 +12125,10 @@ watchpack@^1.6.0:
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
 
-wavesurfer.js@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-3.2.0.tgz#c316f3bd1b9f0f4d26188c6865a57e29a13efedc"
-  integrity sha512-P75SSpYTpzpCKFKjxmHkdp2jGpcm4neaGncBGV/jzfI5FPSIfl5mXTTZlZFpJhs7To+NI34Dj5y661JI43HEzA==
+wavesurfer.js@^3.3.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-3.3.1.tgz#af6e4fb260c7d4fe1b14e7eb51df2dea802ad5c6"
+  integrity sha512-5w+Daa4EIoFcErXX4hZSkNdfdnCSTiaoTJMF5r7O7O6Kiv+oCrIlLwA73Ms9ULs+IZqOM9XhC33sfINgYdC4rw==
 
 wbuf@^1.1.0, wbuf@^1.7.3:
   version "1.7.3"
