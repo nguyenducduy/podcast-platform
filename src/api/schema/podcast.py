@@ -183,7 +183,7 @@ class ImportFromApple(graphene.Mutation):
                                 'rss',
                                 appleRssLink,
                                 'xml',
-                                str(content.encode('utf-8))
+                                str(content).encode('utf-8)
                             )
                             doc = minidom.parse(
                                 filedrive.getRelativePath('rss', xmlFilePath))
