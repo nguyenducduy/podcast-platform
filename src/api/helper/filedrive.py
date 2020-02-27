@@ -102,7 +102,6 @@ def saveToFile(folder_name, name, ext, data):
 
     # write file
     file = open(file_path, "w")
-    file.write(header.encode("utf-8", errors="ignore"))
     file.write(data.encode("utf-8", errors="ignore"))
     file.close()
 
