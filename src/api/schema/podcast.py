@@ -168,7 +168,7 @@ class ImportFromApple(graphene.Mutation):
                 try:
                     # get xml content
                     with urllib.request.urlopen(req) as response:
-                        content = response.read().decode('utf-8')
+                        content = response.read().encode('utf-8')
 
                         new_podcast = Podcast.query.filter_by(
                             apple_rss_link=appleRssLink
@@ -183,7 +183,7 @@ class ImportFromApple(graphene.Mutation):
                                 'rss',
                                 appleRssLink,
                                 'xml',
-                                str(content).encode('utf-8)
+                                str(content)
                             )
                             doc = minidom.parse(
                                 filedrive.getRelativePath('rss', xmlFilePath))
