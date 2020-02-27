@@ -5,10 +5,26 @@
       <div>
         <h5>Thu âm (chỉ âm thanh)</h5>
         <br />
-        <a-button type="primary" @click="onStart" :disabled="recording" :loading="recording">Bắt đầu</a-button>&nbsp;
-        <a-button type="danger" @click="onStop" :disabled="!recording">Dừng</a-button>&nbsp;
-        <a-button type="dashed" @click="onListen" :disabled="audioUrl === ''">Nghe</a-button>&nbsp;
-        <a-button type="dashed" @click="onSave" :disabled="audioUrl === ''" :loading="uploading">Lưu</a-button>
+        <a-button
+          type="primary"
+          @click="onStart"
+          :disabled="recording"
+          :loading="recording"
+          >Bắt đầu</a-button
+        >&nbsp;
+        <a-button type="danger" @click="onStop" :disabled="!recording"
+          >Dừng</a-button
+        >&nbsp;
+        <a-button type="dashed" @click="onListen" :disabled="audioUrl === ''"
+          >Nghe</a-button
+        >&nbsp;
+        <a-button
+          type="dashed"
+          @click="onSave"
+          :disabled="audioUrl === ''"
+          :loading="uploading"
+          >Lưu</a-button
+        >
       </div>
     </div>
   </div>

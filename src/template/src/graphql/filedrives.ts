@@ -23,10 +23,7 @@ export const GET_COMMON_FILEDRIVE = gql`
         first: $first
         last: $last
         sort: [ID_ASC]
-        filters: {
-          isTmp: 3
-          isCommon: 1
-        }
+        filters: { isTmp: 3, isCommon: 1 }
       ) {
         totalCount
         edges {

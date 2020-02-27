@@ -1,14 +1,23 @@
 <template>
   <a-layout-content class="lg">
     <div class="utils__title mb-3">
-      <strong class="text-uppercase font-size-16">Danh sách ({{ pagination.total }})</strong>
-      <a-button type="primary" icon="plus" class="float-right" @click="onOpenAddModal()">Thêm</a-button>
+      <strong class="text-uppercase font-size-16"
+        >Danh sách ({{ pagination.total }})</strong
+      >
+      <a-button
+        type="primary"
+        icon="plus"
+        class="float-right"
+        @click="onOpenAddModal()"
+        >Thêm</a-button
+      >
       <a-button
         type="dashed"
         icon="link"
         class="float-right mr-2"
         @click="onOpenImportFromAppleModal()"
-      >Import từ Apple Podcast</a-button>
+        >Import từ Apple Podcast</a-button
+      >
     </div>
     <a-table
       :dataSource="podcastsGraph.edges"
@@ -18,7 +27,9 @@
       :rowKey="record => record.node.id"
       :loading="$apollo.loading"
     >
-      <a slot="_id" slot-scope="value" class="utils__link--underlined">{{ value }}</a>
+      <a slot="_id" slot-scope="value" class="utils__link--underlined">{{
+        value
+      }}</a>
       <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
         <img
           :src="`${mediaUri}/${record.node.cover}`"
@@ -27,11 +38,13 @@
       </a>
       <template slot="_title" slot-scope="record">
         <a class="text-xl" @click="onOpenEpisodeListModal(record.node.id)">
-          <a-tooltip title="Nhấn để hiện danh sách Episode">{{ record.node.title }}</a-tooltip>
+          <a-tooltip title="Nhấn để hiện danh sách Episode">{{
+            record.node.title
+          }}</a-tooltip>
         </a>
-        <p
-          class="text-sm text-gray-600"
-        >{{ record.node.createdAt | moment("dddd, Do MMMM YYYY, h:mm:ss a") }}</p>
+        <p class="text-sm text-gray-600">
+          {{ record.node.createdAt | moment("dddd, Do MMMM YYYY, h:mm:ss a") }}
+        </p>
       </template>
       <p
         slot="_description"
@@ -47,7 +60,8 @@
         slot="_status"
         slot-scope="value"
         :color="value === 1 ? `#87d068` : ``"
-      >{{ value === 1 ? "Xuất bản" : "Nháp" }}</a-tag>
+        >{{ value === 1 ? "Xuất bản" : "Nháp" }}</a-tag
+      >
       <span slot="_actions" slot-scope="record">
         <a-tooltip title="Sửa">
           <a-button

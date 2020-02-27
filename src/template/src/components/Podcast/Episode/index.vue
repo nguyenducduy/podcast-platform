@@ -15,7 +15,8 @@
         size="small"
         class="float-right mr-10"
         @click="onOpenEpisodeAddModal(podcastId)"
-      >Thêm</a-button>
+        >Thêm</a-button
+      >
     </div>
     <div class="row">
       <div class="col-lg-12">
@@ -28,7 +29,9 @@
           :loading="$apollo.loading"
           @change="onPageChange"
         >
-          <a slot="_id" slot-scope="value" class="utils__link--underlined">{{ value }}</a>
+          <a slot="_id" slot-scope="value" class="utils__link--underlined">{{
+            value
+          }}</a>
           <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
             <img
               :src="`${mediaUri}/${record.node.cover}`"
@@ -39,7 +42,7 @@
             <a class="text-xl">{{ record.node.title }}</a>
             <p class="text-sm text-gray-600">
               {{
-              record.node.createdAt | moment("dddd, Do MMMM YYYY, h:mm:ss a")
+                record.node.createdAt | moment("dddd, Do MMMM YYYY, h:mm:ss a")
               }}
             </p>
           </template>
@@ -50,19 +53,26 @@
             style="width: 250px;"
             v-html="record.node.description"
           ></p>
-          <p slot="_orderNo" slot-scope="value" class="text-center">{{ value }}</p>
+          <p slot="_orderNo" slot-scope="value" class="text-center">
+            {{ value }}
+          </p>
           <a-tag
             slot="_status"
             slot-scope="value"
             :color="value === 1 ? `#87d068` : ``"
-          >{{ value === 1 ? "Xuất bản" : "Nháp" }}</a-tag>
+            >{{ value === 1 ? "Xuất bản" : "Nháp" }}</a-tag
+          >
           <a-tag
             slot="_type"
             slot-scope="value"
             :color="value === 1 ? `#87d068` : ``"
-          >{{ getTypeName(value) }}</a-tag>
+            >{{ getTypeName(value) }}</a-tag
+          >
           <span slot="_actions" slot-scope="record">
-            <a-tooltip title="Tải audio về máy chủ" v-if="record.node.audioFile === null">
+            <a-tooltip
+              title="Tải audio về máy chủ"
+              v-if="record.node.audioFile === null"
+            >
               <a-button
                 type="link"
                 icon="download"
