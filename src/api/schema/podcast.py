@@ -189,19 +189,19 @@ class ImportFromApple(graphene.Mutation):
                                 filedrive.getRelativePath('rss', xmlFilePath))
 
                             title = doc.getElementsByTagName(
-                                'title')[0].encode("utf-8")
+                                'title')[0]
                             description = doc.getElementsByTagName('description')[
-                                0].encode("utf-8")
+                                0]
                             language = doc.getElementsByTagName('language')[0]
                             website_url = doc.getElementsByTagName('link')[0]
                             if doc.getElementsByTagName('itunes:keywords').length > 0:
                                 keywords = doc.getElementsByTagName('itunes:keywords')[
-                                    0].firstChild.data.encode("utf-8")
+                                    0].firstChild.data
                             else:
                                 keywords = ''
                             image = doc.getElementsByTagName('itunes:image')[0]
                             author = doc.getElementsByTagName(
-                                'itunes:author')[0].encode("utf-8")
+                                'itunes:author')[0]
                             category = doc.getElementsByTagName(
                                 'itunes:category')[0]
                             coverFilePath = filedrive.downloadFromUrl(
@@ -231,10 +231,10 @@ class ImportFromApple(graphene.Mutation):
                         for episode in reversed(episodes):
                             i = i + 1
                             title = episode.getElementsByTagName(
-                                'title')[0].encode("utf-8")
+                                'title')[0]
                             if episode.getElementsByTagName('description').length > 0:
                                 description = episode.getElementsByTagName('description')[
-                                    0].firstChild.data.encode("utf-8")
+                                    0].firstChild.data
                             else:
                                 description = ''
 
