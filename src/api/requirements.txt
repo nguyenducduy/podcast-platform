@@ -19,6 +19,7 @@ Flask-Mail==0.9.1
 Flask-Principal==0.4.0
 Flask-Security==3.0.0
 Flask-WTF==0.14.2
+gevent==1.4.0
 graphene==2.1.8
 graphene-file-upload==1.2.2
 graphene-sqlalchemy==2.2.2
