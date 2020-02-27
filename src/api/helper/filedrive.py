@@ -90,6 +90,9 @@ def getRelativePath(folder_name, filePath):
 
 
 def saveToFile(folder_name, name, ext, data):
+    if folder_name == 'rss':
+        data.encode('utf-8')
+
     filename = secure_filename(name) + '.' + ext
 
     # create upload folder

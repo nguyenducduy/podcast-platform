@@ -168,7 +168,7 @@ class ImportFromApple(graphene.Mutation):
                 try:
                     # get xml content
                     with urllib.request.urlopen(req) as response:
-                        content = response.read().encode('utf-8')
+                        content = response.read().decode('utf-8')
 
                         new_podcast = Podcast.query.filter_by(
                             apple_rss_link=appleRssLink
