@@ -90,9 +90,6 @@ def getRelativePath(folder_name, filePath):
 
 
 def saveToFile(folder_name, name, ext, data):
-    if folder_name == 'rss':
-        data.encode('utf-8')
-
     filename = secure_filename(name) + '.' + ext
 
     # create upload folder
@@ -105,7 +102,8 @@ def saveToFile(folder_name, name, ext, data):
 
     # write file
     file = open(file_path, "w")
-    file.write(data)
+    file.write(header.encode("utf-8", errors="ignore"))
+    file.write(data.encode("utf-8", errors="ignore"))
     file.close()
 
     return datetime.today().strftime('%Y/%m') + '/' + filename
