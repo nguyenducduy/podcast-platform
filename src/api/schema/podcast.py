@@ -111,7 +111,7 @@ class UpdatePodcast(graphene.Mutation):
             uploadedPath = filedrive.save('podcast', coverImg)
 
             # remove old file
-            if myPodcast.cover != = '':
+            if myPodcast.cover != '':
                 filedrive.delete('podcast', myPodcast.cover)
 
             myPodcast.cover = uploadedPath
