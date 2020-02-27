@@ -188,19 +188,20 @@ class ImportFromApple(graphene.Mutation):
                             doc = minidom.parse(
                                 filedrive.getRelativePath('rss', xmlFilePath))
 
-                            title = doc.getElementsByTagName('title')[0]
+                            title = doc.getElementsByTagName(
+                                'title')[0].encode("utf-8")
                             description = doc.getElementsByTagName('description')[
-                                0]
+                                0].encode("utf-8")
                             language = doc.getElementsByTagName('language')[0]
                             website_url = doc.getElementsByTagName('link')[0]
                             if doc.getElementsByTagName('itunes:keywords').length > 0:
                                 keywords = doc.getElementsByTagName('itunes:keywords')[
-                                    0].firstChild.data
+                                    0].firstChild.data.encode("utf-8")
                             else:
                                 keywords = ''
                             image = doc.getElementsByTagName('itunes:image')[0]
                             author = doc.getElementsByTagName(
-                                'itunes:author')[0]
+                                'itunes:author')[0].encode("utf-8")
                             category = doc.getElementsByTagName(
                                 'itunes:category')[0]
                             coverFilePath = filedrive.downloadFromUrl(
@@ -229,10 +230,11 @@ class ImportFromApple(graphene.Mutation):
                         episodes = doc.getElementsByTagName('item')
                         for episode in reversed(episodes):
                             i = i + 1
-                            title = episode.getElementsByTagName('title')[0]
+                            title = episode.getElementsByTagName(
+                                'title')[0].encode("utf-8")
                             if episode.getElementsByTagName('description').length > 0:
                                 description = episode.getElementsByTagName('description')[
-                                    0].firstChild.data
+                                    0].firstChild.data.encode("utf-8")
                             else:
                                 description = ''
 
