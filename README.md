@@ -124,6 +124,13 @@ Podcast:
 echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
+
+On Linux, you need to install libsndfile using your distribution’s package manager, for example 
+```
+sudo apt-get install libsndfile1.
+```
+
+
 ```
 
 ## Frontend setup
