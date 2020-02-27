@@ -14,12 +14,14 @@ class Config:
 
 
 class DevelopmentConfig(Config):
+    FLASK_ENV = 'development'
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost/mk'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class ProductionConfig(Config):
+    FLASK_ENV = 'production'
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Missmilano88@35.198.216.121/podcast'
 
