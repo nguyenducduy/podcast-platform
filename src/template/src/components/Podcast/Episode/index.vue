@@ -55,6 +55,7 @@
             :color="value === 1 ? `#87d068` : ``"
           >{{ getTypeName(value) }}</a-tag>
           <span slot="_actions" slot-scope="record">
+            <inline-player :url="record.node.externalFilePath" />
             <a-tooltip title="Tải audio về máy chủ" v-if="record.node.audioFile === null">
               <a-button
                 type="link"
@@ -107,12 +108,14 @@ import { bus } from "@/helpers/utils";
 import { GET_EPISODES, DELETE_EPISODE } from "@/graphql/episodes";
 import EpisodeAddModal from "@/components/Podcast/Episode/add.vue";
 import EpisodeEditModal from "@/components/Podcast/Episode/edit.vue";
+import InlinePlayer from "@/components/InlinePlayer/index.vue";
 
 @Component({
   name: "episode-page",
   components: {
     EpisodeAddModal,
-    EpisodeEditModal
+    EpisodeEditModal,
+    InlinePlayer
   },
   apollo: {
     episodesGraph: {
@@ -232,7 +235,7 @@ export default class EpisodePage extends Vue {
       }
     },
     {
-      width: "10%",
+      width: "14%",
       scopedSlots: {
         customRender: "_actions"
       }

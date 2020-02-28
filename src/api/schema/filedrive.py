@@ -10,23 +10,25 @@ from werkzeug.utils import secure_filename
 from datetime import datetime
 from db import db_session
 from graphene_file_upload.scalars import Upload
+from helper.graphtype import CommonDictType
 import graphene
 import os
 import librosa
 import pendulum
 
 
-# DEFINE NODE
 class FiledriveNode(SQLAlchemyObjectType):
     class Meta:
         model = Filedrive
 
+    type = graphene.Field(CommonDictType)
     path = graphene.String()
+
+    def resolve_type(self, info):
+        return self.getType()
 
     def resolve_path(self, info):
         return filedrive.getPath('audio', self.path)
-
-# FILTER
 
 
 class FiledriveFilter(FilterSet):
@@ -48,7 +50,6 @@ class FiledriveFilter(FilterSet):
             return Filedrive.u_id == User.query.filter_by(id=auth_resp).first().id
 
 
-# QUERY
 class FiledriveConnection(graphene.relay.Connection):
     class Meta:
         node = FiledriveNode
@@ -59,7 +60,6 @@ class FiledriveConnection(graphene.relay.Connection):
         return self.length
 
 
-# MUTATION
 class FiledriveUpload(graphene.Mutation):
     class Arguments:
         upload_file = Upload()

@@ -4,19 +4,9 @@ from model.user import User
 from graphql import GraphQLError
 from db import db_session
 from graphene_file_upload.scalars import Upload
+from helper.graphtype import CommonDictType
 import graphene
 import time
-
-
-class GroupID(graphene.Enum):
-    ADMIN = 1
-    MODERATOR = 5
-    GUEST = 0
-
-
-class CommonDictType(graphene.ObjectType):
-    text = graphene.String()
-    value = graphene.String()
 
 
 class UserNode(SQLAlchemyObjectType):

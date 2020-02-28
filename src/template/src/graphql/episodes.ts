@@ -25,6 +25,7 @@ export const GET_EPISODES = gql`
             id
             path
           }
+          externalFilePath
           createdAt
         }
       }

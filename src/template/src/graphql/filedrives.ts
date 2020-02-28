@@ -16,6 +16,34 @@ export const RECORD_UPLOAD = gql`
   }
 `;
 
+export const GET_ALL_FILEDRIVE = gql`
+  query allFiledriveList($first: Int, $last: Int) {
+    filedriveList(
+      first: $first
+      last: $last
+      sort: [ID_ASC]
+    ) {
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+          name
+          size
+          duration
+          path
+          type {
+            text
+            value
+            color
+          }
+          createdAt
+        }
+      }
+    }
+  }
+`;
+
 export const GET_COMMON_FILEDRIVE = gql`
   query commonFiledriveList($first: Int, $last: Int) {
     filedriveList(

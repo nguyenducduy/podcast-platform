@@ -115,8 +115,11 @@ class UpdateEpisode(graphene.Mutation):
         coverImg = kwargs.get('cover_img')
         if coverImg != None:
             uploadedPath = filedrive.save('episode', coverImg)
+
             # remove old file
-            filedrive.delete('episode', myEpisode.cover)
+            if myEpisode.cover != '':
+                filedrive.delete('episode', myEpisode.cover)
+
             myEpisode.cover = uploadedPath
 
         # update db

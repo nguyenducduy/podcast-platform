@@ -32,6 +32,14 @@ let router = new VueRouter({
       }
     },
     {
+      path: "/user/changepassword",
+      component: require("@/views/User/changepassword").default,
+      meta: {
+        title: "User",
+        middleware: [auth]
+      }
+    },
+    {
       path: "/podcast",
       component: require("@/views/Podcast/index").default,
       meta: {
@@ -52,6 +60,17 @@ let router = new VueRouter({
       meta: {
         middleware: [auth]
       }
+    },
+    {
+      path: "/filedrive",
+      component: require("@/views/Filedrive/index").default,
+      meta: {
+        middleware: [auth]
+      }
+    },
+    {
+      path: "*",
+      redirect: "/"
     }
     // {
     //   path: "/install",
@@ -62,10 +81,7 @@ let router = new VueRouter({
     //     layout: "blank"
     //   }
     // },
-    // {
-    //   path: "*",
-    //   redirect: "/"
-    // }
+
   ]
 });
 

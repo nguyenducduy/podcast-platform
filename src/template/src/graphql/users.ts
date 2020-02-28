@@ -18,6 +18,7 @@ export const GET_USERS = gql`
           group {
             text
             value
+            color
           }
         }
       }

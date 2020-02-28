@@ -30,15 +30,20 @@ class User(Base, UserMixin):
     def getGroup(self):
         group = {}
         if self.group_id == self.GROUPID_GUEST:
-            group = { "text": "Guest", "value" : self.GROUPID_GUEST }
+            group = {"text": "Guest",
+                     "value": self.GROUPID_GUEST, "color": "gray"}
         elif self.group_id == self.GROUPID_ADMIN:
-            group = { "text": "Administrator", "value" : self.GROUPID_ADMIN }
+            group = {"text": "Administrator",
+                     "value": self.GROUPID_ADMIN, "color": "red"}
         elif self.group_id == self.GROUPID_MODERATOR:
-            group = { "text": "Moderator", "value" : self.GROUPID_MODERATOR }
+            group = {"text": "Moderator",
+                     "value": self.GROUPID_MODERATOR, "color": "#87d068"}
         elif self.group_id == self.GROUPID_EMPLOYEE:
-            group = { "text": "Employee", "value" : self.GROUPID_EMPLOYEE }
+            group = {"text": "Employee",
+                     "value": self.GROUPID_EMPLOYEE, "color": "#2db7f5"}
         elif self.group_id == self.GROUPID_MEMBER:
-            group = { "text": "Member", "value" : self.GROUPID_MEMBER }
+            group = {"text": "Member",
+                     "value": self.GROUPID_MEMBER, "color": "#108ee9"}
         else:
             group = {}
 
@@ -47,11 +52,11 @@ class User(Base, UserMixin):
     @staticmethod
     def getGroupList():
         return [
-            { "text": "Guest", "value": User.GROUPID_GUEST },
-            { "text": "Administrator", "value": User.GROUPID_ADMIN },
-            { "text": "Moderator", "value": User.GROUPID_MODERATOR },
-            { "text": "Employee", "value": User.GROUPID_EMPLOYEE },
-            { "text": "Member", "value": User.GROUPID_MEMBER },
+            {"text": "Guest", "value": User.GROUPID_GUEST},
+            {"text": "Administrator", "value": User.GROUPID_ADMIN},
+            {"text": "Moderator", "value": User.GROUPID_MODERATOR},
+            {"text": "Employee", "value": User.GROUPID_EMPLOYEE},
+            {"text": "Member", "value": User.GROUPID_MEMBER},
         ]
 
     @property
@@ -60,7 +65,8 @@ class User(Base, UserMixin):
 
     @password_hash.setter
     def password_hash(self, password):
-        self.password = flask_bcrypt.generate_password_hash(password).decode('utf-8')
+        self.password = flask_bcrypt.generate_password_hash(
+            password).decode('utf-8')
 
     def check_password(self, password):
         return flask_bcrypt.check_password_hash(self.password, password)
@@ -103,10 +109,12 @@ class User(Base, UserMixin):
         except jwt.InvalidTokenError:
             return 'Invalid token. Please log in again.'
 
+
 @listens_for(User, 'before_insert')
 def generate_created_at(mapper, connect, self):
     self.created_at = int(pendulum.now().timestamp())
     return self.created_at
+
 
 @listens_for(User, 'before_update')
 def generate_updated_at(mapper, connect, self):

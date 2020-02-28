@@ -5,7 +5,7 @@
       <a-button type="primary" icon="plus" class="float-right mr-1" @click="onOpenAddModal()">Thêm</a-button>
     </div>
     <a-table
-      :dataSource="usersGraph.edges"
+      :dataSource="filedrivesGraph.edges"
       :columns="columns"
       :pagination="false"
       size="small"
@@ -17,16 +17,20 @@
         value
         }}
       </a>
+      <p slot="_size" slot-scope="value">{{ value }}</p>
+      <p slot="_duration" slot-scope="value">{{ value | numeralFormat("00:00") }}</p>
+      <p slot="_createdAt" slot-scope="value">{{ value | moment("dddd, Do MMMM YYYY") }}</p>
       <!-- <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
         <img :src="`${mediaUri}/${record.node.avatar}`" />
       </a>-->
       <p slot="_name" slot-scope="value">{{ value }}</p>
-      <a-tag slot="_group" slot-scope="record" :color="record.node.group.color">
+      <a-tag slot="_type" slot-scope="record" :color="record.node.type.color">
         {{
-        record.node.group.text
+        record.node.type.text
         }}
       </a-tag>
       <span slot="_actions" slot-scope="record">
+        <inline-player :url="`${mediaUri}/${record.node.path}`" />
         <a-tooltip title="Sửa">
           <a-button
             type="link"
@@ -53,7 +57,7 @@
     </a-table>
     <div class="row">
       <div class="col-lg-12 text-right mt-3">
-        <pagination routePath="user" :options="pagination" />
+        <pagination routePath="filedrive" :options="pagination" />
       </div>
     </div>
 
@@ -68,32 +72,19 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import { bus, getVariables } from "@/helpers/utils";
 // import PodcastAddModal from "@/components/Podcast/AddModal/index.vue";
 // import PodcastEditModal from "@/components/Podcast/EditModal/index.vue";
+import InlinePlayer from "@/components/InlinePlayer/index.vue";
 import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
-import { GET_USERS } from "@/graphql/users";
-// import gql from "graphql-tag";
+import { GET_ALL_FILEDRIVE } from "@/graphql/filedrives";
 
 @Component({
-  name: "user-page",
+  name: "filedrive-page",
   components: {
-    Pagination
-    // PodcastAddModal,
-    // PodcastEditModal,
-    // EpisodeAddModal,
-    // EpisodeListModal
+    Pagination,
+    InlinePlayer
   },
   apollo: {
-    // $subscribe: {
-    //   tags: {
-    //     query: gql`subscription {
-    //       countSeconds(upTo: 10)
-    //     }`,
-    //     result ({ data }) {
-    //       console.log(data);
-    //     },
-    //   },
-    // },
-    usersGraph: {
-      query: GET_USERS,
+    filedrivesGraph: {
+      query: GET_ALL_FILEDRIVE,
       variables() {
         return {
           first: this.pagination.pageSize,
@@ -102,17 +93,17 @@ import { GET_USERS } from "@/graphql/users";
         };
       },
       update(data) {
-        return data.userList;
+        return data.filedriveList;
       },
       result({ data }) {
-        this.pagination.total = data.userList.totalCount;
+        this.pagination.total = data.filedriveList.totalCount;
       },
       skip() {
         return this.skipQuery;
       },
       error(error) {
         this.$notification.error({
-          message: "Fail to fetch userList!",
+          message: "Fail to fetch filedriveList!",
           description: error.toString(),
           duration: 5
         });
@@ -120,21 +111,17 @@ import { GET_USERS } from "@/graphql/users";
     }
   }
 })
-export default class UserPage extends Vue {
+export default class FiledrivePage extends Vue {
   @Watch("$route") _routeChange() {
     this.init();
   }
   mediaUri: any = process.env.VUE_APP_MEDIA_URI;
-
   // graphQL
-  usersGraph: any = {
+  filedrivesGraph: any = {
     edges: []
   };
-
-  // filters: any = {
-  //   groupId: []
-  // };
   skipQuery: boolean = true;
+
   // pagination
   pagination: any = {
     size: "small",
@@ -143,7 +130,6 @@ export default class UserPage extends Vue {
     pageSize: 30,
     showQuickJumper: true
   };
-  // data table
 
   get columns() {
     const columns: any = [
@@ -155,34 +141,49 @@ export default class UserPage extends Vue {
         }
       },
       {
-        scopedSlots: {
-          customRender: "_cover"
-        }
-      },
-      {
-        title: "Tên",
-        dataIndex: "node.fullName",
+        title: "Tên file",
+        dataIndex: "node.name",
         scopedSlots: {
           customRender: "_name"
         }
       },
       {
-        title: "Group",
+        title: "Loại",
         width: "10%",
-        key: "group",
+        key: "type",
         // filters: this.usersGraph.groupList,
         scopedSlots: {
-          customRender: "_group"
+          customRender: "_type"
         }
       },
       {
-        width: "8%",
+        title: "Dung lượng",
+        dataIndex: "node.size",
+        scopedSlots: {
+          customRender: "_size"
+        }
+      },
+      {
+        title: "Độ dài",
+        dataIndex: "node.duration",
+        scopedSlots: {
+          customRender: "_duration"
+        }
+      },
+      {
+        title: "Ngày tạo",
+        dataIndex: "node.createdAt",
+        scopedSlots: {
+          customRender: "_createdAt"
+        }
+      },
+      {
+        width: "10%",
         scopedSlots: {
           customRender: "_actions"
         }
       }
     ];
-
     return columns;
   }
 
@@ -192,7 +193,7 @@ export default class UserPage extends Vue {
 
   async onDelete(id) {}
 
-  async created() {
+  created() {
     this.init();
   }
 
@@ -200,13 +201,8 @@ export default class UserPage extends Vue {
     const { page } = this.$route.query;
     const currentPage: any = typeof page !== "undefined" ? page : 1;
     const variables: any = getVariables(this.pagination, currentPage);
-
-    this.$apollo.queries.usersGraph.skip = false;
-    await this.$apollo.queries.usersGraph.refetch(variables);
+    this.$apollo.queries.filedrivesGraph.skip = false;
+    await this.$apollo.queries.filedrivesGraph.refetch(variables);
   }
 }
 </script>
-
-<style lang="scss" module scoped>
-@import "./index.module.scss";
-</style>

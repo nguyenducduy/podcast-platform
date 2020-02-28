@@ -6,6 +6,28 @@ pip install -r requirements.txt
 FLASK_ENV=development python app.py
 ```
 
+### TODOS
+
+Suite (Audio tool):
+* merge track
+* mix track
+* trim silence
+* reduce background noise
+* generate transcript (for better SEO & socical)
+* 1-1 interview
+
+Podcast:
+* create podcast from scratch
+* import from existing podcast platform like Apple podcast, Soundcloud, AudioBoom, Spreaker, ...
+* RSS feed for podcast
+* Schedule Episode
+* Podcast distribution to Apple podcast, Spotify, Google Music, TuneIn, Amazon Alexa, ...
+* Audio search based on transcript, caption based on WebVTT format
+* Embeded player inject to any webpage, blog platform, ....
+* Podcast producer page/blog
+* Podcast analytisc with basic metric like Unique user listen, location, browser/device, referal site, ...
+
+
 # Run flask CLI
 ```bash
 FLASK_APP=cli.py flask <command-name>
@@ -99,25 +121,6 @@ https://docs.graphene-python.org/en/latest/, https://github.com/graphql-python/f
 https://vuejs.org/v2/guide/typescript.html
 
 ### key must declare = with key list item to breadcrum root link
-
-Suite (Audio tool):
-* merge track
-* mix track
-* trim silence
-* reduce background noise
-* generate transcript (for better SEO & socical)
-* 1-1 interview
-
-Podcast:
-* create podcast from scratch
-* import from existing podcast platform like Apple podcast, Soundcloud, AudioBoom, Spreaker, ...
-* RSS feed for podcast
-* Schedule Episode
-* Podcast distribution to Apple podcast, Spotify, Google Music, TuneIn, Amazon Alexa, ...
-* Audio search based on transcript, caption based on WebVTT format
-* External player inject to any webpage, blog platform, ....
-* Podcast producer page/blog
-* Podcast analytisc with basic metric like Unique user listen, location, browser/device, referal site, ...
 
 ## Fix GCE utf8 encode
 ```

@@ -31,10 +31,32 @@ class Filedrive(Base):
     IS_COMMON = 1
     IS_NOT_COMMON = 3
 
+    def getType(self):
+        type = {}
+        if self.type == self.TYPE_FX:
+            type = {"text": "FX", "value": self.TYPE_FX, "color": "blue"}
+        elif self.type == self.TYPE_RECORD:
+            type = {"text": "Recorded",
+                    "value": self.TYPE_RECORD, "color": "pink"}
+        elif self.type == self.TYPE_CROSSFADED:
+            type = {"text": "Crossfaded",
+                    "value": self.TYPE_CROSSFADED, "color": "cyan"}
+        elif self.type == self.TYPE_MIXED:
+            type = {"text": "Mixed", "value": self.TYPE_MIXED, "color": "purple"}
+        elif self.type == self.TYPE_TRIMMED:
+            type = {"text": "Trimmed",
+                    "value": self.TYPE_TRIMMED, "color": "red"}
+        else:
+            type = {}
+
+        return type
+
+
 @listens_for(Filedrive, 'before_insert')
 def generate_created_at(mapper, connect, self):
     self.created_at = int(pendulum.now().timestamp())
     return self.created_at
+
 
 @listens_for(Filedrive, 'before_update')
 def generate_updated_at(mapper, connect, self):

@@ -12,12 +12,6 @@
       "icon": "icmn icmn-users",
       "children": [
         {
-          "title": "Thêm",
-          "key": "user-add",
-          "url": "/user/add",
-          "icon": "icmn icmn-plus"
-        },
-        {
           "title": "Danh sách",
           "key": "user-list",
           "url": "/user",
@@ -27,7 +21,7 @@
     },
     {
       "title": "Podcast",
-      "key": "podcast", 
+      "key": "podcast",
       "icon": "icmn icmn-podcast",
       "children": [
         {
@@ -47,6 +41,19 @@
           "key": "podcast-record",
           "url": "/podcast/record",
           "icon": "icmn icmn-mic"
+        }
+      ]
+    },
+    {
+      "title": "File drive",
+      "key": "filedrive",
+      "icon": "icmn icmn-file-music",
+      "children": [
+        {
+          "title": "Danh sách",
+          "key": "filedrive-list",
+          "url": "/filedrive",
+          "icon": "icmn icmn-list"
         }
       ]
     }
