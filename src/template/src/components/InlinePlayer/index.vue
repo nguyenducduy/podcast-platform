@@ -21,7 +21,7 @@ export default class InlinePlayer extends Vue {
       this.player.play();
       this.playing = true;
     } else {
-      const mySound = new window.Audio(this.url);
+      const mySound = new Audio(this.url);
       mySound.play();
       this.playing = true;
       this.player = mySound;
