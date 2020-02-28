@@ -40,9 +40,9 @@
                   icon="sound"
                   class="focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
                 ></a-button>-->
-                <a-tag :color="track.type == 'crossfade' ? 'cyan' : 'purple'">
-                  {{ track.type }}
-                </a-tag>
+                <a-tag :color="track.type == 'crossfade' ? 'cyan' : 'purple'">{{
+                  track.type
+                }}</a-tag>
                 <a-button
                   @click="onRemove(idx)"
                   type="link"
@@ -87,10 +87,10 @@ import {
         };
       },
       update(data) {
-        return data.viewer.revisionList;
+        return data.revisionList;
       },
       result({ data }) {
-        this.pagination.total = data.viewer.revisionList.totalCount;
+        this.pagination.total = data.revisionList.totalCount;
       },
       skip() {
         return this.skipQuery;

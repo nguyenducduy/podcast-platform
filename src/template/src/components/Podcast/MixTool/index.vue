@@ -112,7 +112,7 @@ import { CREATE_REVISION } from "@/graphql/revisions";
         };
       },
       update(data) {
-        return data.viewer.filedriveList;
+        return data.filedriveList;
       },
       skip() {
         return this.skipQuery;

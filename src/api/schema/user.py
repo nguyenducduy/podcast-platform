@@ -75,9 +75,6 @@ class AvatarUpload(graphene.Mutation):
     ok = graphene.Boolean()
 
     def mutate(self, info, file_in):
-        # print(file_in)
-        # for line in file_in:
-        # print(line)
         return AvatarUpload(ok=True)
 
 

@@ -1,17 +1,8 @@
 <template>
   <a-layout-content class="lg">
     <div class="utils__title mb-3">
-      <strong class="text-uppercase font-size-16"
-        >Danh sách ({{ pagination.total }})</strong
-      >
-      <a-button
-        type="primary"
-        icon="plus"
-        class="float-right mr-1"
-        @click="onOpenAddModal()"
-      >
-        Thêm</a-button
-      >
+      <strong class="text-uppercase font-size-16">Danh sách ({{ pagination.total }})</strong>
+      <a-button type="primary" icon="plus" class="float-right mr-1" @click="onOpenAddModal()">Thêm</a-button>
     </div>
     <a-table
       :dataSource="usersGraph.edges"
@@ -22,14 +13,18 @@
       :loading="$apollo.loading"
     >
       <a slot="_id" slot-scope="value" class="utils__link--underlined">
-        {{ value }}
+        {{
+        value
+        }}
       </a>
       <!-- <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
         <img :src="`${mediaUri}/${record.node.avatar}`" />
-      </a> -->
+      </a>-->
       <p slot="_name" slot-scope="value">{{ value }}</p>
       <a-tag slot="_group" slot-scope="record">
-        {{ record.node.group.text }}
+        {{
+        record.node.group.text
+        }}
       </a-tag>
       <span slot="_actions" slot-scope="record">
         <a-tooltip title="Sửa">
@@ -49,9 +44,9 @@
           @confirm="onDelete(record.node.id)"
         >
           <a-tooltip title="Xoá">
-            <a-button type="link" size="small"
-              ><a-icon type="delete"
-            /></a-button>
+            <a-button type="link" size="small">
+              <a-icon type="delete" />
+            </a-button>
           </a-tooltip>
         </a-popconfirm>
       </span>
@@ -64,7 +59,7 @@
 
     <!-- <podcast-add-modal></podcast-add-modal>
     <podcast-edit-modal></podcast-edit-modal>
-    <episode-list-modal></episode-list-modal> -->
+    <episode-list-modal></episode-list-modal>-->
   </a-layout-content>
 </template>
 
@@ -75,7 +70,7 @@ import { bus, getVariables } from "@/helpers/utils";
 // import PodcastEditModal from "@/components/Podcast/EditModal/index.vue";
 import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
 import { GET_USERS } from "@/graphql/users";
-import gql from "graphql-tag";
+// import gql from "graphql-tag";
 
 @Component({
   name: "user-page",
@@ -103,13 +98,14 @@ import gql from "graphql-tag";
         return {
           first: this.pagination.pageSize,
           last: this.pagination.pageSize
+          // sort: ["ID_DESC"]
         };
       },
       update(data) {
-        return data.viewer.userList;
+        return data.userList;
       },
       result({ data }) {
-        this.pagination.total = data.viewer.userList.totalCount;
+        this.pagination.total = data.userList.totalCount;
       },
       skip() {
         return this.skipQuery;

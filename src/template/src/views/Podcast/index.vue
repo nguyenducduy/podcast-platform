@@ -27,9 +27,9 @@
       :rowKey="record => record.node.id"
       :loading="$apollo.loading"
     >
-      <a slot="_id" slot-scope="value" class="utils__link--underlined">{{
-        value
-      }}</a>
+      <a slot="_id" slot-scope="value" class="utils__link--underlined">
+        {{ value }}
+      </a>
       <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
         <img
           :src="`${mediaUri}/${record.node.cover}`"
@@ -38,9 +38,9 @@
       </a>
       <template slot="_title" slot-scope="record">
         <a class="text-xl" @click="onOpenEpisodeListModal(record.node.id)">
-          <a-tooltip title="Nhấn để hiện danh sách Episode">{{
-            record.node.title
-          }}</a-tooltip>
+          <a-tooltip title="Nhấn để hiện danh sách Episode">
+            {{ record.node.title }}
+          </a-tooltip>
         </a>
         <p class="text-sm text-gray-600">
           {{ record.node.createdAt | moment("dddd, Do MMMM YYYY, h:mm:ss a") }}
@@ -135,10 +135,10 @@ import {
         };
       },
       update(data) {
-        return data.viewer.podcastList;
+        return data.podcastList;
       },
       result({ data }) {
-        this.pagination.total = data.viewer.podcastList.totalCount;
+        this.pagination.total = data.podcastList.totalCount;
       },
       skip() {
         return this.skipQuery;

@@ -15,9 +15,12 @@ import schema.podcast as podcast_schema
 import schema.episode as episode_schema
 
 
-class Viewer (graphene.ObjectType):
+class Query(graphene.ObjectType):
+    node = graphene.relay.Node.Field()
+
     userList = FilterableConnectionField(
         user_schema.UserConnection, filters=user_schema.UserFilter())
+
     filedriveList = FilterableConnectionField(
         filedrive_schema.FiledriveConnection, filters=filedrive_schema.FiledriveFilter())
     revisionList = FilterableConnectionField(
@@ -47,19 +50,6 @@ class Viewer (graphene.ObjectType):
     def resolve_episode(self, info, id):
         query = episode_schema.EpisodeNode.get_query(info)
         return query.filter(Episode.id == id).first()
-
-
-class Query(graphene.ObjectType):
-    node = graphene.relay.Node.Field()
-    viewer = graphene.Field(Viewer)
-
-    @staticmethod
-    def resolve_viewer(self, info):
-        auth_resp = User.decode_auth_token(info.context)
-
-        if not isinstance(auth_resp, str):
-            return Viewer()
-        raise GraphQLError(auth_resp)
 
 
 class Mutation(graphene.ObjectType):

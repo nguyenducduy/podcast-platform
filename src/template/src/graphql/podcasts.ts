@@ -2,21 +2,19 @@ import gql from "graphql-tag";
 
 export const GET_PODCASTS = gql`
   query podcastList($first: Int, $last: Int) {
-    viewer {
-      podcastList(first: $first, last: $last, sort: [ID_ASC]) {
-        totalCount
-        edges {
-          node {
-            id
-            title
-            description
-            status
-            cover
-            contactEmail
-            websiteUrl
-            copyright
-            createdAt
-          }
+    podcastList(first: $first, last: $last, sort: [ID_ASC]) {
+      totalCount
+      edges {
+        node {
+          id
+          title
+          description
+          status
+          cover
+          contactEmail
+          websiteUrl
+          copyright
+          createdAt
         }
       }
     }
@@ -25,18 +23,16 @@ export const GET_PODCASTS = gql`
 
 export const GET_PODCAST = gql`
   query podcast($id: Int) {
-    viewer {
-      podcast(id: $id) {
-        id
-        title
-        description
-        contactEmail
-        websiteUrl
-        copyright
-        status
-        cover
-        createdAt
-      }
+    podcast(id: $id) {
+      id
+      title
+      description
+      contactEmail
+      websiteUrl
+      copyright
+      status
+      cover
+      createdAt
     }
   }
 `;

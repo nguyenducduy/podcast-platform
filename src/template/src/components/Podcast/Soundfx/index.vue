@@ -11,14 +11,12 @@
       :loading="$apollo.loading"
       @change="onPageChange"
     >
-      <template
-        slot="__name_slot"
-        slot-scope="record"
-        :className="$style.soundfx"
-      >
+      <template slot="__name_slot" slot-scope="record" :className="$style.soundfx">
         {{ record.node.name }}
         <span class="duration">
-          {{ record.node.duration | numeralFormat("00:00") }}
+          {{
+          record.node.duration | numeralFormat("00:00")
+          }}
         </span>
       </template>
       <template slot="__type_slot" slot-scope="record">
@@ -38,20 +36,11 @@
           placement="left"
         >
           <a-tooltip title="Merge">
-            <a-button
-              type="link"
-              icon="arrow-right"
-              :disabled="lock"
-            ></a-button>
+            <a-button type="link" icon="arrow-right" :disabled="lock"></a-button>
           </a-tooltip>
         </a-popconfirm>
         <a-tooltip title="Mix">
-          <a-button
-            type="link"
-            icon="experiment"
-            :disabled="lock"
-            @click="onMixTo(record.node)"
-          ></a-button>
+          <a-button type="link" icon="experiment" :disabled="lock" @click="onMixTo(record.node)"></a-button>
         </a-tooltip>
         <!-- <a-tooltip title="Trim silence">
           <a-button type="link" icon="scissor" :disabled="lock" @click="onTrimSilence(record.node)"></a-button>
@@ -78,10 +67,10 @@ import { GET_COMMON_FILEDRIVE } from "@/graphql/filedrives";
         };
       },
       update(data) {
-        return data.viewer.filedriveList;
+        return data.filedriveList;
       },
       result({ data }) {
-        this.pagination.total = data.viewer.filedriveList.totalCount;
+        this.pagination.total = data.filedriveList.totalCount;
       },
       skip() {
         return this.skipQuery;
@@ -191,7 +180,7 @@ export default class Soundfx extends Vue {
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         return {
-          viewer: fetchMoreResult.viewer
+          filedriveList: fetchMoreResult.filedriveList
         };
       }
     });

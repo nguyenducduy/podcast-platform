@@ -153,7 +153,7 @@ import { quillEditor } from "vue-quill-editor";
         return { id: this.podcastId };
       },
       update(data) {
-        return data.viewer.getPodcast;
+        return data.getPodcast;
       },
       skip() {
         return this.skipQuery;
@@ -249,7 +249,7 @@ export default class PodcastEdit extends Vue {
       this.$apollo.queries.podcastGraph.skip = false;
       const res = await this.$apollo.queries.podcastGraph.refetch();
       if (res) {
-        const podcast = res.data.viewer.podcast;
+        const podcast = res.data.podcast;
         this.summarize = podcast.description;
         this.imageUrl = `${this.mediaUri}/${podcast.cover}`;
 

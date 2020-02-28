@@ -117,7 +117,7 @@ export default class AdminLogin extends Vue {
             }
           });
 
-          if (resp.data.viewer !== null) {
+          if (resp.data !== null) {
             this.setAuth({
               user: resp.data.loginUser.user,
               token: resp.data.loginUser.token

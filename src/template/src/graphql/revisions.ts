@@ -7,27 +7,25 @@ export const GET_REVISIONS = gql`
     $sessionId: String
     $version: Int
   ) {
-    viewer {
-      revisionList(
-        first: $first
-        last: $last
-        sort: [VERSION_DESC]
-        filters: { sessionId: $sessionId, isOwner: true, version: $version }
-      ) {
-        totalCount
-        edges {
-          cursor
-          node {
+    revisionList(
+      first: $first
+      last: $last
+      sort: [VERSION_DESC]
+      filters: { sessionId: $sessionId, isOwner: true, version: $version }
+    ) {
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+          sessionId
+          uId
+          content
+          filesUsed
+          version
+          mixedFile {
             id
-            sessionId
-            uId
-            content
-            filesUsed
-            version
-            mixedFile {
-              id
-              path
-            }
+            path
           }
         }
       }
@@ -37,28 +35,26 @@ export const GET_REVISIONS = gql`
 
 export const GET_HISTORIES = gql`
   query historyList($first: Int, $last: Int) {
-    viewer {
-      historyList(
-        first: $first
-        last: $last
-        sort: [CREATED_AT_DESC, SESSION_ID_DESC, VERSION_DESC]
-        filters: { isOwner: true }
-      ) {
-        totalCount
-        edges {
-          node {
-            id
-            sessionId
-            uId
-            content
-            filesUsed
-            version
-            createdAt
-            # mixedFile {
-            #   id
-            #   path
-            # }
-          }
+    historyList(
+      first: $first
+      last: $last
+      sort: [CREATED_AT_DESC, SESSION_ID_DESC, VERSION_DESC]
+      filters: { isOwner: true }
+    ) {
+      totalCount
+      edges {
+        node {
+          id
+          sessionId
+          uId
+          content
+          filesUsed
+          version
+          createdAt
+          # mixedFile {
+          #   id
+          #   path
+          # }
         }
       }
     }

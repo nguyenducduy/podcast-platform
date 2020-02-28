@@ -48,10 +48,10 @@ import { GET_HISTORIES } from "@/graphql/revisions";
         };
       },
       update(data) {
-        return data.viewer.historyList;
+        return data.historyList;
       },
       result({ data }) {
-        this.pagination.total = data.viewer.historyList.totalCount;
+        this.pagination.total = data.historyList.totalCount;
       },
       skip() {
         return this.skipQuery;

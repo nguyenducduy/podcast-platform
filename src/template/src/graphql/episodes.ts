@@ -2,32 +2,30 @@ import gql from "graphql-tag";
 
 export const GET_EPISODES = gql`
   query episodeList($first: Int, $last: Int, $podcastId: Int!) {
-    viewer {
-      episodeList(
-        first: $first
-        last: $last
-        sort: [ID_ASC]
-        filters: { pId: $podcastId }
-      ) {
-        totalCount
-        edges {
-          node {
+    episodeList(
+      first: $first
+      last: $last
+      sort: [ID_ASC]
+      filters: { pId: $podcastId }
+    ) {
+      totalCount
+      edges {
+        node {
+          id
+          title
+          description
+          status
+          type
+          cover
+          orderNo
+          seasonNo
+          link
+          author
+          audioFile {
             id
-            title
-            description
-            status
-            type
-            cover
-            orderNo
-            seasonNo
-            link
-            author
-            audioFile {
-              id
-              path
-            }
-            createdAt
+            path
           }
+          createdAt
         }
       }
     }
@@ -36,24 +34,22 @@ export const GET_EPISODES = gql`
 
 export const GET_EPISODE = gql`
   query episode($id: Int) {
-    viewer {
-      episode(id: $id) {
+    episode(id: $id) {
+      id
+      title
+      description
+      status
+      type
+      cover
+      orderNo
+      seasonNo
+      link
+      author
+      audioFile {
         id
-        title
-        description
-        status
-        type
-        cover
-        orderNo
-        seasonNo
-        link
-        author
-        audioFile {
-          id
-          path
-        }
-        createdAt
+        path
       }
+      createdAt
     }
   }
 `;

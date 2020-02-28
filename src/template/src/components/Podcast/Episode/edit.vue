@@ -178,7 +178,7 @@ import { quillEditor } from "vue-quill-editor";
         return { id: this.episodeId };
       },
       update(data) {
-        return data.viewer.episode;
+        return data.episode;
       },
       skip() {
         return this.skipQuery;
@@ -276,7 +276,7 @@ export default class EpisodeEditModal extends Vue {
       this.$apollo.queries.episodeGraph.skip = false;
       const res = await this.$apollo.queries.episodeGraph.refetch();
       if (res) {
-        const episode = res.data.viewer.episode;
+        const episode = res.data.episode;
         this.description = episode.description;
         this.imageUrl = episode.cover
           ? `${this.mediaUri}/${episode.cover}`
