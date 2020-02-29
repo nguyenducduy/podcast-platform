@@ -1,3 +1,12 @@
+# requirements
+  * python 3
+  * node v12
+  * yarn 1.22
+  * ffmpeg 4.
+  * mariadb
+  * system encode utf-8
+
+
 # install & run api server.
 ```bash
 virtualenv myenv
