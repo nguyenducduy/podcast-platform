@@ -1,17 +1,14 @@
 <template>
   <a-modal destroyOnClose :maskClosable="false" v-model="visible" width="1280px" :footer="null">
-    <div slot="title">
-      Podcast #{{ podcastId }} - Danh sách Episode ({{ pagination.total }})
-      <a-button
-        type="primary"
-        icon="plus"
-        size="small"
-        class="float-right mr-10"
-        @click="onOpenEpisodeAddModal(podcastId)"
-      >Thêm</a-button>
-    </div>
+    <div slot="title">Podcast #{{ podcastId }} - Danh sách Episode ({{ pagination.total }})</div>
     <div class="row">
       <div class="col-lg-12">
+        <a-button
+          type="primary"
+          icon="plus"
+          size="small"
+          @click="onOpenEpisodeAddModal(podcastId)"
+        >Thêm</a-button>
         <a-table
           :dataSource="episodesGraph.edges"
           :columns="columns"
