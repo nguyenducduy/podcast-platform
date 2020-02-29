@@ -61,7 +61,11 @@ export const GET_COMMON_FILEDRIVE = gql`
           size
           duration
           path
-          type
+          type {
+            text
+            value
+            color
+          }
         }
       }
     }
@@ -85,7 +89,11 @@ export const GET_USER_FILEDRIVE = gql`
           size
           duration
           path
-          type
+          type {
+            text
+            value
+            color
+          }
         }
       }
     }

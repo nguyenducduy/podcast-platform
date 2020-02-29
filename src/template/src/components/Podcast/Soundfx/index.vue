@@ -19,9 +19,11 @@
           }}
         </span>
       </template>
-      <template slot="__type_slot" slot-scope="record">
-        <a-tag color="blue" v-if="record.node.type === 1">sound</a-tag>
-      </template>
+      <a-tag slot="__type_slot" slot-scope="record" :color="record.node.type.color">
+        {{
+        record.node.type.text
+        }}
+      </a-tag>
       <template slot="__actions_slot" slot-scope="record">
         <a-button
           type="link"

@@ -19,13 +19,11 @@
           }}
         </span>
       </template>
-      <template slot="__type_slot" slot-scope="record">
-        <a-tag color="blue" v-if="record.node.type === 1">sound</a-tag>
-        <a-tag color="pink" v-if="record.node.type === 3">recorded</a-tag>
-        <a-tag color="orange" v-if="record.node.type === 5">trimed</a-tag>
-        <a-tag color="cyan" v-if="record.node.type === 7">crossfaded</a-tag>
-        <a-tag color="purple" v-if="record.node.type === 9">mixed</a-tag>
-      </template>
+      <a-tag slot="__type_slot" slot-scope="record" :color="record.node.type.color">
+        {{
+        record.node.type.text
+        }}
+      </a-tag>
       <template slot="__actions_slot" slot-scope="record">
         <a-button
           type="link"
