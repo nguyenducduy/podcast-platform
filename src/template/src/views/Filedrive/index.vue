@@ -2,7 +2,8 @@
   <a-layout-content class="lg">
     <div class="utils__title mb-3">
       <strong class="text-uppercase font-size-16">Danh sách ({{ pagination.total }})</strong>
-      <a-button type="primary" icon="plus" class="float-right mr-1" @click="onOpenAddModal()">Thêm</a-button>
+      <!-- <a-button type="primary" icon="plus" class="float-right mr-1" @click="onOpenAddModal()">Thêm</a-button> -->
+      <common-upload />
     </div>
     <a-table
       :dataSource="filedrivesGraph.edges"
@@ -27,6 +28,11 @@
       <a-tag slot="_type" slot-scope="record" :color="record.node.type.color">
         {{
         record.node.type.text
+        }}
+      </a-tag>
+      <a-tag slot="_is_common" slot-scope="record" :color="record.node.isCommon.color">
+        {{
+        record.node.isCommon.text
         }}
       </a-tag>
       <span slot="_actions" slot-scope="record">
@@ -75,12 +81,14 @@ import { bus, getVariables } from "@/helpers/utils";
 import InlinePlayer from "@/components/InlinePlayer/index.vue";
 import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
 import { GET_ALL_FILEDRIVE } from "@/graphql/filedrives";
+import CommonUpload from "@/components/Filedrive/CommonUpload/index.vue";
 
 @Component({
   name: "filedrive-page",
   components: {
     Pagination,
-    InlinePlayer
+    InlinePlayer,
+    CommonUpload
   },
   apollo: {
     filedrivesGraph: {
@@ -154,6 +162,15 @@ export default class FiledrivePage extends Vue {
         // filters: this.usersGraph.groupList,
         scopedSlots: {
           customRender: "_type"
+        }
+      },
+      {
+        title: "Is Common",
+        width: "10%",
+        key: "isCommon",
+        // filters: this.usersGraph.groupList,
+        scopedSlots: {
+          customRender: "_is_common"
         }
       },
       {

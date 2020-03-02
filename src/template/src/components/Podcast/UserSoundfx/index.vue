@@ -1,6 +1,7 @@
 <template>
   <div>
     <h3 class="mt-4">FILE CỦA BẠN</h3>
+    <podcast-upload />
     <a-table
       class="soundfx"
       :dataSource="filedrivesGraph.edges"
@@ -56,9 +57,13 @@
 import { Vue, Component } from "vue-property-decorator";
 import { bus } from "@/helpers/utils";
 import { GET_USER_FILEDRIVE } from "@/graphql/filedrives";
+import PodcastUpload from "@/components/Podcast/Upload/index.vue";
 
 @Component({
   name: "user-soundfx",
+  components: {
+    PodcastUpload
+  },
   apollo: {
     filedrivesGraph: {
       query: GET_USER_FILEDRIVE,

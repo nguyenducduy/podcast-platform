@@ -51,6 +51,19 @@ class Filedrive(Base):
 
         return type
 
+    def getIsCommon(self):
+        isCommon = {}
+        if self.is_common == self.IS_COMMON:
+            isCommon = {"text": "Common",
+                        "value": self.IS_COMMON, "color": "#108ee9"}
+        elif self.IS_NOT_COMMON == self.IS_NOT_COMMON:
+            isCommon = {"text": "Not Common",
+                        "value": self.IS_NOT_COMMON, "color": ""}
+        else:
+            isCommon = {}
+
+        return isCommon
+
 
 @listens_for(Filedrive, 'before_insert')
 def generate_created_at(mapper, connect, self):

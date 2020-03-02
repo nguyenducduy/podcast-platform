@@ -22,10 +22,14 @@ class FiledriveNode(SQLAlchemyObjectType):
         model = Filedrive
 
     type = graphene.Field(CommonDictType)
+    is_common = graphene.Field(CommonDictType)
     path = graphene.String()
 
     def resolve_type(self, info):
         return self.getType()
+
+    def resolve_is_common(self, info):
+        return self.getIsCommon()
 
     def resolve_path(self, info):
         return filedrive.getPath('audio', self.path)
@@ -134,6 +138,45 @@ class RecordUpload(graphene.Mutation):
             save_changes(new_filedrive)
 
             return FiledriveUpload(path=new_filedrive.path)
+
+        raise GraphQLError('Upload failed!')
+
+
+class CommonUpload(graphene.Mutation):
+    class Arguments:
+        upload_file = Upload()
+
+    path = graphene.String()
+
+    @require_auth
+    def mutate(self, info, **kwargs):
+        uploadFile = kwargs.get('upload_file')
+        uploadedPath = filedrive.save('audio', uploadFile)
+        filePath = filedrive.getRelativePath('audio', uploadedPath)
+
+        name = secure_filename(uploadFile.filename.rsplit('.', 1)[0].lower())
+        ext = uploadFile.filename.rsplit('.', 1)[1].lower()
+
+        if os.path.isfile(filePath):
+            # get more file info
+            size = os.stat(filePath).st_size
+            duration = librosa.get_duration(filename=filePath)
+
+            # store to db
+            new_filedrive = Filedrive(
+                u_id=kwargs.get('user').id,
+                name=name,
+                ext=ext,
+                size=size,
+                duration=duration,
+                path=uploadedPath,
+                type=Filedrive.TYPE_FX,
+                is_tmp=Filedrive.IS_NOT_TMP,
+                is_common=Filedrive.IS_COMMON
+            )
+            save_changes(new_filedrive)
+
+            return CommonUpload(path=new_filedrive.path)
 
         raise GraphQLError('Upload failed!')
 

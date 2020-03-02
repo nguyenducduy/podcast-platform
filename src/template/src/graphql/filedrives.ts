@@ -8,6 +8,14 @@ export const UPLOAD = gql`
   }
 `;
 
+export const UPLOAD_COMMON = gql`
+  mutation commonUpload($file: Upload) {
+    commonUpload(uploadFile: $file) {
+      path
+    }
+  }
+`;
+
 export const RECORD_UPLOAD = gql`
   mutation recordUpload($file: Upload) {
     recordUpload(recordFile: $file) {
@@ -21,11 +29,10 @@ export const GET_ALL_FILEDRIVE = gql`
     filedriveList(
       first: $first
       last: $last
-      sort: [ID_ASC]
+      sort: [ID_DESC]
     ) {
       totalCount
       edges {
-        cursor
         node {
           id
           name
@@ -33,6 +40,11 @@ export const GET_ALL_FILEDRIVE = gql`
           duration
           path
           type {
+            text
+            value
+            color
+          }
+          isCommon {
             text
             value
             color
@@ -54,7 +66,6 @@ export const GET_COMMON_FILEDRIVE = gql`
     ) {
       totalCount
       edges {
-        cursor
         node {
           id
           name
