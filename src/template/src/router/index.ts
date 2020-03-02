@@ -81,7 +81,6 @@ let router = new VueRouter({
     //     layout: "blank"
     //   }
     // },
-
   ]
 });
 

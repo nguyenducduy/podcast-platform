@@ -1,5 +1,9 @@
 <template>
-  <a-button type="link" :icon="playing ? 'pause' : 'caret-right'" @click="onPlayPause"></a-button>
+  <a-button
+    type="link"
+    :icon="playing ? 'pause' : 'caret-right'"
+    @click="onPlayPause"
+  ></a-button>
 </template>
 
 <script lang="ts">

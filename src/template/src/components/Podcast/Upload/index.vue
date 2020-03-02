@@ -1,9 +1,12 @@
 <template>
   <div class="mb-3 mt-3">
-    <a-upload :fileList="files" :multiple="true" :beforeUpload="beforeUpload" :remove="onRemove">
-      <a-button type="dashed" block>
-        <a-icon type="desktop" />Upload
-      </a-button>
+    <a-upload
+      :fileList="files"
+      :multiple="true"
+      :beforeUpload="beforeUpload"
+      :remove="onRemove"
+    >
+      <a-button type="dashed" block> <a-icon type="desktop" />Upload </a-button>
     </a-upload>
     <a-button
       v-if="files.length > 0"

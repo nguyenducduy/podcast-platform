@@ -1,7 +1,9 @@
 <template>
   <a-layout-content class="lg">
     <div class="utils__title mb-3">
-      <strong class="text-uppercase font-size-16">Danh sách ({{ pagination.total }})</strong>
+      <strong class="text-uppercase font-size-16"
+        >Danh sách ({{ pagination.total }})</strong
+      >
       <!-- <a-button type="primary" icon="plus" class="float-right mr-1" @click="onOpenAddModal()">Thêm</a-button> -->
       <common-upload />
     </div>
@@ -14,26 +16,28 @@
       :loading="$apollo.loading"
     >
       <a slot="_id" slot-scope="value" class="utils__link--underlined">
-        {{
-        value
-        }}
+        {{ value }}
       </a>
       <p slot="_size" slot-scope="value">{{ value }}</p>
-      <p slot="_duration" slot-scope="value">{{ value | numeralFormat("00:00") }}</p>
-      <p slot="_createdAt" slot-scope="value">{{ value | moment("dddd, Do MMMM YYYY") }}</p>
+      <p slot="_duration" slot-scope="value">
+        {{ value | numeralFormat("00:00") }}
+      </p>
+      <p slot="_createdAt" slot-scope="value">
+        {{ value | moment("dddd, Do MMMM YYYY") }}
+      </p>
       <!-- <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
         <img :src="`${mediaUri}/${record.node.avatar}`" />
       </a>-->
       <p slot="_name" slot-scope="value">{{ value }}</p>
       <a-tag slot="_type" slot-scope="record" :color="record.node.type.color">
-        {{
-        record.node.type.text
-        }}
+        {{ record.node.type.text }}
       </a-tag>
-      <a-tag slot="_is_common" slot-scope="record" :color="record.node.isCommon.color">
-        {{
-        record.node.isCommon.text
-        }}
+      <a-tag
+        slot="_is_common"
+        slot-scope="record"
+        :color="record.node.isCommon.color"
+      >
+        {{ record.node.isCommon.text }}
       </a-tag>
       <span slot="_actions" slot-scope="record">
         <inline-player :url="`${mediaUri}/${record.node.path}`" />

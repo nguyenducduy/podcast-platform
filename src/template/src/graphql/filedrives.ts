@@ -26,11 +26,7 @@ export const RECORD_UPLOAD = gql`
 
 export const GET_ALL_FILEDRIVE = gql`
   query allFiledriveList($first: Int, $last: Int) {
-    filedriveList(
-      first: $first
-      last: $last
-      sort: [ID_DESC]
-    ) {
+    filedriveList(first: $first, last: $last, sort: [ID_DESC]) {
       totalCount
       edges {
         node {

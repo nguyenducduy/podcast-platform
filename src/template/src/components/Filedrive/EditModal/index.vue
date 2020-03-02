@@ -1,5 +1,6 @@
 <template>
-  <a-modal centered :maskClosable="false" v-model="visible" onOk="onSubmit" width="960px">
+  <h1>Edit filedrive</h1>
+  <!-- <a-modal centered :maskClosable="false" v-model="visible" onOk="onSubmit" width="960px">
     <div slot="title">Sửa file #{{ filedriveId }}</div>
     <div class="row">
       <a-form class="mt-3" :form="form" @submit="onSubmit" layout="vertical">
@@ -109,30 +110,30 @@
         @click="onSubmit"
       >Lưu</a-button>
     </template>
-  </a-modal>
+  </a-modal>-->
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { bus, getBase64, getVariables } from "@/helpers/utils";
-import { GET_FILEDRIVE, UPDATE_FILEDRIVE } from "@/graphql/podcasts";
+// import { GET_FILEDRIVE, UPDATE_FILEDRIVE } from "@/graphql/podcasts";
 
 @Component({
-  name: "filedrive-edit-modal",
-  apollo: {
-    filedriveGraph: {
-      query: GET_FILEDRIVE,
-      variables() {
-        return { id: this.filedriveId };
-      },
-      update(data) {
-        return data.getFiledrive;
-      },
-      skip() {
-        return this.skipQuery;
-      }
-    }
-  }
+  name: "filedrive-edit-modal"
+  // apollo: {
+  //   filedriveGraph: {
+  //     query: GET_FILEDRIVE,
+  //     variables() {
+  //       return { id: this.filedriveId };
+  //     },
+  //     update(data) {
+  //       return data.getFiledrive;
+  //     },
+  //     skip() {
+  //       return this.skipQuery;
+  //     }
+  //   }
+  // }
 })
 export default class FiledriveEdit extends Vue {
   mediaUri: any = process.env.VUE_APP_MEDIA_URI;

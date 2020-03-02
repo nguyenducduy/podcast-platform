@@ -1,8 +1,16 @@
 <template>
   <a-layout-content class="lg">
     <div class="utils__title mb-3">
-      <strong class="text-uppercase font-size-16">Danh sách ({{ pagination.total }})</strong>
-      <a-button type="primary" icon="plus" class="float-right mr-1" @click="onOpenAddModal()">Thêm</a-button>
+      <strong class="text-uppercase font-size-16"
+        >Danh sách ({{ pagination.total }})</strong
+      >
+      <a-button
+        type="primary"
+        icon="plus"
+        class="float-right mr-1"
+        @click="onOpenAddModal()"
+        >Thêm</a-button
+      >
     </div>
     <a-table
       :dataSource="usersGraph.edges"
@@ -13,18 +21,14 @@
       :loading="$apollo.loading"
     >
       <a slot="_id" slot-scope="value" class="utils__link--underlined">
-        {{
-        value
-        }}
+        {{ value }}
       </a>
       <!-- <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
         <img :src="`${mediaUri}/${record.node.avatar}`" />
       </a>-->
       <p slot="_name" slot-scope="value">{{ value }}</p>
       <a-tag slot="_group" slot-scope="record" :color="record.node.group.color">
-        {{
-        record.node.group.text
-        }}
+        {{ record.node.group.text }}
       </a-tag>
       <span slot="_actions" slot-scope="record">
         <a-tooltip title="Sửa">
