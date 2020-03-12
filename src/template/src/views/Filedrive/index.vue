@@ -1,9 +1,7 @@
 <template>
   <a-layout-content class="lg">
     <div class="utils__title mb-3">
-      <strong class="text-uppercase font-size-16"
-        >Danh sách ({{ pagination.total }})</strong
-      >
+      <strong class="text-uppercase font-size-16">Danh sách ({{ pagination.total }})</strong>
       <!-- <a-button type="primary" icon="plus" class="float-right mr-1" @click="onOpenAddModal()">Thêm</a-button> -->
       <common-upload />
     </div>
@@ -15,30 +13,29 @@
       :rowKey="record => record.node.id"
       :loading="$apollo.loading"
     >
-      <a slot="_id" slot-scope="value" class="utils__link--underlined">
-        {{ value }}
-      </a>
+      <a slot="_id" slot-scope="value" class="utils__link--underlined">{{ value }}</a>
       <p slot="_size" slot-scope="value">{{ value }}</p>
-      <p slot="_duration" slot-scope="value">
-        {{ value | numeralFormat("00:00") }}
-      </p>
-      <p slot="_createdAt" slot-scope="value">
-        {{ value | moment("dddd, Do MMMM YYYY") }}
-      </p>
+      <p slot="_duration" slot-scope="value">{{ value | numeralFormat("00:00") }}</p>
+      <p slot="_createdAt" slot-scope="value">{{ value | moment("dddd, Do MMMM YYYY") }}</p>
       <!-- <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
         <img :src="`${mediaUri}/${record.node.avatar}`" />
       </a>-->
-      <p slot="_name" slot-scope="value">{{ value }}</p>
-      <a-tag slot="_type" slot-scope="record" :color="record.node.type.color">
-        {{ record.node.type.text }}
-      </a-tag>
+      <template slot="_name" slot-scope="record">
+        <editable-cell
+          :text="record.node.name"
+          @change="onCellChange(record.node.id, 'name', $event)"
+        />
+      </template>
+      <a-tag
+        slot="_type"
+        slot-scope="record"
+        :color="record.node.type.color"
+      >{{ record.node.type.text }}</a-tag>
       <a-tag
         slot="_is_common"
         slot-scope="record"
         :color="record.node.isCommon.color"
-      >
-        {{ record.node.isCommon.text }}
-      </a-tag>
+      >{{ record.node.isCommon.text }}</a-tag>
       <span slot="_actions" slot-scope="record">
         <inline-player :url="`${mediaUri}/${record.node.path}`" />
         <a-tooltip title="Sửa">
@@ -84,15 +81,17 @@ import { bus, getVariables } from "@/helpers/utils";
 // import PodcastEditModal from "@/components/Podcast/EditModal/index.vue";
 import InlinePlayer from "@/components/InlinePlayer/index.vue";
 import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
-import { GET_ALL_FILEDRIVE } from "@/graphql/filedrives";
+import { GET_ALL_FILEDRIVE, EDIT_FIELD } from "@/graphql/filedrives";
 import CommonUpload from "@/components/Filedrive/CommonUpload/index.vue";
+import EditableCell from "@/components/EditableCell/index.vue";
 
 @Component({
   name: "filedrive-page",
   components: {
     Pagination,
     InlinePlayer,
-    CommonUpload
+    CommonUpload,
+    EditableCell
   },
   apollo: {
     filedrivesGraph: {
@@ -154,7 +153,6 @@ export default class FiledrivePage extends Vue {
       },
       {
         title: "Tên file",
-        dataIndex: "node.name",
         scopedSlots: {
           customRender: "_name"
         }
@@ -206,6 +204,33 @@ export default class FiledrivePage extends Vue {
       }
     ];
     return columns;
+  }
+
+  async onCellChange(id, dataIndex, value) {
+    try {
+      const response = await this.$apollo.mutate({
+        mutation: EDIT_FIELD,
+        variables: {
+          id: id,
+          dataIndex: dataIndex,
+          value: value
+        }
+      });
+
+      if (response && response.data.filedriveEditField !== null) {
+        this.$notification.success({
+          message: `Cập nhật field "${dataIndex}" với giá trị "${value}"`,
+          description: "",
+          duration: 2
+        });
+      }
+    } catch (error) {
+      this.$notification.error({
+        message: "Lỗi trong quá trình cập nhật!",
+        description: error.toString(),
+        duration: 5
+      });
+    }
   }
 
   async onOpenAddModal() {}

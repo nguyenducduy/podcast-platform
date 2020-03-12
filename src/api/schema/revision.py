@@ -107,7 +107,7 @@ class CreateRevision(graphene.Mutation):
                             "end": myFile.duration,
                             "color": 'rgba(%s, %s, %s, 0.1)' % (r(), g(), b()),
                             "label": myFile.name,
-                            "durationOverlap": defaultOverlapDuration,
+                            "durationOverlap": segment['crossfadeDuration'],
                             "type": "crossfade"
                         }
                     ]),
@@ -139,7 +139,8 @@ class CreateRevision(graphene.Mutation):
                     '-i',
                     filedrive.getRelativePath('audio', myFile.path),
                     '-filter_complex',
-                    '[0][1]acrossfade=d=2:o=1:c1=tri:c2=tri',
+                    '[0][1]acrossfade=d=' +
+                    str(segment['crossfadeDuration']) + ':o=1:c1=tri:c2=tri',
                     '-ar',
                     '44100',
                     '-ac',
@@ -188,7 +189,7 @@ class CreateRevision(graphene.Mutation):
                         "end": duration,
                         "color": 'rgba(%s, %s, %s, 0.1)' % (r(), g(), b()),
                         "label": myFile.name,
-                        "durationOverlap": defaultOverlapDuration,
+                        "durationOverlap": segment['crossfadeDuration'],
                         "type": "crossfade"
                     })
 

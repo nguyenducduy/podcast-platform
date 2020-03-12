@@ -6,7 +6,8 @@ from config import config_by_name
 from flask_bcrypt import Bcrypt
 
 config = config_by_name[os.getenv('ENV') or 'dev']
-engine = create_engine(config.SQLALCHEMY_DATABASE_URI, convert_unicode=True)
+engine = create_engine(config.SQLALCHEMY_DATABASE_URI,
+                       convert_unicode=True, pool_pre_ping=True, pool_recycle=3600)
 db_session = scoped_session(sessionmaker(
     autocommit=False, autoflush=False, bind=engine, expire_on_commit=False))
 flask_bcrypt = Bcrypt()

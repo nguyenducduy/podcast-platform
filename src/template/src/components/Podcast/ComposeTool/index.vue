@@ -28,7 +28,10 @@
               :key="track.key"
               class="p-2 pl-4 mb-3 flex justify-between items-center cursor-move"
             >
-              <span :class="$style.composeTitle">{{ track.label }}</span>
+              <span :class="$style.composeTitle">
+                <strong>{{ track.label }}</strong>
+                <p v-if="track.type == 'crossfade'">Overlap duration: {{ track.durationOverlap }}</p>
+              </span>
               <div style="float: right;margin-right: 10px;clear: both;">
                 <!-- <a-tag color="#2db7f5">#{{ track.fdId }}</a-tag> -->
                 <!-- <small v-if="track.type == 'mix'"
@@ -40,9 +43,11 @@
                   icon="sound"
                   class="focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
                 ></a-button>-->
-                <a-tag :color="track.type == 'crossfade' ? 'cyan' : 'purple'">{{
+                <a-tag :color="track.type == 'crossfade' ? 'cyan' : 'purple'">
+                  {{
                   track.type
-                }}</a-tag>
+                  }}
+                </a-tag>
                 <a-button
                   @click="onRemove(idx)"
                   type="link"
@@ -108,7 +113,7 @@ import {
 })
 export default class ComposeTool extends Vue {
   tracks: any = [];
-  crossfadeDuration: Number = 2;
+  crossfadeDuration: number = 2;
   revisionsGraph: any = {
     edges: []
   };
@@ -203,7 +208,7 @@ export default class ComposeTool extends Vue {
   }
 
   created() {
-    bus.$on("composer:append", async track => {
+    bus.$on("composer:append", async (track, crossfadeDuration) => {
       bus.$emit("soundfx:lockAppend");
 
       this.spinning = true;
@@ -216,7 +221,7 @@ export default class ComposeTool extends Vue {
             content: JSON.stringify({
               action: "crossfade",
               fdId: parseInt(track.id),
-              crossfadeDuration: this.crossfadeDuration
+              crossfadeDuration: crossfadeDuration
             })
           }
         });
@@ -275,7 +280,8 @@ export default class ComposeTool extends Vue {
     if (this.revisionsGraph.edges.length > 0) {
       let revisionData = this.revisionsGraph.edges[0].node;
 
-      JSON.parse(revisionData.content).forEach(track => {
+      JSON.parse(revisionData.content).map(track => {
+        console.log(track);
         let count = this.tracks.length;
 
         if (track.type == "mix") {

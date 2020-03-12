@@ -54,7 +54,7 @@ class FiledriveFilter(FilterSet):
             return Filedrive.u_id == User.query.filter_by(id=auth_resp).first().id
 
 
-class FiledriveConnection(graphene.relay.Connection):
+class FiledriveConnection(graphene.Connection):
     class Meta:
         node = FiledriveNode
 
@@ -62,6 +62,27 @@ class FiledriveConnection(graphene.relay.Connection):
 
     def resolve_total_count(self, info, **kwargs):
         return self.length
+
+
+class FiledriveEditField(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+        data_index = graphene.String(required=True)
+        value = graphene.String(required=True)
+
+    updated = graphene.Boolean()
+
+    def mutate(self, info, **kwargs):
+        myFiledrive = Filedrive.query.filter_by(
+            id=kwargs.get('id')
+        ).first()
+        if not myFiledrive:
+            raise Exception('Filedrive not found.')
+
+        setattr(myFiledrive, kwargs.get('data_index'), kwargs.get('value'))
+        save_changes(myFiledrive)
+
+        return FiledriveEditField(updated=True)
 
 
 class FiledriveUpload(graphene.Mutation):

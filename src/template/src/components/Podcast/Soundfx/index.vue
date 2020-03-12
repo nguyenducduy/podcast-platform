@@ -11,51 +11,39 @@
       :loading="$apollo.loading"
       @change="onPageChange"
     >
-      <template
-        slot="__name_slot"
-        slot-scope="record"
-        :className="$style.soundfx"
-      >
+      <template slot="__name_slot" slot-scope="record" :className="$style.soundfx">
         {{ record.node.name }}
-        <span class="duration">
-          {{ record.node.duration | numeralFormat("00:00") }}
-        </span>
+        <span
+          class="duration"
+        >{{ record.node.duration | numeralFormat("00:00") }}</span>
       </template>
       <a-tag
         slot="__type_slot"
         slot-scope="record"
         :color="record.node.type.color"
-      >
-        {{ record.node.type.text }}
-      </a-tag>
+      >{{ record.node.type.text }}</a-tag>
       <template slot="__actions_slot" slot-scope="record">
         <a-button
           type="link"
           :icon="record.playing ? 'pause' : 'caret-right'"
           @click="onPlayPause(record.cursor)"
         ></a-button>
-        <a-popconfirm
-          title="Append this track?"
-          @confirm="appendTo(record.node)"
-          okText="Yes"
-          cancelText="No"
-          placement="left"
-        >
-          <a-tooltip title="Merge">
+        <a-popover placement="topLeft">
+          <span slot="title">Merge with Crossfade Duration：{{crossfadeDuration}}</span>
+          <template slot="content">
+            <a-input-number :min="1" v-model="crossfadeDuration" size="small" />
             <a-button
-              type="link"
-              icon="arrow-right"
+              type="primary"
+              size="small"
+              class="ml-2"
               :disabled="lock"
-            ></a-button>
-          </a-tooltip>
-        </a-popconfirm>
+              @click="appendTo(record.node)"
+            >Merge</a-button>
+          </template>
+          <a-button type="link" icon="arrow-right" :disabled="lock"></a-button>
+        </a-popover>
         <a-tooltip title="Mix">
-          <a-button
-            type="link"
-            icon="experiment"
-            :disabled="lock"
-            @click="onMixTo(record.node)"
-          ></a-button>
+          <a-button type="link" icon="experiment" :disabled="lock" @click="onMixTo(record.node)"></a-button>
         </a-tooltip>
         <!-- <a-tooltip title="Trim silence">
           <a-button type="link" icon="scissor" :disabled="lock" @click="onTrimSilence(record.node)"></a-button>
@@ -127,19 +115,21 @@ export default class Soundfx extends Vue {
     },
     {
       title: "",
+      width: "3%",
       scopedSlots: {
         customRender: "__type_slot"
       }
     },
     {
       title: "",
-      width: "33%",
+      width: "25%",
       scopedSlots: {
         customRender: "__actions_slot"
       }
     }
   ];
 
+  crossfadeDuration: number = 2;
   sessionId: string = "";
   lock: boolean = false;
   mainlineTrack: any = null;
@@ -202,7 +192,7 @@ export default class Soundfx extends Vue {
   }
 
   appendTo(track) {
-    bus.$emit("composer:append", track);
+    bus.$emit("composer:append", track, this.crossfadeDuration);
   }
 
   mounted() {
