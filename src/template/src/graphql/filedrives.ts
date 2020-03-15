@@ -99,6 +99,29 @@ export const GET_USER_FILEDRIVE = gql`
   }
 `
 
+export const GET_EPISODE_FILEDRIVE = gql`
+  query episodeFiledriveList($first: Int, $last: Int) {
+    filedriveList(first: $first, last: $last, sort: [ID_DESC], filters: { isCommon: 3, typeIn: [3, 7, 9] }) {
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+          name
+          size
+          duration
+          path
+          type {
+            text
+            value
+            color
+          }
+        }
+      }
+    }
+  }
+`
+
 export const GET_FILES_TO_MIX = gql`
   query filedriveList($first: Int, $fromTrack: ID!, $toTrack: ID!) {
     filedriveList(first: $first, sort: [ID_DESC], filters: { idIn: [$fromTrack, $toTrack] }) {

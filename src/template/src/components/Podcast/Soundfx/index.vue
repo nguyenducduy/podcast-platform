@@ -23,11 +23,7 @@
         :color="record.node.type.color"
       >{{ record.node.type.text }}</a-tag>
       <template slot="__actions_slot" slot-scope="record">
-        <a-button
-          type="link"
-          :icon="record.playing ? 'pause' : 'caret-right'"
-          @click="onPlayPause(record.cursor)"
-        ></a-button>
+        <inline-player :url="`${mediaUri}/${record.node.path}`" />
         <a-popover placement="topLeft">
           <span slot="title">Merge with Crossfade Duration：{{crossfadeDuration}}</span>
           <template slot="content">
@@ -57,9 +53,13 @@
 import { Vue, Component } from "vue-property-decorator";
 import { bus } from "@/helpers/utils";
 import { GET_COMMON_FILEDRIVE } from "@/graphql/filedrives";
+import InlinePlayer from "@/components/InlinePlayer/index.vue";
 
 @Component({
   name: "soundfx",
+  components: {
+    InlinePlayer
+  },
   apollo: {
     filedrivesGraph: {
       query: GET_COMMON_FILEDRIVE,

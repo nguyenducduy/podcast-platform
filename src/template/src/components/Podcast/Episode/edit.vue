@@ -1,11 +1,5 @@
 <template>
-  <a-modal
-    centered
-    :maskClosable="false"
-    v-model="visible"
-    onOk="onSubmit"
-    width="960px"
-  >
+  <a-modal centered :maskClosable="false" v-model="visible" onOk="onSubmit" width="960px">
     <div slot="title">Sửa Episode #{{ episodeId }}</div>
     <div class="row">
       <a-form class="mt-3" :form="form" @submit="onSubmit" layout="vertical">
@@ -40,9 +34,7 @@
                 <p
                   class="text-sm text-gray-500 text-center"
                   style="margin-top: -25px;"
-                >
-                  Nhấn vào hình và chọn hình mới để thay đổi hình đại diện
-                </p>
+                >Nhấn vào hình và chọn hình mới để thay đổi hình đại diện</p>
               </div>
               <div class="col-lg-8">
                 <a-form-item label="Tiêu đề">
@@ -125,6 +117,7 @@
             <a-form-item label="Tác giả">
               <a-input v-decorator="['author']"></a-input>
             </a-form-item>
+            <episode-file-list />
           </div>
           <div class="col-lg-12">
             <a-form-item
@@ -133,10 +126,7 @@
               extra="This description may be used in several places including your RSS feed. Apple Podcasts will use this as your episode's description unless you set the `summary` field in your feed destination."
             >
               <div :class="$style.editor">
-                <quill-editor
-                  v-model="description"
-                  :options="editorOption"
-                ></quill-editor>
+                <quill-editor v-model="description" :options="editorOption"></quill-editor>
               </div>
             </a-form-item>
           </div>
@@ -151,8 +141,7 @@
         icon="save"
         :loading="$apollo.loading"
         @click="onSubmit"
-        >Lưu</a-button
-      >
+      >Lưu</a-button>
     </template>
   </a-modal>
 </template>
@@ -165,11 +154,13 @@ import { GET_EPISODE, UPDATE_EPISODE } from "@/graphql/episodes";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import { quillEditor } from "vue-quill-editor";
+import EpisodeFileList from "@/components/Podcast/EpisodeFileList/index.vue";
 
 @Component({
   name: "episode-edit-modal",
   components: {
-    quillEditor
+    quillEditor,
+    EpisodeFileList
   },
   apollo: {
     episodeGraph: {
@@ -204,6 +195,7 @@ export default class EpisodeEditModal extends Vue {
     edges: null
   };
   skipQuery: boolean = true;
+  selectedFileId: any = null;
 
   onClose() {
     this.visible = false;
@@ -242,7 +234,8 @@ export default class EpisodeEditModal extends Vue {
               orderNo: parseInt(values.orderNo),
               seasonNo: parseInt(values.seasonNo),
               link: values.link,
-              author: values.author
+              author: values.author,
+              fdId: this.selectedFileId !== null ? this.selectedFileId : 0
             }
           });
 
@@ -309,6 +302,10 @@ export default class EpisodeEditModal extends Vue {
 
         this.visible = true;
       }
+    });
+
+    bus.$on("episode:chooseFile", (fileId, fileName) => {
+      this.selectedFileId = fileId;
     });
   }
 }

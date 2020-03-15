@@ -25,7 +25,6 @@ class Filedrive(Base):
     TYPE_TRIMMED = 5
     TYPE_CROSSFADED = 7
     TYPE_MIXED = 9
-    TYPE_EPISODE = 11
     IS_TMP = 1
     IS_NOT_TMP = 3
     IS_COMMON = 1

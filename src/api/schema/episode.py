@@ -61,6 +61,7 @@ class CreateEpisode(graphene.Mutation):
         season_no = graphene.Int()
         link = graphene.String()
         author = graphene.String()
+        fd_id = graphene.Int()
 
     episode = graphene.Field(lambda: EpisodeNode)
 
@@ -79,7 +80,8 @@ class CreateEpisode(graphene.Mutation):
             order_no=kwargs.get('order_no'),
             season_no=kwargs.get('season_no'),
             link=kwargs.get('link'),
-            author=kwargs.get('author')
+            author=kwargs.get('author'),
+            fd_id=kwargs.get('fd_id')
         )
         if coverImg != None:
             uploadedPath = filedrive.save('episode', coverImg)
@@ -102,6 +104,7 @@ class UpdateEpisode(graphene.Mutation):
         season_no = graphene.Int()
         link = graphene.String()
         author = graphene.String()
+        fd_id = graphene.Int()
 
     episode = graphene.Field(lambda: EpisodeNode)
 
@@ -131,6 +134,7 @@ class UpdateEpisode(graphene.Mutation):
         myEpisode.season_no = kwargs.get('season_no')
         myEpisode.link = kwargs.get('link')
         myEpisode.author = kwargs.get('author')
+        myEpisode.fd_id = kwargs.get('fd_id')
 
         save_changes(myEpisode)
 

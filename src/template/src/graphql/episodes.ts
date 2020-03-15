@@ -1,13 +1,8 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag'
 
 export const GET_EPISODES = gql`
   query episodeList($first: Int, $last: Int, $podcastId: Int!) {
-    episodeList(
-      first: $first
-      last: $last
-      sort: [ID_ASC]
-      filters: { pId: $podcastId }
-    ) {
+    episodeList(first: $first, last: $last, sort: [ID_ASC], filters: { pId: $podcastId }) {
       totalCount
       edges {
         node {
@@ -31,7 +26,7 @@ export const GET_EPISODES = gql`
       }
     }
   }
-`;
+`
 
 export const GET_EPISODE = gql`
   query episode($id: Int) {
@@ -53,7 +48,7 @@ export const GET_EPISODE = gql`
       createdAt
     }
   }
-`;
+`
 
 export const CREATE_EPISODE = gql`
   mutation createEpisode(
@@ -67,6 +62,7 @@ export const CREATE_EPISODE = gql`
     $link: String
     $author: String
     $file: Upload
+    $fdId: Int
   ) {
     createEpisode(
       pId: $pId
@@ -79,6 +75,7 @@ export const CREATE_EPISODE = gql`
       link: $link
       author: $author
       coverImg: $file
+      fdId: $fdId
     ) {
       episode {
         id
@@ -86,7 +83,7 @@ export const CREATE_EPISODE = gql`
       }
     }
   }
-`;
+`
 
 export const UPDATE_EPISODE = gql`
   mutation updateEpisode(
@@ -100,6 +97,7 @@ export const UPDATE_EPISODE = gql`
     $link: String
     $author: String
     $file: Upload
+    $fdId: Int
   ) {
     updateEpisode(
       episodeId: $episodeId
@@ -112,6 +110,7 @@ export const UPDATE_EPISODE = gql`
       link: $link
       author: $author
       coverImg: $file
+      fdId: $fdId
     ) {
       episode {
         id
@@ -119,7 +118,7 @@ export const UPDATE_EPISODE = gql`
       }
     }
   }
-`;
+`
 
 export const DELETE_EPISODE = gql`
   mutation deleteEpisode($episodeId: Int!) {
@@ -127,4 +126,4 @@ export const DELETE_EPISODE = gql`
       deleted
     }
   }
-`;
+`

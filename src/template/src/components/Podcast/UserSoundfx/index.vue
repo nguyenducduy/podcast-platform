@@ -27,11 +27,7 @@
         style="font-size: 10px;"
       >{{ record.node.type.text }}</a-tag>
       <template slot="__actions_slot" slot-scope="record">
-        <a-button
-          type="link"
-          :icon="record.playing ? 'pause' : 'caret-right'"
-          @click="onPlayPause(record.cursor)"
-        ></a-button>
+        <inline-player :url="`${mediaUri}/${record.node.path}`" />
         <a-popover placement="topLeft">
           <span slot="title">Merge with Crossfade Duration：{{crossfadeDuration}}</span>
           <template slot="content">
@@ -63,12 +59,14 @@ import { bus } from "@/helpers/utils";
 import { GET_USER_FILEDRIVE, EDIT_FIELD } from "@/graphql/filedrives";
 import PodcastUpload from "@/components/Podcast/Upload/index.vue";
 import EditableCell from "@/components/EditableCell/index.vue";
+import InlinePlayer from "@/components/InlinePlayer/index.vue";
 
 @Component({
   name: "user-soundfx",
   components: {
     PodcastUpload,
-    EditableCell
+    EditableCell,
+    InlinePlayer
   },
   apollo: {
     filedrivesGraph: {
@@ -177,36 +175,6 @@ export default class UserSoundfx extends Vue {
 
   onTrimSilence() {
     console.log("trim action");
-  }
-
-  onPlayPause(cursor) {
-    const newData = [...this.filedrivesGraph.edges];
-
-    const track = newData.filter(item => cursor === item.cursor)[0];
-    if (track) {
-      if (track.hasOwnProperty("playing")) {
-        if (track.playing === true) {
-          track.player.pause();
-          track.playing = false;
-        } else {
-          track.player.play();
-          track.playing = true;
-        }
-
-        this.filedrivesGraph.edges = newData;
-        return;
-      }
-      const mySound = new Audio(`${this.mediaUri}/${track.node.path}`);
-      track.playing = true;
-      track.player = mySound;
-      track.player.play();
-      this.filedrivesGraph.edges = newData;
-
-      // const self = this;
-      // track.player.addEventListener("ended", function() {
-      //   console.log("audio ended:" + cursor);
-      // });
-    }
   }
 
   async onPageChange(pagination) {
