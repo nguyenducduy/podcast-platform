@@ -107,7 +107,7 @@ export default class EpisodeFileList extends Vue {
   // pagination
   pagination: any = {
     total: 0,
-    pageSize: 10,
+    pageSize: 20,
     showTotal: total => `Total ${total}`,
     showQuickJumper: true,
     hideOnSinglePage: true
