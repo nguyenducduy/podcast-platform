@@ -164,6 +164,10 @@ export default class EpisodeFileList extends Vue {
   }
 
   async created() {
+    bus.$on("episodefilelist:selected", file => {
+      this.selectedFile = file;
+    });
+
     this.$apollo.queries.filedrivesGraph.skip = false;
     await this.$apollo.queries.filedrivesGraph.refetch();
   }

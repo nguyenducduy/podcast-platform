@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const GET_EPISODES = gql`
   query episodeList($first: Int, $last: Int, $podcastId: Int!) {
-    episodeList(first: $first, last: $last, sort: [ID_ASC], filters: { pId: $podcastId }) {
+    episodeList(first: $first, last: $last, sort: [ID_DESC], filters: { pId: $podcastId }) {
       totalCount
       edges {
         node {
@@ -18,6 +18,7 @@ export const GET_EPISODES = gql`
           author
           audioFile {
             id
+            name
             path
           }
           externalFilePath
@@ -43,6 +44,7 @@ export const GET_EPISODE = gql`
       author
       audioFile {
         id
+        name
         path
       }
       createdAt

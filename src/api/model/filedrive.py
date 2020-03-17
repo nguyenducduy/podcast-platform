@@ -9,6 +9,7 @@ class Filedrive(Base):
 
     u_id = Column(Integer)
     id = Column(Integer, primary_key=True, autoincrement=True)
+    gcs_id = Column(String(255))
     name = Column(String(155))
     ext = Column(String(30))
     path = Column(String(512), nullable=False, index=True)

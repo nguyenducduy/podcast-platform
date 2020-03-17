@@ -14,7 +14,7 @@ class Episode(Base):
     fd_id = Column(Integer, ForeignKey('file_drive.id'))
     audio_file = relationship(
         Filedrive,
-        backref=backref('episode', uselist=True)
+        backref=backref('filedrive', uselist=False)
     )
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(255))

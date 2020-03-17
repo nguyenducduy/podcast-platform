@@ -4,11 +4,13 @@ from graphql import GraphQLError
 from helper.decorator import require_auth
 from helper import filedrive
 from model.episode import Episode
+from model.filedrive import Filedrive
 from db import db_session
 from graphene_file_upload.scalars import Upload
 from config import upload_dir
 from werkzeug.utils import secure_filename
 from datetime import datetime
+from depot.manager import DepotManager
 import graphene
 import os
 
@@ -124,6 +126,17 @@ class UpdateEpisode(graphene.Mutation):
                 filedrive.delete('episode', myEpisode.cover)
 
             myEpisode.cover = uploadedPath
+
+        if kwargs.get('status') == Episode.STATUS_PUBLISH:
+            if kwargs.get('fd_id') != None:
+                myFiledrive = Filedrive.query.filter_by(
+                    id=kwargs.get('fd_id')).first()
+                if myFiledrive:
+                    myFiledrivePath = filedrive.getRelativePath(
+                        'audio', myFiledrive.path)
+                    depot = DepotManager.get()
+                    fileid = depot.create(open(myFiledrivePath, 'rb'))
+                    myFiledrive.gcs_id = fileid
 
         # update db
         myEpisode.title = kwargs.get('title')

@@ -135,13 +135,7 @@
     </div>
     <template slot="footer">
       <a-button key="back" @click="onClose()">Huỷ</a-button>
-      <a-button
-        key="submit"
-        type="primary"
-        icon="save"
-        :loading="$apollo.loading"
-        @click="onSubmit"
-      >Lưu</a-button>
+      <a-button key="submit" type="primary" icon="save" :loading="loading" @click="onSubmit">Lưu</a-button>
     </template>
   </a-modal>
 </template>
@@ -196,6 +190,7 @@ export default class EpisodeEditModal extends Vue {
   };
   skipQuery: boolean = true;
   selectedFileId: any = null;
+  loading = false;
 
   onClose() {
     this.visible = false;
@@ -219,6 +214,8 @@ export default class EpisodeEditModal extends Vue {
 
   onSubmit(e) {
     e.preventDefault();
+    this.loading = true;
+
     this.form.validateFields(async (err, values) => {
       if (!err) {
         try {
@@ -251,7 +248,9 @@ export default class EpisodeEditModal extends Vue {
             this.visible = false;
             bus.$emit("episode:refresh");
           }
+          this.loading = false;
         } catch (error) {
+          this.loading = false;
           this.$notification.error({
             message: "Lỗi trong quá trình cập nhật Episode!",
             description: error.toString(),
@@ -274,6 +273,7 @@ export default class EpisodeEditModal extends Vue {
         this.imageUrl = episode.cover
           ? `${this.mediaUri}/${episode.cover}`
           : null;
+        this.selectedFileId = episode.audioFile ? episode.audioFile.id : null;
 
         this.form = this.$form.createForm(this, {
           mapPropsToFields: () => {
@@ -299,6 +299,8 @@ export default class EpisodeEditModal extends Vue {
             };
           }
         });
+
+        bus.$emit("episodefilelist:selected", episode.audioFile);
 
         this.visible = true;
       }

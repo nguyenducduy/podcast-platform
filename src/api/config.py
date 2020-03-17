@@ -22,6 +22,9 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Missmilano88@35.198.216.121/podcast'
+    GOOGLE_CLOUD_STORAGE_ACCESS_KEY = 'GOOGJ7KEGKA5C2M6QEKBWTCD'
+    GOOGLE_CLOUD_STORAGE_SECRET_KEY = 'HH6BbrEH+7hdR1UTYcSczZtuFgYI+lC7POteiTCD'
+    GOOGLE_CLOUD_STORAGE_BUCKET = 'podcast_audio_dev'
 
 
 config_by_name = dict(
