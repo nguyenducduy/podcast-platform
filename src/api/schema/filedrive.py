@@ -59,9 +59,13 @@ class FiledriveConnection(graphene.Connection):
         node = FiledriveNode
 
     total_count = graphene.NonNull(graphene.Int)
+    common_list = graphene.List(CommonDictType)
 
     def resolve_total_count(self, info, **kwargs):
         return self.length
+
+    def resolve_common_list(self, info, **kwargs):
+        return Filedrive.getCommonList()
 
 
 class FiledriveEditField(graphene.Mutation):
@@ -200,6 +204,26 @@ class CommonUpload(graphene.Mutation):
             return CommonUpload(path=new_filedrive.path)
 
         raise GraphQLError('Upload failed!')
+
+
+class DeleteFiledrive(graphene.Mutation):
+    class Arguments:
+        filedrive_id = graphene.Int(required=True)
+
+    deleted = graphene.Boolean()
+
+    @require_auth
+    def mutate(self, info, **kwargs):
+        myFiledrive = Filedrive.query.filter_by(
+            id=kwargs.get('filedrive_id')).first()
+        if not myFiledrive:
+            raise Exception('Filedrive not found.')
+
+        filedrive.delete('audio', myFiledrive.path)
+        db_session.delete(myFiledrive)
+        db_session.commit()
+
+        return DeleteFiledrive(deleted=True)
 
 
 def save_changes(data):

@@ -64,6 +64,13 @@ class Filedrive(Base):
 
         return isCommon
 
+    @staticmethod
+    def getCommonList():
+        return [
+            {"text": "Common", "value": Filedrive.IS_COMMON, "color": "#108ee9"},
+            {"text": "Not Common", "value": Filedrive.IS_NOT_COMMON, "color": ""}
+        ]
+
 
 @listens_for(Filedrive, 'before_insert')
 def generate_created_at(mapper, connect, self):

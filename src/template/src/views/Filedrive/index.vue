@@ -16,7 +16,8 @@
       <a slot="_id" slot-scope="value" class="utils__link--underlined">{{ value }}</a>
       <p slot="_size" slot-scope="value">{{ value }}</p>
       <p slot="_duration" slot-scope="value">{{ value | numeralFormat("00:00") }}</p>
-      <p slot="_createdAt" slot-scope="value">{{ value | moment("dddd, Do MMMM YYYY") }}</p>
+      <p slot="_gcsId" slot-scope="value">{{ value }}</p>
+      <p slot="_createdAt" slot-scope="value">{{ value | moment("Do MMMM YYYY") }}</p>
       <!-- <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
         <img :src="`${mediaUri}/${record.node.avatar}`" />
       </a>-->
@@ -38,15 +39,6 @@
       >{{ record.node.isCommon.text }}</a-tag>
       <span slot="_actions" slot-scope="record">
         <inline-player :url="`${mediaUri}/${record.node.path}`" />
-        <a-tooltip title="Sửa">
-          <a-button
-            type="link"
-            icon="edit"
-            size="small"
-            class="mr-1"
-            @click="onOpenEditModal(record.node.id)"
-          ></a-button>
-        </a-tooltip>
         <a-popconfirm
           title="Chắn chắn xoá?"
           okText="Xoá"
@@ -67,21 +59,19 @@
         <pagination routePath="filedrive" :options="pagination" />
       </div>
     </div>
-
-    <!-- <podcast-add-modal></podcast-add-modal>
-    <podcast-edit-modal></podcast-edit-modal>
-    <episode-list-modal></episode-list-modal>-->
   </a-layout-content>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { bus, getVariables } from "@/helpers/utils";
-// import PodcastAddModal from "@/components/Podcast/AddModal/index.vue";
-// import PodcastEditModal from "@/components/Podcast/EditModal/index.vue";
 import InlinePlayer from "@/components/InlinePlayer/index.vue";
 import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
-import { GET_ALL_FILEDRIVE, EDIT_FIELD } from "@/graphql/filedrives";
+import {
+  GET_ALL_FILEDRIVE,
+  EDIT_FIELD,
+  DELETE_FILEDRIVE
+} from "@/graphql/filedrives";
 import CommonUpload from "@/components/Filedrive/CommonUpload/index.vue";
 import EditableCell from "@/components/EditableCell/index.vue";
 
@@ -190,6 +180,13 @@ export default class FiledrivePage extends Vue {
         }
       },
       {
+        title: "GCS ID",
+        dataIndex: "node.gcsId",
+        scopedSlots: {
+          customRender: "_gcsId"
+        }
+      },
+      {
         title: "Ngày tạo",
         dataIndex: "node.createdAt",
         scopedSlots: {
@@ -233,11 +230,34 @@ export default class FiledrivePage extends Vue {
     }
   }
 
-  async onOpenAddModal() {}
+  async onDelete(id) {
+    try {
+      const res = await this.$apollo.mutate({
+        mutation: DELETE_FILEDRIVE,
+        variables: {
+          filedriveId: id
+        }
+      });
 
-  async onOpenEditModal(id) {}
+      if (res && res.data.deleted !== null) {
+        this.$notification.success({
+          message: "Delete filedrive success!",
+          description: id,
+          duration: 2
+        });
 
-  async onDelete(id) {}
+        this.$apollo.queries.filedrivesGraph.skip = false;
+        await this.$apollo.queries.filedrivesGraph.refetch();
+      }
+    } catch (error) {
+      this.$notification.error({
+        message: "Delete filedrive failed!",
+        description: error.toString(),
+        duration: 5
+      });
+      return;
+    }
+  }
 
   created() {
     this.init();

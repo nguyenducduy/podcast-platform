@@ -46,6 +46,7 @@ export const GET_ALL_FILEDRIVE = gql`
             value
             color
           }
+          gcsId
           createdAt
         }
       }
@@ -143,6 +144,14 @@ export const EDIT_FIELD = gql`
   mutation filedriveEditField($id: Int!, $dataIndex: String!, $value: String!) {
     filedriveEditField(id: $id, dataIndex: $dataIndex, value: $value) {
       updated
+    }
+  }
+`
+
+export const DELETE_FILEDRIVE = gql`
+  mutation deleteFiledrive($filedriveId: Int!) {
+    deleteFiledrive(filedriveId: $filedriveId) {
+      deleted
     }
   }
 `
