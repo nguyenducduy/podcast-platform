@@ -30,9 +30,7 @@
             >
               <span :class="$style.composeTitle">
                 <strong>{{ track.label }}</strong>
-                <p v-if="track.type == 'crossfade'">
-                  Overlap duration: {{ track.durationOverlap }}
-                </p>
+                <p v-if="track.type == 'crossfade'">Overlap duration: {{ track.durationOverlap }}</p>
               </span>
               <div style="float: right;margin-right: 10px;clear: both;">
                 <!-- <a-tag color="#2db7f5">#{{ track.fdId }}</a-tag> -->
@@ -45,9 +43,7 @@
                   icon="sound"
                   class="focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
                 ></a-button>-->
-                <a-tag :color="track.type == 'crossfade' ? 'cyan' : 'purple'">
-                  {{ track.type }}
-                </a-tag>
+                <a-tag :color="track.type == 'crossfade' ? 'cyan' : 'purple'">{{ track.type }}</a-tag>
                 <a-button
                   @click="onRemove(idx)"
                   type="link"
@@ -257,6 +253,8 @@ export default class ComposeTool extends Vue {
     });
 
     bus.$on("composer:sessionSelected", async data => {
+      this.$nprogress.start();
+
       this.sessionId = data["sessionId"];
       this.version = data["version"];
 
@@ -265,6 +263,8 @@ export default class ComposeTool extends Vue {
         version: data["version"]
       });
       this._loadRevision();
+
+      this.$nprogress.done();
     });
   }
 
@@ -281,7 +281,6 @@ export default class ComposeTool extends Vue {
       let revisionData = this.revisionsGraph.edges[0].node;
 
       JSON.parse(revisionData.content).map(track => {
-        console.log(track);
         let count = this.tracks.length;
 
         if (track.type == "mix") {

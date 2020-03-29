@@ -1,123 +1,126 @@
 import { Vue } from "vue-property-decorator";
 import VueRouter from "vue-router";
 import store from "@/store";
-import auth from "../middleware/auth";
-// import log from "../middleware/log";
+import MainLayout from "@/layouts/Main/index.vue";
+import LoginLayout from "@/layouts/Login/index.vue";
 
 Vue.use(VueRouter);
 
 let router = new VueRouter({
+  base: process.env.BASE_URL,
   mode: "history",
   routes: [
     {
-      path: "/login",
-      component: require("@/views/Login/index").default,
+      path: "/admin",
+      redirect: "admin/dashboard",
+      component: MainLayout,
       meta: {
-        layout: "login"
-      }
+        authRequired: true
+      },
+      children: [
+        {
+          path: "/admin/dashboard",
+          meta: {
+            title: "Dashboard"
+          },
+          component: require("@/views/Home").default
+        },
+        {
+          path: "/admin/user",
+          meta: {
+            title: "User"
+          },
+          component: require("@/views/User/index").default
+        },
+        {
+          path: "/admin/podcast",
+          meta: {
+            title: "Podcast"
+          },
+          component: require("@/views/Podcast/index").default
+        },
+        {
+          path: "/admin/podcast/compose",
+          meta: {
+            title: "Podcast compose"
+          },
+          component: require("@/views/Podcast/compose").default
+        },
+        {
+          path: "/admin/podcast/record",
+          meta: {
+            title: "Podcast record"
+          },
+          component: require("@/views/Podcast/record").default
+        },
+        {
+          path: "/admin/filedrive",
+          meta: {
+            title: "Filedrive"
+          },
+          component: require("@/views/Filedrive/index").default
+        }
+      ]
     },
+
+    // Non perm pages
     {
-      path: "/",
-      component: require("@/views/Home").default,
-      meta: {
-        middleware: [auth]
-      }
+      path: "/admin/login",
+      component: LoginLayout,
+      children: [
+        {
+          path: "/admin/login",
+          meta: {
+            title: "Login"
+          },
+          component: require("@/views/Login/index").default
+        }
+        // {
+        //   path: '/admin/forgot',
+        //   meta: {
+        //     title: 'Forgot Password',
+        //   },
+        //   component: () => import('./views/user/forgot'),
+        // },
+      ]
     },
+
+    // 404
     {
-      path: "/user",
-      component: require("@/views/User/index").default,
+      path: "/404",
       meta: {
-        title: "User",
-        middleware: [auth]
-      }
+        title: "404"
+      },
+      component: require("@/views/404").default
     },
-    {
-      path: "/user/changepassword",
-      component: require("@/views/User/changepassword").default,
-      meta: {
-        title: "User",
-        middleware: [auth]
-      }
-    },
-    {
-      path: "/podcast",
-      component: require("@/views/Podcast/index").default,
-      meta: {
-        title: "Podcast",
-        middleware: [auth]
-      }
-    },
-    {
-      path: "/podcast/compose",
-      component: require("@/views/Podcast/compose").default,
-      meta: {
-        middleware: [auth]
-      }
-    },
-    {
-      path: "/podcast/record",
-      component: require("@/views/Podcast/record").default,
-      meta: {
-        middleware: [auth]
-      }
-    },
-    {
-      path: "/filedrive",
-      component: require("@/views/Filedrive/index").default,
-      meta: {
-        middleware: [auth]
-      }
-    },
+
+    // Redirect to 404
     {
       path: "*",
-      redirect: "/"
+      redirect: "/404"
     }
-    // {
-    //   path: "/install",
-    //   name: "install-page",
-    //   component: require("@/pages/InstallPage").default,
-    //   meta: {
-    //     middleware: [log],
-    //     layout: "blank"
-    //   }
-    // },
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  if (!to.meta.middleware) {
-    return next();
+  if (to.matched.some(record => record.meta.authRequired)) {
+    const loggedToken = Vue.ls.get("Access-Token");
+
+    if (!loggedToken) {
+      return next({
+        path: "/admin/login",
+        query: { redirect: to.fullPath }
+      });
+    }
+
+    store.commit("users/SET_AUTH", {
+      token: loggedToken
+    });
+
+    next();
+  } else {
+    next();
   }
-
-  const middleware = Array.isArray(to.meta.middleware)
-    ? to.meta.middleware
-    : [to.meta.middleware];
-
-  const context = {
-    from,
-    next,
-    router,
-    to
-  };
-  const nextMiddleware = nextFactory(context, middleware, 1);
-
-  return middleware[0]({ context, next: nextMiddleware, store });
 });
-
-function nextFactory(context: any, middleware: any, index: any) {
-  const subsequentMiddleware = middleware[index];
-  // If no subsequent Middleware exists,
-  // the default `next()` callback is returned.
-  if (!subsequentMiddleware) return context.next;
-
-  return (parameters: any) => {
-    // Run the default Vue Router `next()` callback first.
-    context.next(parameters);
-    // Than run the subsequent Middleware with a new
-    // `nextMiddleware()` callback.
-    const nextMiddleware = nextFactory(context, middleware, index + 1);
-    subsequentMiddleware({ context, next: nextMiddleware, store });
-  };
-}
 
 export default router;

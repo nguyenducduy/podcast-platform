@@ -31,7 +31,7 @@
       <breadcrumbs :settings="settings" />
       <a-layout-content>
         <div class="utils__content">
-          <slot />
+          <router-view />
         </div>
       </a-layout-content>
       <a-layout-footer>

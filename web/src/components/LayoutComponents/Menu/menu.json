@@ -1,59 +1,54 @@
 {
   "items": [
     {
-      "title": "Trang chủ",
-      "key": "home",
-      "url": "/",
-      "icon": "icmn icmn-home"
+      "title": "Tổng quan",
+      "key": "adminDashboard",
+      "url": "/admin/dashboard",
+      "icon": "icmn icmn-meter"
     },
     {
       "title": "Thành viên",
-      "key": "user",
+      "key": "adminUser",
       "icon": "icmn icmn-users",
       "children": [
         {
           "title": "Danh sách",
-          "key": "user-list",
-          "url": "/user",
-          "icon": "icmn icmn-list"
+          "key": "adminUser-userList",
+          "url": "/admin/user"
         }
       ]
     },
     {
       "title": "Podcast",
-      "key": "podcast",
+      "key": "adminPodcast",
       "icon": "icmn icmn-podcast",
       "children": [
         {
           "title": "Danh sách",
-          "key": "podcast-list",
-          "url": "/podcast",
-          "icon": "icmn icmn-list"
+          "key": "adminPodcast-podcastlist",
+          "url": "/admin/podcast"
         },
         {
           "title": "Audio Tool",
-          "key": "podcast-compose",
-          "url": "/podcast/compose",
-          "icon": "icmn icmn-insert-template"
+          "key": "adminPodcast-compose",
+          "url": "/admin/podcast/compose"
         },
         {
           "title": "Thu âm",
-          "key": "podcast-record",
-          "url": "/podcast/record",
-          "icon": "icmn icmn-mic"
+          "key": "adminPodcast-record",
+          "url": "/admin/podcast/record"
         }
       ]
     },
     {
       "title": "File drive",
-      "key": "filedrive",
+      "key": "adminFiledrive",
       "icon": "icmn icmn-file-music",
       "children": [
         {
           "title": "Danh sách",
-          "key": "filedrive-list",
-          "url": "/filedrive",
-          "icon": "icmn icmn-list"
+          "key": "adminFiledrive-filedriveList",
+          "url": "/admin/filedrive"
         }
       ]
     }

@@ -25,6 +25,16 @@ import bootstrap from "./core/bootstrap";
 import "./core/lazy_use";
 import apolloProvider from "./helpers/apollo";
 
+import NProgress from "vue-nprogress";
+Vue.use(NProgress);
+const nprogress = new NProgress({ parent: "body" });
+
+import VuePageTitle from "vue-page-title";
+Vue.use(VuePageTitle, {
+  prefix: "Podcast | ",
+  router
+});
+
 // import db from './utils/db';
 // (async() => {
 //   await db;
@@ -33,6 +43,7 @@ import apolloProvider from "./helpers/apollo";
 Vue.config.productionTip = false;
 
 new Vue({
+  nprogress,
   router,
   store,
   apolloProvider,

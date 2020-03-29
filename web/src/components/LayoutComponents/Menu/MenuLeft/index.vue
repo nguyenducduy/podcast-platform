@@ -37,7 +37,9 @@
                 <span :class="$style.title">{{ item.title }}</span>
               </span>
             </a-menu-item>
+
             <a-menu-divider v-if="item.divider" :key="index" />
+
             <a-sub-menu v-if="item.children" :key="item.key">
               <span slot="title">
                 <span :class="$style.title">{{ item.title }}</span>
@@ -46,11 +48,9 @@
               <template v-for="(child, index) in item.children">
                 <a-menu-item :key="child.key" :disabled="child.disabled">
                   <router-link v-if="child.url" :to="child.url">
-                    <i v-if="child.icon" :class="[$style.icon, child.icon]"></i>
                     <span :class="$style.title">{{ child.title }}</span>
                   </router-link>
                   <span v-else>
-                    <i v-if="child.icon" :class="[$style.icon, child.icon]"></i>
                     <span :class="$style.title">{{ child.title }}</span>
                   </span>
                 </a-menu-item>

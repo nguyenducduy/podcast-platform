@@ -12046,6 +12046,11 @@ vue-numerals@^3.0.5:
   resolved "https://registry.yarnpkg.com/vue-numerals/-/vue-numerals-3.0.5.tgz#5d0f8b91a1813ef847b638a1ad1b6ee2150dfcf5"
   integrity sha512-C7FK1tJY4kEb/kG84gkGMbFjvbNntL3p4Q3IamrpX73a8EIxlIPRNZo0Ns+HTzw0zK3tD9P4tL8DBrS5O+F3YA==
 
+vue-page-title@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/vue-page-title/-/vue-page-title-1.1.6.tgz#383948686d99b6ec63d9bed733c5b5879f333c29"
+  integrity sha512-o/bvJbKJOFKTJZEaHlisFV0JA6h1vfJk4JGqrhFCXkII6BSa3gZXVpnxWQBlrMUICToi+Ysz9WfHGVvNnR73+Q==
+
 vue-property-decorator@^8.3.0:
   version "8.3.0"
   resolved "https://registry.npm.taobao.org/vue-property-decorator/download/vue-property-decorator-8.3.0.tgz#536f027dc7d626f37c8d85a2dc02f0a6cb979440"

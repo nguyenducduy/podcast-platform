@@ -1,23 +1,14 @@
 <template>
   <a-layout-content class="lg">
     <div class="utils__title mb-3">
-      <strong class="text-uppercase font-size-16"
-        >Danh sách ({{ pagination.total }})</strong
-      >
-      <a-button
-        type="primary"
-        icon="plus"
-        class="float-right"
-        @click="onOpenAddModal()"
-        >Thêm</a-button
-      >
+      <strong class="text-uppercase font-size-16">Danh sách ({{ pagination.total }})</strong>
+      <podcast-add />
       <a-button
         type="dashed"
         icon="link"
         class="float-right mr-2"
         @click="onOpenImportFromAppleModal()"
-        >Import từ Apple Podcast</a-button
-      >
+      >Import từ Apple Podcast</a-button>
     </div>
     <a-table
       :dataSource="podcastsGraph.edges"
@@ -27,9 +18,11 @@
       :rowKey="record => record.node.id"
       :loading="$apollo.loading"
     >
-      <a slot="_id" slot-scope="value" class="utils__link--underlined">{{
+      <a slot="_id" slot-scope="value" class="utils__link--underlined">
+        {{
         value
-      }}</a>
+        }}
+      </a>
       <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
         <img
           :src="`${mediaUri}/${record.node.cover}`"
@@ -38,13 +31,15 @@
       </a>
       <template slot="_title" slot-scope="record">
         <a class="text-xl" @click="onOpenEpisodeListModal(record.node.id)">
-          <a-tooltip title="Nhấn để hiện danh sách Episode">{{
+          <a-tooltip title="Nhấn để hiện danh sách Episode">
+            {{
             record.node.title
-          }}</a-tooltip>
+            }}
+          </a-tooltip>
         </a>
-        <p class="text-sm text-gray-600">
-          {{ record.node.createdAt | moment("dddd, Do MMMM YYYY, h:mm:ss a") }}
-        </p>
+        <p
+          class="text-sm text-gray-600"
+        >{{ record.node.createdAt | moment("dddd, Do MMMM YYYY, h:mm:ss a") }}</p>
       </template>
       <p
         slot="_description"
@@ -60,8 +55,7 @@
         slot="_status"
         slot-scope="value"
         :color="value === 1 ? `#87d068` : ``"
-        >{{ value === 1 ? "Xuất bản" : "Nháp" }}</a-tag
-      >
+      >{{ value === 1 ? "Xuất bản" : "Nháp" }}</a-tag>
       <span slot="_actions" slot-scope="record">
         <a-tooltip title="Danh sách Episode">
           <a-button
@@ -78,7 +72,7 @@
             icon="edit"
             size="small"
             class="mr-1"
-            @click="onOpenEditModal(record.node.id)"
+            @click="onOpenEditDrawer(record.node.id)"
           ></a-button>
         </a-tooltip>
         <a-popconfirm
@@ -101,8 +95,7 @@
         <pagination routePath="podcast" :options="pagination" />
       </div>
     </div>
-    <podcast-add-modal></podcast-add-modal>
-    <podcast-edit-modal></podcast-edit-modal>
+    <podcast-edit />
     <episode-list-modal></episode-list-modal>
     <apple></apple>
   </a-layout-content>
@@ -114,24 +107,24 @@ import { bus, getVariables } from "@/helpers/utils";
 import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
 import EpisodeAddModal from "@/components/Podcast/Episode/add.vue";
 import EpisodeListModal from "@/components/Podcast/Episode/index.vue";
-import PodcastAddModal from "@/components/Podcast/AddModal/index.vue";
-import PodcastEditModal from "@/components/Podcast/EditModal/index.vue";
 import Apple from "@/components/Podcast/ImportLink/Apple/index.vue";
 import {
   GET_PODCASTS,
   CREATE_PODCAST,
   DELETE_PODCAST
 } from "@/graphql/podcasts";
+import PodcastAdd from "@/components/Podcast/Add/index.vue";
+import PodcastEdit from "@/components/Podcast/Edit/index.vue";
 
 @Component({
   name: "podcast-page",
   components: {
     Pagination,
-    PodcastAddModal,
-    PodcastEditModal,
     EpisodeAddModal,
     EpisodeListModal,
-    Apple
+    Apple,
+    PodcastAdd,
+    PodcastEdit
   },
   apollo: {
     podcastsGraph: {
@@ -298,12 +291,8 @@ export default class PodcastPage extends Vue {
     bus.$emit("episode:showListModal", podcastId);
   }
 
-  onOpenAddModal() {
-    bus.$emit("podcast:showAddModal");
-  }
-
-  onOpenEditModal(podcastId) {
-    bus.$emit("podcast:showEditModal", podcastId);
+  onOpenEditDrawer(podcastId) {
+    bus.$emit("podcast:showEdit", podcastId);
   }
 
   onOpenImportFromAppleModal() {

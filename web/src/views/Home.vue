@@ -1,5 +1,8 @@
 <template>
-  <a-layout-content class="p-4 bg-white rounded-lg">Dashboard</a-layout-content>
+  <h1>
+    admin dashboard
+    <i class="icmn-home" />
+  </h1>
 </template>
 
 <script lang="ts">
