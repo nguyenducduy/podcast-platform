@@ -47,13 +47,6 @@ let router = new VueRouter({
           component: require("@/views/Podcast/compose").default
         },
         {
-          path: "/admin/podcast/record",
-          meta: {
-            title: "Podcast record"
-          },
-          component: require("@/views/Podcast/record").default
-        },
-        {
           path: "/admin/filedrive",
           meta: {
             title: "Filedrive"

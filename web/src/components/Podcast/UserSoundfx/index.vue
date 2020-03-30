@@ -8,37 +8,32 @@
       :columns="columns"
       :pagination="pagination"
       size="small"
-      :rowKey="record => record.cursor"
+      :rowKey="record => record.node.id"
       :loading="$apollo.loading"
       @change="onPageChange"
     >
-      <template
-        slot="__name_slot"
-        slot-scope="record"
-        :className="$style.soundfx"
-      >
+      <template slot="__name_slot" slot-scope="record" :className="$style.soundfx">
         <editable-cell
           size="small"
           :text="record.node.name"
           @change="onCellChange(record.node.id, 'name', $event)"
         />
-        <span class="duration ml-2">{{
+        <span class="duration ml-2">
+          {{
           record.node.duration | numeralFormat("00:00")
-        }}</span>
+          }}
+        </span>
       </template>
       <a-tag
         slot="__type_slot"
         slot-scope="record"
         :color="record.node.type.color"
         style="font-size: 10px;"
-        >{{ record.node.type.text }}</a-tag
-      >
+      >{{ record.node.type.text }}</a-tag>
       <template slot="__actions_slot" slot-scope="record">
         <inline-player :url="`${mediaUri}/${record.node.path}`" />
         <a-popover placement="topLeft">
-          <span slot="title"
-            >Merge with Crossfade Duration：{{ crossfadeDuration }}</span
-          >
+          <span slot="title">Merge with Crossfade Duration：{{ crossfadeDuration }}</span>
           <template slot="content">
             <a-input-number :min="1" v-model="crossfadeDuration" size="small" />
             <a-button
@@ -47,18 +42,12 @@
               class="ml-2"
               :disabled="lock"
               @click="appendTo(record.node)"
-              >Merge</a-button
-            >
+            >Merge</a-button>
           </template>
           <a-button type="link" icon="arrow-right" :disabled="lock"></a-button>
         </a-popover>
         <a-tooltip title="Mix">
-          <a-button
-            type="link"
-            icon="experiment"
-            :disabled="lock"
-            @click="onMixTo(record.node)"
-          ></a-button>
+          <a-button type="link" icon="experiment" :disabled="lock" @click="onMixTo(record.node)"></a-button>
         </a-tooltip>
         <!-- <a-tooltip title="Trim silence">
           <a-button type="link" icon="scissor" :disabled="lock" @click="onTrimSilence(record.node)"></a-button>
@@ -234,6 +223,10 @@ export default class UserSoundfx extends Vue {
     });
     bus.$on("soundfx:updateSessionId", sessionId => {
       this.sessionId = sessionId;
+    });
+    bus.$on("userSoundfx:refresh", async () => {
+      this.$apollo.queries.filedrivesGraph.skip = false;
+      await this.$apollo.queries.filedrivesGraph.refetch();
     });
   }
 

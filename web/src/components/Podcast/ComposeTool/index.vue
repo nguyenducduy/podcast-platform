@@ -33,17 +33,11 @@
                 <p v-if="track.type == 'crossfade'">Overlap duration: {{ track.durationOverlap }}</p>
               </span>
               <div style="float: right;margin-right: 10px;clear: both;">
-                <!-- <a-tag color="#2db7f5">#{{ track.fdId }}</a-tag> -->
-                <!-- <small v-if="track.type == 'mix'"
-                  >{{ track.start }} -> {{ track.end }}</small
-                >
-                &nbsp;-->
-                <!-- <a-button
-                  type="link"
-                  icon="sound"
-                  class="focus:outline-none focus:shadow-outline text-teal-500 hover:text-teal-600"
-                ></a-button>-->
-                <a-tag :color="track.type == 'crossfade' ? 'cyan' : 'purple'">{{ track.type }}</a-tag>
+                <a-tag :color="track.type == 'crossfade' ? 'cyan' : 'purple'">
+                  {{
+                  track.type
+                  }}
+                </a-tag>
                 <a-button
                   @click="onRemove(idx)"
                   type="link"

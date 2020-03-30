@@ -1,7 +1,9 @@
 <template>
   <a-layout-content class="lg">
     <div class="utils__title mb-3">
-      <strong class="text-uppercase font-size-16">Danh sách ({{ pagination.total }})</strong>
+      <strong class="text-uppercase font-size-16"
+        >Danh sách ({{ pagination.total }})</strong
+      >
       <user-add-drawer />
     </div>
     <a-table
@@ -12,7 +14,9 @@
       :rowKey="record => record.node.id"
       :loading="$apollo.loading"
     >
-      <a slot="_id" slot-scope="value" class="utils__link--underlined">{{ value }}</a>
+      <a slot="_id" slot-scope="value" class="utils__link--underlined">{{
+        value
+      }}</a>
       <!-- <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
         <img :src="`${mediaUri}/${record.node.avatar}`" />
       </a>-->
@@ -21,7 +25,8 @@
         slot="_group"
         slot-scope="record"
         :color="record.node.group.color"
-      >{{ record.node.group.text }}</a-tag>
+        >{{ record.node.group.text }}</a-tag
+      >
       <span slot="_actions" slot-scope="record">
         <a-tooltip title="Sửa">
           <a-button

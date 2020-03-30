@@ -32,11 +32,6 @@
           "title": "Audio Tool",
           "key": "adminPodcast-compose",
           "url": "/admin/podcast/compose"
-        },
-        {
-          "title": "Thu âm",
-          "key": "adminPodcast-record",
-          "url": "/admin/podcast/record"
         }
       ]
     },

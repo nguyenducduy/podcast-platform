@@ -6,25 +6,21 @@
         <h5>Thu âm (chỉ âm thanh)</h5>
         <br />
         <a-button
+          size="small"
           type="primary"
           @click="onStart"
           :disabled="recording"
           :loading="recording"
-          >Bắt đầu</a-button
-        >&nbsp;
-        <a-button type="danger" @click="onStop" :disabled="!recording"
-          >Dừng</a-button
-        >&nbsp;
-        <a-button type="dashed" @click="onListen" :disabled="audioUrl === ''"
-          >Nghe</a-button
-        >&nbsp;
+        >Bắt đầu</a-button>&nbsp;
+        <a-button size="small" type="danger" @click="onStop" :disabled="!recording">Dừng</a-button>&nbsp;
+        <a-button size="small" type="dashed" @click="onListen" :disabled="audioUrl === ''">Nghe</a-button>&nbsp;
         <a-button
+          size="small"
           type="dashed"
           @click="onSave"
           :disabled="audioUrl === ''"
           :loading="uploading"
-          >Lưu</a-button
-        >
+        >Lưu</a-button>
       </div>
     </div>
   </div>
@@ -36,6 +32,7 @@ import RecordRTC from "recordrtc";
 import WaveSurfer from "wavesurfer.js";
 import MicrophonePlugin from "@/plugins/Wavesurfer/microphone";
 import { RECORD_UPLOAD } from "@/graphql/filedrives";
+import { bus } from "@/helpers/utils";
 
 declare global {
   interface Window {
@@ -101,6 +98,8 @@ export default class Recorder extends Vue {
           description: "",
           duration: 2
         });
+
+        bus.$emit("userSoundfx:refresh");
       }
 
       this.uploading = false;

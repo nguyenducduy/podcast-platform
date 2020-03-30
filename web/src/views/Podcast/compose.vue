@@ -4,6 +4,7 @@
       <podcast-visual />
     </div>
     <div class="col-lg-4 bg-gray-100 rounded-lg">
+      <recorder />
       <soundfx />
       <user-soundfx />
     </div>
@@ -28,6 +29,7 @@ import UserSoundfx from "@/components/Podcast/UserSoundfx/index.vue";
 import ComposeTool from "@/components/Podcast/ComposeTool/index.vue";
 import PodcastVisual from "@/components/Podcast/Visual/index.vue";
 import PodcastHistory from "@/components/Podcast/History/index.vue";
+import Recorder from "@/components/Podcast/Recorder/index.vue";
 
 @Component({
   name: "podcast-compose-page",
@@ -36,7 +38,8 @@ import PodcastHistory from "@/components/Podcast/History/index.vue";
     UserSoundfx,
     ComposeTool,
     PodcastVisual,
-    PodcastHistory
+    PodcastHistory,
+    Recorder
   }
 })
 export default class PodcastComposePage extends Vue {}

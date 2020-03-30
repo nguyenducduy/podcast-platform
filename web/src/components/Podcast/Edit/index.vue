@@ -1,7 +1,9 @@
 <template>
-  <div :style="{
-    position: 'relative'
-  }">
+  <div
+    :style="{
+      position: 'relative'
+    }"
+  >
     <a-drawer
       :title="`Sửa podcast #${podcastId}`"
       placement="right"
@@ -48,7 +50,9 @@
                   <p
                     class="text-sm text-gray-500 text-center"
                     style="margin-top: -25px;"
-                  >Nhấn vào hình và chọn hình mới để thay đổi hình đại diện</p>
+                  >
+                    Nhấn vào hình và chọn hình mới để thay đổi hình đại diện
+                  </p>
                 </div>
                 <div class="col-lg-8">
                   <a-form-item label="Tiêu đề">
@@ -90,13 +94,22 @@
             </div>
             <div class="col-lg-4">
               <a-form-item label="Email liên hệ">
-                <a-input v-decorator="['contactEmail']" placeholder="someone@gmail.com"></a-input>
+                <a-input
+                  v-decorator="['contactEmail']"
+                  placeholder="someone@gmail.com"
+                ></a-input>
               </a-form-item>
               <a-form-item label="Website URL">
-                <a-input v-decorator="['websiteUrl']" placeholder="http|https://somedomain.com"></a-input>
+                <a-input
+                  v-decorator="['websiteUrl']"
+                  placeholder="http|https://somedomain.com"
+                ></a-input>
               </a-form-item>
               <a-form-item label="Copyright">
-                <a-input v-decorator="['copyright']" placeholder="All right reserved"></a-input>
+                <a-input
+                  v-decorator="['copyright']"
+                  placeholder="All right reserved"
+                ></a-input>
               </a-form-item>
             </div>
             <div class="col-lg-12">
@@ -106,7 +119,10 @@
                 extra="This description may be used in several places including your RSS feed. Apple Podcasts will use this as your episode's description unless you set the `summary` field in your feed destination."
               >
                 <div :class="$style.editor">
-                  <quill-editor v-model="summarize" :options="editorOption"></quill-editor>
+                  <quill-editor
+                    v-model="summarize"
+                    :options="editorOption"
+                  ></quill-editor>
                 </div>
               </a-form-item>
             </div>
@@ -116,23 +132,26 @@
 
       <div
         :style="{
-        position: 'absolute',
-        left: 0,
-        bottom: 0,
-        width: '100%',
-        borderTop: '1px solid #e9e9e9',
-        padding: '10px 16px',
-        background: '#fff',
-        textAlign: 'right'
-      }"
+          position: 'absolute',
+          left: 0,
+          bottom: 0,
+          width: '100%',
+          borderTop: '1px solid #e9e9e9',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right'
+        }"
       >
-        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose">Huỷ</a-button>
+        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose"
+          >Huỷ</a-button
+        >
         <a-button
           type="primary"
           :style="{ marginRight: '8px' }"
           @click="onSubmit"
           :loading="loading"
-        >Cập nhật</a-button>
+          >Cập nhật</a-button
+        >
       </div>
     </a-drawer>
   </div>

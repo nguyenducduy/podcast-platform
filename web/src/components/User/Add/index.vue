@@ -1,8 +1,10 @@
 <template>
-  <div :style="{
-    position: 'relative',
-    float: 'right'
-  }">
+  <div
+    :style="{
+      position: 'relative',
+      float: 'right'
+    }"
+  >
     <a-button type="primary" icon="plus" @click="onShow">Thêm</a-button>
     <a-drawer
       title="Thêm người dùng"
@@ -19,18 +21,20 @@
     >
       <div
         :style="{
-        position: 'absolute',
-        left: 0,
-        bottom: 0,
-        width: '100%',
-        borderTop: '1px solid #e9e9e9',
-        padding: '10px 16px',
-        background: '#fff',
-        textAlign: 'right'
-      }"
+          position: 'absolute',
+          left: 0,
+          bottom: 0,
+          width: '100%',
+          borderTop: '1px solid #e9e9e9',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right'
+        }"
       >
         <a-button type="primary" :style="{ marginRight: '8px' }">Thêm</a-button>
-        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose">Huỷ</a-button>
+        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose"
+          >Huỷ</a-button
+        >
       </div>
     </a-drawer>
   </div>
