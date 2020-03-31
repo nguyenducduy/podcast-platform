@@ -1,13 +1,11 @@
 <template>
-  <div
-    :style="{
+  <div :style="{
       position: 'relative',
       float: 'right'
-    }"
-  >
-    <a-button type="primary" icon="plus" @click="onShow">Thêm</a-button>
+    }">
+    <a-button type="primary" icon="plus" @click="onShow">Thêm thành viên</a-button>
     <a-drawer
-      title="Thêm người dùng"
+      title="Thêm thành viên"
       placement="right"
       :visible="visible"
       :width="640"
@@ -31,10 +29,8 @@
           textAlign: 'right'
         }"
       >
+        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose">Huỷ</a-button>
         <a-button type="primary" :style="{ marginRight: '8px' }">Thêm</a-button>
-        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose"
-          >Huỷ</a-button
-        >
       </div>
     </a-drawer>
   </div>

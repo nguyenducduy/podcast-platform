@@ -1,11 +1,13 @@
 <template>
   <a-layout-content class="lg">
     <div class="utils__title mb-3">
-      <strong class="text-uppercase font-size-16">Danh sách ({{ pagination.total }})</strong>
-      <user-add-drawer />
+      <strong class="text-uppercase font-size-16"
+        >Danh sách ({{ pagination.total }})</strong
+      >
+      <permission-add-drawer />
     </div>
     <a-table
-      :dataSource="usersGraph.edges"
+      :dataSource="permissionsGraph.edges"
       :columns="columns"
       :pagination="false"
       size="small"
@@ -13,19 +15,9 @@
       :loading="$apollo.loading"
     >
       <a slot="_id" slot-scope="value" class="utils__link--underlined">
-        {{
-        value
-        }}
+        {{ value }}
       </a>
-      <!-- <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
-        <img :src="`${mediaUri}/${record.node.avatar}`" />
-      </a>-->
-      <p slot="_name" slot-scope="value">{{ value }}</p>
-      <a-tag
-        slot="_group"
-        slot-scope="record"
-        :color="record.node.group.color"
-      >{{ record.node.group.text }}</a-tag>
+
       <span slot="_actions" slot-scope="record">
         <a-tooltip title="Sửa">
           <a-button
@@ -33,7 +25,7 @@
             icon="edit"
             size="small"
             class="mr-1"
-            @click="onOpenEditModal(record.node.id)"
+            @click="onOpenEditDrawer(record.node.id)"
           ></a-button>
         </a-tooltip>
         <a-popconfirm
@@ -53,9 +45,10 @@
     </a-table>
     <div class="row">
       <div class="col-lg-12 text-right mt-3">
-        <pagination routePath="admin/user" :options="pagination" />
+        <pagination routePath="admin/permission" :options="pagination" />
       </div>
     </div>
+    <permission-edit-drawer />
   </a-layout-content>
 </template>
 
@@ -63,37 +56,39 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { bus, getVariables } from "@/helpers/utils";
 import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
-import { GET_USERS } from "@/graphql/users";
-import UserAddDrawer from "@/components/User/Add/index.vue";
+import { GET_PERMISSIONS, DELETE_PERMISSION } from "@/graphql/permissions";
+import PermissionAddDrawer from "@/components/Permission/Add/index.vue";
+import PermissionEditDrawer from "@/components/Permission/Edit/index.vue";
 
 @Component({
-  name: "user-page",
+  name: "permission-page",
   components: {
     Pagination,
-    UserAddDrawer
+    PermissionAddDrawer,
+    PermissionEditDrawer
   },
   apollo: {
-    usersGraph: {
-      query: GET_USERS,
+    permissionsGraph: {
+      query: GET_PERMISSIONS,
       variables() {
         return {
           first: this.pagination.pageSize,
-          last: this.pagination.pageSize
-          // sort: ["ID_DESC"]
+          last: this.pagination.pageSize,
+          sort: this.sort
         };
       },
       update(data) {
-        return data.userList;
+        return data.permissionList;
       },
       result({ data }) {
-        this.pagination.total = data.userList.totalCount;
+        this.pagination.total = data.permissionList.totalCount;
       },
       skip() {
         return this.skipQuery;
       },
       error(error) {
         this.$notification.error({
-          message: "Fail to fetch userList!",
+          message: "Fail to fetch permissionList!",
           description: error.toString(),
           duration: 5
         });
@@ -101,21 +96,21 @@ import UserAddDrawer from "@/components/User/Add/index.vue";
     }
   }
 })
-export default class UserPage extends Vue {
+export default class PermissionPage extends Vue {
   @Watch("$route") _routeChange() {
     this.init();
   }
-  mediaUri: any = process.env.VUE_APP_MEDIA_URI;
 
   // graphQL
-  usersGraph: any = {
+  permissionsGraph: any = {
     edges: []
   };
+  skipQuery: boolean = true;
 
   // filters: any = {
   //   groupId: []
   // };
-  skipQuery: boolean = true;
+
   // pagination
   pagination: any = {
     size: "small",
@@ -136,24 +131,17 @@ export default class UserPage extends Vue {
         }
       },
       {
-        scopedSlots: {
-          customRender: "_cover"
-        }
-      },
-      {
-        title: "Tên",
-        dataIndex: "node.fullName",
+        title: "Tên (Query/Mutation)",
+        dataIndex: "node.name",
         scopedSlots: {
           customRender: "_name"
         }
       },
       {
-        title: "Group",
-        width: "10%",
-        key: "group",
-        // filters: this.usersGraph.groupList,
+        title: "Mô tả",
+        dataIndex: "node.description",
         scopedSlots: {
-          customRender: "_group"
+          customRender: "_description"
         }
       },
       {
@@ -167,14 +155,44 @@ export default class UserPage extends Vue {
     return columns;
   }
 
-  async onOpenAddModal() {}
+  async onDelete(id) {
+    try {
+      const res = await this.$apollo.mutate({
+        mutation: DELETE_PERMISSION,
+        variables: {
+          id: id
+        }
+      });
 
-  async onOpenEditModal(id) {}
+      if (res && res.data.deleted !== null) {
+        this.$notification.success({
+          message: "Xoá quyền thành công!",
+          description: id,
+          duration: 5
+        });
 
-  async onDelete(id) {}
+        this.$apollo.queries.permissionsGraph.skip = false;
+        await this.$apollo.queries.permissionsGraph.refetch();
+      }
+    } catch (error) {
+      this.$notification.error({
+        message: "Lỗi trong quá trình xoá quyền!",
+        description: error.toString(),
+        duration: 5
+      });
+    }
+  }
+
+  onOpenEditDrawer(id) {
+    bus.$emit("permission:showEdit", id);
+  }
 
   async created() {
     this.init();
+    bus.$on("permission:refresh", async () => {
+      this.$apollo.queries.permissionsGraph.skip = false;
+      await this.$apollo.queries.permissionsGraph.refetch();
+    });
   }
 
   async init() {
@@ -182,12 +200,8 @@ export default class UserPage extends Vue {
     const currentPage: any = typeof page !== "undefined" ? page : 1;
     const variables: any = getVariables(this.pagination, currentPage);
 
-    this.$apollo.queries.usersGraph.skip = false;
-    await this.$apollo.queries.usersGraph.refetch(variables);
+    this.$apollo.queries.permissionsGraph.skip = false;
+    await this.$apollo.queries.permissionsGraph.refetch(variables);
   }
 }
 </script>
-
-<style lang="scss" module scoped>
-@import "./index.module.scss";
-</style>

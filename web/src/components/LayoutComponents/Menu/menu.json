@@ -15,6 +15,16 @@
           "title": "Danh sách",
           "key": "adminUser-userList",
           "url": "/admin/user"
+        },
+        {
+          "title": "Nhóm",
+          "key": "adminUser-groupList",
+          "url": "/admin/group"
+        },
+        {
+          "title": "Quyền",
+          "key": "adminUser-permissionList",
+          "url": "/admin/permission"
         }
       ]
     },

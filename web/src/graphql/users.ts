@@ -8,7 +8,6 @@ export const GET_USERS = gql`
         node {
           id
           fullName
-          groupId
           avatar
           createdAt
           group {
@@ -18,6 +17,51 @@ export const GET_USERS = gql`
           }
         }
       }
+    }
+  }
+`;
+
+export const GET_USER = gql`
+  query user($id: Int) {
+    user(id: $id) {
+      id
+    }
+  }
+`;
+
+// export const CREATE_USER = gql`
+//   mutation createGroup($name: String!, $screenName: String!, $color: String!) {
+//     createGroup(name: $name, screenName: $screenName, color: $color) {
+//       group {
+//         id
+//         name
+//         screenName
+//       }
+//     }
+//   }
+// `;
+
+// export const UPDATE_GROUP = gql`
+//   mutation updateGroup(
+//     $id: Int!
+//     $name: String!
+//     $screenName: String!
+//     $color: String!
+//   ) {
+//     updateGroup(name: $name, screenName: $screenName, color: $color) {
+//       group {
+//         id
+//         name
+//         screenName
+//       }
+//     }
+//   }
+// `;
+
+export const DELETE_USER = gql`
+  mutation deleteUser($id: Int!) {
+    deleteUser(id: $id) {
+      deleted
     }
   }
 `;

@@ -2,8 +2,7 @@ import pendulum
 from db import db
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.event import listens_for
-from sqlalchemy.orm import relationship
-# from models.group import Group
+from sqlalchemy.orm import relationship, validates
 from models.rel_group_permission import RelGroupPermission
 
 
@@ -16,12 +15,14 @@ class Permission(db.Model):
     created_at = Column(Integer, nullable=False)
     updated_at = Column(Integer)
     groups = relationship('Group',
-                          secondary='rel_group_permission',
-                          back_populates='permissions')
+                          secondary='rel_group_permission')
 
 
 @listens_for(Permission, 'before_insert')
 def generate_created_at(mapper, connect, self):
+    if Permission.query.filter_by(name=self.name).first():
+        raise Exception('Permission name already exist')
+
     self.created_at = int(pendulum.now().timestamp())
     return self.created_at
 

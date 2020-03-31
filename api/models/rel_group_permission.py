@@ -1,5 +1,6 @@
 from db import db
 from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship, backref
 
 
 class RelGroupPermission(db.Model):
@@ -10,3 +11,8 @@ class RelGroupPermission(db.Model):
     permission_id = Column(Integer,
                            ForeignKey('permission.id'),
                            primary_key=True)
+
+    group = relationship('Group', backref=backref(
+        "rel_group_permission", cascade="all, delete-orphan"))
+    permission = relationship('Permission', backref=backref(
+        "rel_group_permission", cascade="all, delete-orphan"))

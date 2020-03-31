@@ -156,8 +156,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { getBase64 } from "@/helpers/utils";
-import { bus } from "@/helpers/utils";
+import { bus, getBase64 } from "@/helpers/utils";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import { quillEditor } from "vue-quill-editor";
@@ -234,7 +233,6 @@ export default class PodcastAdd extends Vue {
 
             this.form.resetFields();
             this.imageUrl = null;
-            this.visible = false;
             bus.$emit("podcast:refresh");
           }
 

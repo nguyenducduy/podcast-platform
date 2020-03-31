@@ -33,6 +33,20 @@ let router = new VueRouter({
           component: require("@/views/User/index").default
         },
         {
+          path: "/admin/group",
+          meta: {
+            title: "Group"
+          },
+          component: require("@/views/Group/index").default
+        },
+        {
+          path: "/admin/permission",
+          meta: {
+            title: "Permission"
+          },
+          component: require("@/views/Permission/index").default
+        },
+        {
           path: "/admin/podcast",
           meta: {
             title: "Podcast"

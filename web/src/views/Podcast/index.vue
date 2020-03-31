@@ -250,11 +250,10 @@ export default class PodcastPage extends Vue {
       }
     } catch (error) {
       this.$notification.error({
-        message: "Lỗi trong quá trifnh xoá podcast!",
+        message: "Lỗi trong quá trình xoá podcast!",
         description: error.toString(),
         duration: 5
       });
-      return;
     }
   }
 

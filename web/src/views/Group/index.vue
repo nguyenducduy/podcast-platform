@@ -1,11 +1,13 @@
 <template>
   <a-layout-content class="lg">
     <div class="utils__title mb-3">
-      <strong class="text-uppercase font-size-16">Danh sách ({{ pagination.total }})</strong>
-      <user-add-drawer />
+      <strong class="text-uppercase font-size-16"
+        >Danh sách ({{ pagination.total }})</strong
+      >
+      <group-add-drawer />
     </div>
     <a-table
-      :dataSource="usersGraph.edges"
+      :dataSource="groupsGraph.edges"
       :columns="columns"
       :pagination="false"
       size="small"
@@ -13,27 +15,31 @@
       :loading="$apollo.loading"
     >
       <a slot="_id" slot-scope="value" class="utils__link--underlined">
-        {{
-        value
-        }}
+        {{ value }}
       </a>
-      <!-- <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
-        <img :src="`${mediaUri}/${record.node.avatar}`" />
-      </a>-->
       <p slot="_name" slot-scope="value">{{ value }}</p>
       <a-tag
-        slot="_group"
+        slot="_screenName"
         slot-scope="record"
-        :color="record.node.group.color"
-      >{{ record.node.group.text }}</a-tag>
+        :color="record.node.color"
+        >{{ record.node.screenName }}</a-tag
+      >
+
       <span slot="_actions" slot-scope="record">
+        <a-button
+          type="dashed"
+          size="small"
+          class="mr-1"
+          @click="onOpenGrantDrawer(record.node.id)"
+          >Gán quyền</a-button
+        >
         <a-tooltip title="Sửa">
           <a-button
             type="link"
             icon="edit"
             size="small"
             class="mr-1"
-            @click="onOpenEditModal(record.node.id)"
+            @click="onOpenEditDrawer(record.node.id)"
           ></a-button>
         </a-tooltip>
         <a-popconfirm
@@ -53,9 +59,11 @@
     </a-table>
     <div class="row">
       <div class="col-lg-12 text-right mt-3">
-        <pagination routePath="admin/user" :options="pagination" />
+        <pagination routePath="admin/group" :options="pagination" />
       </div>
     </div>
+    <group-edit-drawer />
+    <permission-grant-drawer />
   </a-layout-content>
 </template>
 
@@ -63,37 +71,41 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { bus, getVariables } from "@/helpers/utils";
 import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
-import { GET_USERS } from "@/graphql/users";
-import UserAddDrawer from "@/components/User/Add/index.vue";
+import { GET_GROUPS, DELETE_GROUP } from "@/graphql/groups";
+import GroupAddDrawer from "@/components/Group/Add/index.vue";
+import GroupEditDrawer from "@/components/Group/Edit/index.vue";
+import PermissionGrantDrawer from "@/components/Permission/Grant/index.vue";
 
 @Component({
-  name: "user-page",
+  name: "group-page",
   components: {
     Pagination,
-    UserAddDrawer
+    GroupAddDrawer,
+    GroupEditDrawer,
+    PermissionGrantDrawer
   },
   apollo: {
-    usersGraph: {
-      query: GET_USERS,
+    groupsGraph: {
+      query: GET_GROUPS,
       variables() {
         return {
           first: this.pagination.pageSize,
-          last: this.pagination.pageSize
-          // sort: ["ID_DESC"]
+          last: this.pagination.pageSize,
+          sort: this.sort
         };
       },
       update(data) {
-        return data.userList;
+        return data.groupList;
       },
       result({ data }) {
-        this.pagination.total = data.userList.totalCount;
+        this.pagination.total = data.groupList.totalCount;
       },
       skip() {
         return this.skipQuery;
       },
       error(error) {
         this.$notification.error({
-          message: "Fail to fetch userList!",
+          message: "Fail to fetch groupList!",
           description: error.toString(),
           duration: 5
         });
@@ -101,21 +113,21 @@ import UserAddDrawer from "@/components/User/Add/index.vue";
     }
   }
 })
-export default class UserPage extends Vue {
+export default class GroupPage extends Vue {
   @Watch("$route") _routeChange() {
     this.init();
   }
-  mediaUri: any = process.env.VUE_APP_MEDIA_URI;
 
   // graphQL
-  usersGraph: any = {
+  groupsGraph: any = {
     edges: []
   };
+  skipQuery: boolean = true;
 
   // filters: any = {
   //   groupId: []
   // };
-  skipQuery: boolean = true;
+
   // pagination
   pagination: any = {
     size: "small",
@@ -136,28 +148,20 @@ export default class UserPage extends Vue {
         }
       },
       {
-        scopedSlots: {
-          customRender: "_cover"
-        }
-      },
-      {
-        title: "Tên",
-        dataIndex: "node.fullName",
+        title: "Tên (giá trị)",
+        dataIndex: "node.name",
         scopedSlots: {
           customRender: "_name"
         }
       },
       {
-        title: "Group",
-        width: "10%",
-        key: "group",
-        // filters: this.usersGraph.groupList,
+        title: "Tên (hiển thị)",
         scopedSlots: {
-          customRender: "_group"
+          customRender: "_screenName"
         }
       },
       {
-        width: "8%",
+        width: "16%",
         scopedSlots: {
           customRender: "_actions"
         }
@@ -167,14 +171,48 @@ export default class UserPage extends Vue {
     return columns;
   }
 
-  async onOpenAddModal() {}
+  async onDelete(id) {
+    try {
+      const res = await this.$apollo.mutate({
+        mutation: DELETE_GROUP,
+        variables: {
+          id: id
+        }
+      });
 
-  async onOpenEditModal(id) {}
+      if (res && res.data.deleted !== null) {
+        this.$notification.success({
+          message: "Xoá group thành công!",
+          description: id,
+          duration: 5
+        });
 
-  async onDelete(id) {}
+        this.$apollo.queries.groupsGraph.skip = false;
+        await this.$apollo.queries.groupsGraph.refetch();
+      }
+    } catch (error) {
+      this.$notification.error({
+        message: "Lỗi trong quá trình xoá group!",
+        description: error.toString(),
+        duration: 5
+      });
+    }
+  }
+
+  onOpenEditDrawer(id) {
+    bus.$emit("group:showEdit", id);
+  }
+
+  onOpenGrantDrawer(id) {
+    bus.$emit("permission:showGrant", id);
+  }
 
   async created() {
     this.init();
+    bus.$on("group:refresh", async () => {
+      this.$apollo.queries.groupsGraph.skip = false;
+      await this.$apollo.queries.groupsGraph.refetch();
+    });
   }
 
   async init() {
@@ -182,12 +220,8 @@ export default class UserPage extends Vue {
     const currentPage: any = typeof page !== "undefined" ? page : 1;
     const variables: any = getVariables(this.pagination, currentPage);
 
-    this.$apollo.queries.usersGraph.skip = false;
-    await this.$apollo.queries.usersGraph.refetch(variables);
+    this.$apollo.queries.groupsGraph.skip = false;
+    await this.$apollo.queries.groupsGraph.refetch(variables);
   }
 }
 </script>
-
-<style lang="scss" module scoped>
-@import "./index.module.scss";
-</style>

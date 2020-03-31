@@ -1,9 +1,7 @@
 <template>
-  <div
-    :style="{
+  <div :style="{
       position: 'relative'
-    }"
-  >
+    }">
     <a-drawer
       :title="`Sửa podcast #${podcastId}`"
       placement="right"
@@ -50,9 +48,7 @@
                   <p
                     class="text-sm text-gray-500 text-center"
                     style="margin-top: -25px;"
-                  >
-                    Nhấn vào hình và chọn hình mới để thay đổi hình đại diện
-                  </p>
+                  >Nhấn vào hình và chọn hình mới để thay đổi hình đại diện</p>
                 </div>
                 <div class="col-lg-8">
                   <a-form-item label="Tiêu đề">
@@ -94,22 +90,13 @@
             </div>
             <div class="col-lg-4">
               <a-form-item label="Email liên hệ">
-                <a-input
-                  v-decorator="['contactEmail']"
-                  placeholder="someone@gmail.com"
-                ></a-input>
+                <a-input v-decorator="['contactEmail']" placeholder="someone@gmail.com"></a-input>
               </a-form-item>
               <a-form-item label="Website URL">
-                <a-input
-                  v-decorator="['websiteUrl']"
-                  placeholder="http|https://somedomain.com"
-                ></a-input>
+                <a-input v-decorator="['websiteUrl']" placeholder="http|https://somedomain.com"></a-input>
               </a-form-item>
               <a-form-item label="Copyright">
-                <a-input
-                  v-decorator="['copyright']"
-                  placeholder="All right reserved"
-                ></a-input>
+                <a-input v-decorator="['copyright']" placeholder="All right reserved"></a-input>
               </a-form-item>
             </div>
             <div class="col-lg-12">
@@ -119,10 +106,7 @@
                 extra="This description may be used in several places including your RSS feed. Apple Podcasts will use this as your episode's description unless you set the `summary` field in your feed destination."
               >
                 <div :class="$style.editor">
-                  <quill-editor
-                    v-model="summarize"
-                    :options="editorOption"
-                  ></quill-editor>
+                  <quill-editor v-model="summarize" :options="editorOption"></quill-editor>
                 </div>
               </a-form-item>
             </div>
@@ -142,16 +126,13 @@
           textAlign: 'right'
         }"
       >
-        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose"
-          >Huỷ</a-button
-        >
+        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose">Huỷ</a-button>
         <a-button
           type="primary"
           :style="{ marginRight: '8px' }"
           @click="onSubmit"
           :loading="loading"
-          >Cập nhật</a-button
-        >
+        >Cập nhật</a-button>
       </div>
     </a-drawer>
   </div>
@@ -159,7 +140,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { bus, getBase64, getVariables } from "@/helpers/utils";
+import { bus, getBase64 } from "@/helpers/utils";
 import { GET_PODCAST, UPDATE_PODCAST } from "@/graphql/podcasts";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -270,8 +251,6 @@ export default class PodcastEdit extends Vue {
             description: error.toString(),
             duration: 5
           });
-
-          return;
         }
       }
     });

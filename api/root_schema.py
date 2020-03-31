@@ -21,8 +21,6 @@ import schemas.permission as permission_schema
 
 
 class Query(graphene.ObjectType):
-    node = graphene.Node.Field()
-
     userList = FilterableConnectionField(
         user_schema.UserConnection, filters=user_schema.UserFilter())
     groupList = FilterableConnectionField(
@@ -44,20 +42,33 @@ class Query(graphene.ObjectType):
         filedrive_schema.FiledriveNode, id=graphene.Int())
 
     def resolve_filedrive(self, info, **kwargs):
-        query = filedrive_schema.FiledriveNode.get_query(info)
-        return query.filter(Filedrive.id == kwargs.get('id')).first()
+        return filedrive_schema.FiledriveNode.get_query(info).get(kwargs.get('id'))
 
     podcast = graphene.Field(podcast_schema.PodcastNode, id=graphene.Int())
 
     def resolve_podcast(self, info, **kwargs):
-        query = podcast_schema.PodcastNode.get_query(info)
-        return query.filter(Podcast.id == kwargs.get('id')).first()
+        return podcast_schema.PodcastNode.get_query(info).get(kwargs.get('id'))
 
     episode = graphene.Field(episode_schema.EpisodeNode, id=graphene.Int())
 
     def resolve_episode(self, info, **kwargs):
-        query = episode_schema.EpisodeNode.get_query(info)
-        return query.filter(Episode.id == kwargs.get('id')).first()
+        return episode_schema.EpisodeNode.get_query(info).get(kwargs.get('id'))
+
+    group = graphene.Field(group_schema.GroupNode, id=graphene.Int())
+
+    def resolve_group(self, info, **kwargs):
+        return group_schema.GroupNode.get_query(info).get(kwargs.get('id'))
+
+    permission = graphene.Field(
+        permission_schema.PermissionNode, id=graphene.Int())
+
+    def resolve_permission(self, info, **kwargs):
+        return permission_schema.PermissionNode.get_query(info).get(kwargs.get('id'))
+
+    user = graphene.Field(user_schema.UserNode, id=graphene.Int())
+
+    def resolve_user(self, info, **kwargs):
+        return user_schema.UserNode.get_query(info).get(kwargs.get('id'))
 
 
 class Mutation(graphene.ObjectType):
@@ -83,6 +94,15 @@ class Mutation(graphene.ObjectType):
     create_episode = episode_schema.CreateEpisode.Field()
     update_episode = episode_schema.UpdateEpisode.Field()
     delete_episode = episode_schema.DeleteEpisode.Field()
+    # group
+    create_group = group_schema.CreateGroup.Field()
+    update_group = group_schema.UpdateGroup.Field()
+    delete_group = group_schema.DeleteGroup.Field()
+    grant_permission = group_schema.GrantPermission.Field()
+    # permission
+    create_permission = permission_schema.CreatePermission.Field()
+    update_permission = permission_schema.UpdatePermission.Field()
+    delete_permission = permission_schema.DeletePermission.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation, types=[Upload])
