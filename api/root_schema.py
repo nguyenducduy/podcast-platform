@@ -38,22 +38,6 @@ class Query(graphene.ObjectType):
     permissionList = FilterableConnectionField(
         permission_schema.PermissionConnection, filters=permission_schema.PermissionFilter())
 
-    filedrive = graphene.Field(
-        filedrive_schema.FiledriveNode, id=graphene.Int())
-
-    def resolve_filedrive(self, info, **kwargs):
-        return filedrive_schema.FiledriveNode.get_query(info).get(kwargs.get('id'))
-
-    podcast = graphene.Field(podcast_schema.PodcastNode, id=graphene.Int())
-
-    def resolve_podcast(self, info, **kwargs):
-        return podcast_schema.PodcastNode.get_query(info).get(kwargs.get('id'))
-
-    episode = graphene.Field(episode_schema.EpisodeNode, id=graphene.Int())
-
-    def resolve_episode(self, info, **kwargs):
-        return episode_schema.EpisodeNode.get_query(info).get(kwargs.get('id'))
-
     group = graphene.Field(group_schema.GroupNode, id=graphene.Int())
 
     def resolve_group(self, info, **kwargs):
@@ -70,11 +54,36 @@ class Query(graphene.ObjectType):
     def resolve_user(self, info, **kwargs):
         return user_schema.UserNode.get_query(info).get(kwargs.get('id'))
 
+    filedrive = graphene.Field(
+        filedrive_schema.FiledriveNode, id=graphene.Int())
+
+    def resolve_filedrive(self, info, **kwargs):
+        return filedrive_schema.FiledriveNode.get_query(info).get(kwargs.get('id'))
+
+    podcast = graphene.Field(podcast_schema.PodcastNode, id=graphene.Int())
+
+    def resolve_podcast(self, info, **kwargs):
+        return podcast_schema.PodcastNode.get_query(info).get(kwargs.get('id'))
+
+    episode = graphene.Field(episode_schema.EpisodeNode, id=graphene.Int())
+
+    def resolve_episode(self, info, **kwargs):
+        return episode_schema.EpisodeNode.get_query(info).get(kwargs.get('id'))
+
 
 class Mutation(graphene.ObjectType):
+    # user
     create_user = user_schema.CreateUser.Field()
     login_user = user_schema.LoginUser.Field()
-    # avatar_upload = user_schema.AvatarUpload.Field()
+    # group
+    create_group = group_schema.CreateGroup.Field()
+    update_group = group_schema.UpdateGroup.Field()
+    delete_group = group_schema.DeleteGroup.Field()
+    grant_permission = group_schema.GrantPermission.Field()
+    # permission
+    create_permission = permission_schema.CreatePermission.Field()
+    update_permission = permission_schema.UpdatePermission.Field()
+    delete_permission = permission_schema.DeletePermission.Field()
     # filedrive
     filedrive_upload = filedrive_schema.FiledriveUpload.Field()
     record_upload = filedrive_schema.RecordUpload.Field()
@@ -94,15 +103,6 @@ class Mutation(graphene.ObjectType):
     create_episode = episode_schema.CreateEpisode.Field()
     update_episode = episode_schema.UpdateEpisode.Field()
     delete_episode = episode_schema.DeleteEpisode.Field()
-    # group
-    create_group = group_schema.CreateGroup.Field()
-    update_group = group_schema.UpdateGroup.Field()
-    delete_group = group_schema.DeleteGroup.Field()
-    grant_permission = group_schema.GrantPermission.Field()
-    # permission
-    create_permission = permission_schema.CreatePermission.Field()
-    update_permission = permission_schema.UpdatePermission.Field()
-    delete_permission = permission_schema.DeletePermission.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation, types=[Upload])

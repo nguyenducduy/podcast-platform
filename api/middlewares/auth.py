@@ -1,14 +1,18 @@
 from flask import current_app
 from helpers.token import decode_auth_token
 
+publicSchema = [
+    '__schema',
+    'loginUser'
+]
+
 
 class AuthorizationMiddleware(object):
     def resolve(self, next, root, info, **kwargs):
         if root is None:
             # This will only be called once for a request
-            print('middleware:auth - schema field: ' + info.field_name)
-
-            if info.field_name != 'loginUser':
+            if info.field_name not in publicSchema:
+                print('middleware:auth - schema field: ' + info.field_name)
                 # print(info.context.headers.get('Authorization'))
                 # print(info.context.headers.get('Accept-Language'))
 
@@ -19,8 +23,9 @@ class AuthorizationMiddleware(object):
                     userModel = current_app.db.Model._decl_class_registry.get(
                         'User', None)
 
-                    myUser = userModel.query.filter_by(
-                        id=auth_resp).first()
+                    myUser = userModel.query.get(auth_resp)
+                    if not myUser:
+                        raise Exception('User not found.')
 
                     # hasPermission = False
                     # for perm in myUser.group.permissions:
@@ -33,6 +38,6 @@ class AuthorizationMiddleware(object):
 
                     kwargs['user'] = myUser
                 else:
-                    raise Exception(auth_resp)
+                    raise Exception('Auth failed.')
 
         return next(root, info, **kwargs)

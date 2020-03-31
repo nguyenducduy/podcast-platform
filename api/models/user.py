@@ -13,7 +13,6 @@ class User(db.Model):
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    screen_name = db.Column(db.String(32), nullable=False, index=True)
     full_name = db.Column(db.String(50))
     avatar = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True, nullable=False, index=True)

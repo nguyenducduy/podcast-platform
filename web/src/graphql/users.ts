@@ -12,8 +12,8 @@ export const GET_USERS = gql`
           createdAt
           group {
             id
-            name
             screenName
+            color
           }
         }
       }
@@ -29,17 +29,27 @@ export const GET_USER = gql`
   }
 `;
 
-// export const CREATE_USER = gql`
-//   mutation createGroup($name: String!, $screenName: String!, $color: String!) {
-//     createGroup(name: $name, screenName: $screenName, color: $color) {
-//       group {
-//         id
-//         name
-//         screenName
-//       }
-//     }
-//   }
-// `;
+export const CREATE_USER = gql`
+  mutation createUser(
+    $fullName: String!
+    $email: String!
+    $password: String!
+    $groupId: Int!
+  ) {
+    createUser(
+      fullName: $fullName
+      email: $email
+      password: $password
+      groupId: $groupId
+    ) {
+      user {
+        id
+        fullName
+        email
+      }
+    }
+  }
+`;
 
 // export const UPDATE_GROUP = gql`
 //   mutation updateGroup(

@@ -148,9 +148,8 @@ export default class GroupAdd extends Vue {
 
           if (res && res.data.createGroup !== null) {
             this.$notification.success({
-              message: "Thêm nhóm thành viên thành công!",
-              description: values.screenName,
-              duration: 5
+              message: "Nhóm thành viên",
+              description: `Thêm nhóm "${values.screenName}" thành công`
             });
 
             this.form.resetFields();
@@ -161,9 +160,8 @@ export default class GroupAdd extends Vue {
           this.loading = false;
 
           this.$notification.error({
-            message: "Lỗi trong quá trình thêm nhóm thành viên!",
-            description: error.toString(),
-            duration: 5
+            message: "Lỗi trong quá trình thêm nhóm thành viên",
+            description: error.toString()
           });
         }
       }

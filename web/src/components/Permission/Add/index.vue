@@ -128,9 +128,8 @@ export default class PermissionAdd extends Vue {
 
           if (res && res.data.createPermission !== null) {
             this.$notification.success({
-              message: "Thêm quyền thành công!",
-              description: values.name,
-              duration: 5
+              message: "Quyền",
+              description: `Thêm quyền "${values.name}" thành công.`
             });
 
             this.form.resetFields();
@@ -141,9 +140,8 @@ export default class PermissionAdd extends Vue {
           this.loading = false;
 
           this.$notification.error({
-            message: "Lỗi trong quá trình thêm quyền!",
-            description: error.toString(),
-            duration: 5
+            message: "Lỗi trong quá trình thêm quyền",
+            description: error.toString()
           });
         }
       }

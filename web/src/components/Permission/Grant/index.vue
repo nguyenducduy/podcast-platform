@@ -138,7 +138,6 @@ export default class PermissionGrant extends Vue {
   }
 
   onSelectChange(selectedRowKeys) {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
     this.selectedRowKeys = selectedRowKeys;
   }
 
@@ -168,9 +167,8 @@ export default class PermissionGrant extends Vue {
 
       if (res && res.data.granted !== null) {
         this.$notification.success({
-          message: "Gán quyền thành công!",
-          description: this.group.id,
-          duration: 5
+          message: "Gán quyền",
+          description: `Gán quyền cho nhóm "${this.group.screenName}" thành công`
         });
       }
 
@@ -179,9 +177,8 @@ export default class PermissionGrant extends Vue {
       this.loading = false;
 
       this.$notification.error({
-        message: "Lỗi trong quá trình gán quyền!",
-        description: error.toString(),
-        duration: 5
+        message: "Lỗi trong quá trình gán quyền",
+        description: error.toString()
       });
     }
   }
@@ -205,7 +202,6 @@ export default class PermissionGrant extends Vue {
       this.permissionList = res.data.permissionList.edges;
 
       // get info of selected group
-      console.log(groupId);
       const res2 = await this.$apollo.query({
         query: GET_GROUP,
         variables: {

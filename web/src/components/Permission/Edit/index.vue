@@ -1,7 +1,9 @@
 <template>
-  <div :style="{
+  <div
+    :style="{
       position: 'relative'
-    }">
+    }"
+  >
     <a-drawer
       :title="`Sửa quyền #${id}`"
       placement="right"
@@ -23,16 +25,16 @@
                 <a-form-item label="Tên (Query/Mutation)">
                   <a-input
                     v-decorator="[
-                    'name',
-                    {
-                      rules: [
-                        {
-                          required: true,
-                          message: 'Vui lòng điền tên!'
-                        }
-                      ]
-                    }
-                  ]"
+                      'name',
+                      {
+                        rules: [
+                          {
+                            required: true,
+                            message: 'Vui lòng điền tên!'
+                          }
+                        ]
+                      }
+                    ]"
                   />
                 </a-form-item>
               </div>
@@ -40,16 +42,16 @@
                 <a-form-item label="Mô tả">
                   <a-textarea
                     v-decorator="[
-                    'description',
-                    {
-                      rules: [
-                        {
-                          required: true,
-                          message: 'Vui lòng điền mô tả!'
-                        }
-                      ]
-                    }
-                  ]"
+                      'description',
+                      {
+                        rules: [
+                          {
+                            required: true,
+                            message: 'Vui lòng điền mô tả!'
+                          }
+                        ]
+                      }
+                    ]"
                   />
                 </a-form-item>
               </div>
@@ -70,13 +72,16 @@
           textAlign: 'right'
         }"
       >
-        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose">Huỷ</a-button>
+        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose"
+          >Huỷ</a-button
+        >
         <a-button
           type="primary"
           :style="{ marginRight: '8px' }"
           @click="onSubmit"
           :loading="loading"
-        >Cập nhật</a-button>
+          >Cập nhật</a-button
+        >
       </div>
     </a-drawer>
   </div>
@@ -140,9 +145,8 @@ export default class PermissionEdit extends Vue {
 
           if (res && res.data.updatePermission !== null) {
             this.$notification.success({
-              message: "Cập nhật quyền thành công!",
-              description: values.screenName,
-              duration: 5
+              message: "Quyền",
+              description: `Cập nhật quyền "${values.screenName}" thành công`
             });
 
             this.form.resetFields();
@@ -154,9 +158,8 @@ export default class PermissionEdit extends Vue {
           this.loading = false;
 
           this.$notification.error({
-            message: "Lỗi trong quá trình cập nhật quyền!",
-            description: error.toString(),
-            duration: 5
+            message: "Lỗi trong quá trình cập nhật quyền",
+            description: error.toString()
           });
         }
       }

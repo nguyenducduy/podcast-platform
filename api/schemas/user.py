@@ -38,26 +38,21 @@ class UserConnection(graphene.Connection):
 
 class CreateUser(graphene.Mutation):
     class Arguments:
-        email = graphene.String(required=True)
-        screen_name = graphene.String(required=True)
         full_name = graphene.String(required=True)
+        email = graphene.String(required=True)
         password = graphene.String(required=True)
+        group_id = graphene.Int(required=True)
 
     user = graphene.Field(lambda: UserNode)
 
     def mutate(self, info, **kwargs):
         myUser = User(
             email=kwargs.get('email'),
-            screen_name=kwargs.get('screen_name'),
             full_name=kwargs.get('full_name'),
-            # password_hash=kwargs.get('password')
+            password_hash=kwargs.get('password'),
+            group_id=kwargs.get('group_id')
         )
-
-        try:
-            save(myUser)
-        except Exception as err:
-            print(err)
-            raise Exception('Error create user.')
+        save(myUser)
 
         return CreateUser(user=myUser)
 
