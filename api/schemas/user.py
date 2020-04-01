@@ -19,7 +19,8 @@ class UserNode(SQLAlchemyObjectType):
 class UserFilter(FilterSet):
     class Meta:
         model = User
-        fields = {'id': [...], 'group_id': [...]}
+        fields = {'id': [...], 'group_id': [...],
+                  'email': [...], 'full_name': [...]}
 
 
 class UserConnection(graphene.Connection):
@@ -55,6 +56,42 @@ class CreateUser(graphene.Mutation):
         save(myUser)
 
         return CreateUser(user=myUser)
+
+
+class UpdateUser(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+        full_name = graphene.String(required=True)
+        email = graphene.String(required=True)
+        group_id = graphene.Int(required=True)
+
+    user = graphene.Field(lambda: UserNode)
+
+    def mutate(self, info, **kwargs):
+        myUser = User(
+            email=kwargs.get('email'),
+            full_name=kwargs.get('full_name'),
+            group_id=kwargs.get('group_id')
+        )
+        save(myUser)
+
+        return UpdateUser(user=myUser)
+
+
+class DeleteUser(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+
+    deleted = graphene.Boolean()
+
+    def mutate(self, info, **kwargs):
+        myUser = User.query.get(kwargs.get('id'))
+        if not myUser:
+            raise Exception('User not found')
+
+        delete(myUser)
+
+        return DeleteUser(deleted=True)
 
 
 class LoginUser(graphene.Mutation):

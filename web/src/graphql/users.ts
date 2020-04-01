@@ -8,6 +8,7 @@ export const GET_USERS = gql`
         node {
           id
           fullName
+          email
           avatar
           createdAt
           group {
@@ -25,6 +26,12 @@ export const GET_USER = gql`
   query user($id: Int) {
     user(id: $id) {
       id
+      fullName
+      email
+      group {
+        id
+        screenName
+      }
     }
   }
 `;
@@ -51,22 +58,22 @@ export const CREATE_USER = gql`
   }
 `;
 
-// export const UPDATE_GROUP = gql`
-//   mutation updateGroup(
-//     $id: Int!
-//     $name: String!
-//     $screenName: String!
-//     $color: String!
-//   ) {
-//     updateGroup(name: $name, screenName: $screenName, color: $color) {
-//       group {
-//         id
-//         name
-//         screenName
-//       }
-//     }
-//   }
-// `;
+export const UPDATE_USER = gql`
+  mutation updateUser(
+    $id: Int!
+    $fullName: String!
+    $email: String!
+    $groupId: Int!
+  ) {
+    updateUser(id: $id, fullName: $fullName, email: $email, groupId: $groupId) {
+      user {
+        id
+        fullName
+        email
+      }
+    }
+  }
+`;
 
 export const DELETE_USER = gql`
   mutation deleteUser($id: Int!) {

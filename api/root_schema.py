@@ -74,6 +74,8 @@ class Query(graphene.ObjectType):
 class Mutation(graphene.ObjectType):
     # user
     create_user = user_schema.CreateUser.Field()
+    update_user = user_schema.UpdateUser.Field()
+    delete_user = user_schema.DeleteUser.Field()
     login_user = user_schema.LoginUser.Field()
     # group
     create_group = group_schema.CreateGroup.Field()

@@ -1,11 +1,16 @@
 import gql from "graphql-tag";
 
 export const GET_EPISODES = gql`
-  query episodeList($first: Int, $last: Int, $podcastId: Int!) {
+  query episodeList(
+    $first: Int
+    $last: Int
+    $podcastId: Int!
+    $sort: [EpisodeNodeSortEnum]
+  ) {
     episodeList(
       first: $first
       last: $last
-      sort: [ID_DESC]
+      sort: $sort
       filters: { pId: $podcastId }
     ) {
       totalCount

@@ -31,7 +31,7 @@
             icon="edit"
             size="small"
             class="mr-1"
-            @click="onOpenEditModal(record.node.id)"
+            @click="onOpenEditDrawer(record.node.id)"
           ></a-button>
         </a-tooltip>
         <a-popconfirm
@@ -54,6 +54,7 @@
         <pagination routePath="admin/user" :options="pagination" />
       </div>
     </div>
+    <user-edit-drawer />
   </a-layout-content>
 </template>
 
@@ -61,14 +62,16 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { bus, getVariables } from "@/helpers/utils";
 import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
-import { GET_USERS } from "@/graphql/users";
+import { GET_USERS, DELETE_USER } from "@/graphql/users";
 import UserAddDrawer from "@/components/User/Add/index.vue";
+import UserEditDrawer from "@/components/User/Edit/index.vue";
 
 @Component({
   name: "user-page",
   components: {
     Pagination,
-    UserAddDrawer
+    UserAddDrawer,
+    UserEditDrawer
   },
   apollo: {
     usersGraph: {
@@ -76,8 +79,8 @@ import UserAddDrawer from "@/components/User/Add/index.vue";
       variables() {
         return {
           first: this.pagination.pageSize,
-          last: this.pagination.pageSize
-          // sort: ["ID_DESC"]
+          last: this.pagination.pageSize,
+          sort: ["ID_DESC"]
         };
       },
       update(data) {
@@ -92,8 +95,7 @@ import UserAddDrawer from "@/components/User/Add/index.vue";
       error(error) {
         this.$notification.error({
           message: "Fail to fetch userList!",
-          description: error.toString(),
-          duration: 5
+          description: error.toString()
         });
       }
     }
@@ -109,7 +111,7 @@ export default class UserPage extends Vue {
   usersGraph: any = {
     edges: []
   };
-
+  sorts: any = [];
   // filters: any = {
   //   groupId: []
   // };
@@ -139,10 +141,17 @@ export default class UserPage extends Vue {
         }
       },
       {
-        title: "Tên",
+        title: "Họ và tên",
         dataIndex: "node.fullName",
         scopedSlots: {
           customRender: "_name"
+        }
+      },
+      {
+        title: "Email",
+        dataIndex: "node.email",
+        scopedSlots: {
+          customRender: "_email"
         }
       },
       {
@@ -165,7 +174,35 @@ export default class UserPage extends Vue {
     return columns;
   }
 
-  async onDelete(id) {}
+  async onOpenEditDrawer(id) {
+    bus.$emit("user:showEdit", id);
+  }
+
+  async onDelete(id) {
+    try {
+      const res = await this.$apollo.mutate({
+        mutation: DELETE_USER,
+        variables: {
+          id: id
+        }
+      });
+
+      if (res && res.data.deleted !== null) {
+        this.$notification.success({
+          message: "Thành viên",
+          description: `Xoá thành viên ${id} thành công`
+        });
+
+        this.$apollo.queries.usersGraph.skip = false;
+        await this.$apollo.queries.usersGraph.refetch();
+      }
+    } catch (error) {
+      this.$notification.error({
+        message: "Lỗi trong quá trình xoá thành viên",
+        description: error.toString()
+      });
+    }
+  }
 
   async created() {
     this.init();
