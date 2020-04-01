@@ -68,11 +68,13 @@ class UpdateUser(graphene.Mutation):
     user = graphene.Field(lambda: UserNode)
 
     def mutate(self, info, **kwargs):
-        myUser = User(
-            email=kwargs.get('email'),
-            full_name=kwargs.get('full_name'),
-            group_id=kwargs.get('group_id')
-        )
+        myUser = User.query.get(kwargs.get('id'))
+        if not myUser:
+            raise Exception('User not found')
+
+        myUser.full_name = kwargs.get('full_name')
+        myUser.email = kwargs.get('email')
+        myUser.group_id = kwargs.get('group_id')
         save(myUser)
 
         return UpdateUser(user=myUser)
