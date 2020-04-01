@@ -27,14 +27,14 @@ class AuthorizationMiddleware(object):
                     if not myUser:
                         raise Exception('User not found.')
 
-                    # hasPermission = False
-                    # for perm in myUser.group.permissions:
-                    #     if perm.name == info.field_name:
-                    #         hasPermission = True
-                    #         break
+                    hasPermission = False
+                    for perm in myUser.group.permissions:
+                        if perm.name == info.field_name:
+                            hasPermission = True
+                            break
 
-                    # if hasPermission == False:
-                    #     raise Exception('Forbidden')
+                    if hasPermission == False:
+                        raise Exception('Forbidden')
 
                     kwargs['user'] = myUser
                 else:
