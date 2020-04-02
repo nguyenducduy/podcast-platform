@@ -134,7 +134,6 @@ class RecordUpload(graphene.Mutation):
         filePath = filedrive.getRelativePath('audio', uploadedPath)
 
         name = secure_filename(uploadFile.filename.rsplit('.', 1)[0].lower())
-        ext = uploadFile.filename.rsplit('.', 1)[1].lower()
 
         if os.path.isfile(filePath):
             # get more file info

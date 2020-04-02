@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="mt-4">FILE CỦA BẠN</h3>
     <podcast-upload />
     <a-table
       class="soundfx"

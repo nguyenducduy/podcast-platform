@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="mt-4">FILE CHUNG</h3>
     <a-table
       class="soundfx"
       :dataSource="filedrivesGraph.edges"
@@ -11,28 +10,23 @@
       :loading="$apollo.loading"
       @change="onPageChange"
     >
-      <template
-        slot="__name_slot"
-        slot-scope="record"
-        :className="$style.soundfx"
-      >
+      <template slot="__name_slot" slot-scope="record" :className="$style.soundfx">
         {{ record.node.name }}
-        <span class="duration">{{
+        <span class="duration">
+          {{
           record.node.duration | numeralFormat("00:00")
-        }}</span>
+          }}
+        </span>
       </template>
       <a-tag
         slot="__type_slot"
         slot-scope="record"
         :color="record.node.type.color"
-        >{{ record.node.type.text }}</a-tag
-      >
+      >{{ record.node.type.text }}</a-tag>
       <template slot="__actions_slot" slot-scope="record">
         <inline-player :url="`${mediaUri}/${record.node.path}`" />
         <a-popover placement="topLeft">
-          <span slot="title"
-            >Merge with Crossfade Duration：{{ crossfadeDuration }}</span
-          >
+          <span slot="title">Merge with Crossfade Duration：{{ crossfadeDuration }}</span>
           <template slot="content">
             <a-input-number :min="1" v-model="crossfadeDuration" size="small" />
             <a-button
@@ -41,18 +35,12 @@
               class="ml-2"
               :disabled="lock"
               @click="appendTo(record.node)"
-              >Merge</a-button
-            >
+            >Merge</a-button>
           </template>
           <a-button type="link" icon="arrow-right" :disabled="lock"></a-button>
         </a-popover>
         <a-tooltip title="Mix">
-          <a-button
-            type="link"
-            icon="experiment"
-            :disabled="lock"
-            @click="onMixTo(record.node)"
-          ></a-button>
+          <a-button type="link" icon="experiment" :disabled="lock" @click="onMixTo(record.node)"></a-button>
         </a-tooltip>
         <!-- <a-tooltip title="Trim silence">
           <a-button type="link" icon="scissor" :disabled="lock" @click="onTrimSilence(record.node)"></a-button>

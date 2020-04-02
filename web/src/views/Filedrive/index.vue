@@ -18,13 +18,10 @@
         value
         }}
       </a>
-      <p slot="_size" slot-scope="value">{{ value }}</p>
+      <p slot="_size" slot-scope="value">{{ value | fileSizeFormat }}</p>
       <p slot="_duration" slot-scope="value">{{ value | numeralFormat("00:00") }}</p>
       <p slot="_gcsId" slot-scope="value">{{ value }}</p>
       <p slot="_createdAt" slot-scope="value">{{ value | moment("Do MMMM YYYY") }}</p>
-      <!-- <a slot="_cover" slot-scope="record" :class="$style.thumbnail">
-        <img :src="`${mediaUri}/${record.node.avatar}`" />
-      </a>-->
       <template slot="_name" slot-scope="record">
         <editable-cell
           :text="record.node.name"
@@ -132,7 +129,7 @@ export default class FiledrivePage extends Vue {
     size: "small",
     current: 1,
     total: 0,
-    pageSize: 10,
+    pageSize: 30,
     showQuickJumper: true
   };
 
@@ -172,6 +169,7 @@ export default class FiledrivePage extends Vue {
       {
         title: "Dung lượng",
         dataIndex: "node.size",
+        width: "8%",
         scopedSlots: {
           customRender: "_size"
         }

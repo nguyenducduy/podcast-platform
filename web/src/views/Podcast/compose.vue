@@ -5,8 +5,14 @@
     </div>
     <div class="col-lg-4 bg-gray-100 rounded-lg">
       <recorder />
-      <soundfx />
-      <user-soundfx />
+      <a-tabs tabPosition="top" class="mt-3">
+        <a-tab-pane tab="File chung" key="1">
+          <soundfx />
+        </a-tab-pane>
+        <a-tab-pane tab="File của bạn" key="2">
+          <user-soundfx />
+        </a-tab-pane>
+      </a-tabs>
     </div>
     <div class="col-lg-8">
       <div class="row">

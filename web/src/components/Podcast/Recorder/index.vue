@@ -81,9 +81,13 @@ export default class Recorder extends Vue {
   async onSave() {
     this.uploading = true;
 
-    let myFile = new File([this.audioBlob], "rec.wav", {
-      type: "audio/wav"
-    });
+    let myFile = new File(
+      [this.audioBlob],
+      `rec_${new Date(Date.now()).toLocaleString()}.wav`,
+      {
+        type: "audio/wav"
+      }
+    );
 
     try {
       const res = await this.$apollo.mutate({
