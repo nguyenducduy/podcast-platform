@@ -1,13 +1,9 @@
 <template>
-  <div
-    :style="{
+  <div :style="{
       position: 'relative',
       float: 'right'
-    }"
-  >
-    <a-button type="primary" icon="plus" @click="onShow"
-      >Thêm thành viên</a-button
-    >
+    }">
+    <a-button type="primary" icon="plus" @click="onShow">Thêm thành viên</a-button>
     <a-drawer
       title="Thêm thành viên"
       placement="right"
@@ -126,9 +122,7 @@
                       v-for="group in groupList.edges"
                       :value="group.node.id"
                       :key="group.node.id"
-                    >
-                      {{ group.node.screenName }}
-                    </a-select-option>
+                    >{{ group.node.screenName }}</a-select-option>
                   </a-select>
                 </a-form-item>
               </div>
@@ -149,16 +143,13 @@
           textAlign: 'right'
         }"
       >
-        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose"
-          >Huỷ</a-button
-        >
+        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose">Huỷ</a-button>
         <a-button
           type="primary"
           :style="{ marginRight: '8px' }"
           @click="onSubmit"
           :loading="loading"
-          >Thêm</a-button
-        >
+        >Thêm</a-button>
       </div>
     </a-drawer>
   </div>
@@ -190,6 +181,7 @@ export default class UserAdd extends Vue {
 
   onSubmit(e) {
     e.preventDefault();
+
     this.form.validateFields(async (err, values) => {
       if (!err) {
         this.loading = true;

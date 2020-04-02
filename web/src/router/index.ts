@@ -33,6 +33,13 @@ let router = new VueRouter({
           component: require("@/views/User/index").default
         },
         {
+          path: "/admin/user/changepassword",
+          meta: {
+            title: "User"
+          },
+          component: require("@/views/User/changepassword").default
+        },
+        {
           path: "/admin/group",
           meta: {
             title: "Group"
@@ -112,6 +119,7 @@ let router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.authRequired)) {
     const loggedToken = Vue.ls.get("Access-Token");
+    const loggedUser = Vue.ls.get("Logged-User");
 
     if (!loggedToken) {
       return next({
@@ -121,7 +129,8 @@ router.beforeEach((to, from, next) => {
     }
 
     store.commit("users/SET_AUTH", {
-      token: loggedToken
+      token: loggedToken,
+      user: loggedUser
     });
 
     next();

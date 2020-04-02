@@ -8,6 +8,7 @@
         <a-button
           size="small"
           type="primary"
+          icon="audio"
           @click="onStart"
           :disabled="recording"
           :loading="recording"

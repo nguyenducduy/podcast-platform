@@ -1,10 +1,8 @@
 <template>
-  <div
-    :style="{
+  <div :style="{
       position: 'relative',
       float: 'right'
-    }"
-  >
+    }">
     <a-drawer
       :title="`Gán quyền cho nhóm #${group.id} ${group.screenName}`"
       placement="right"
@@ -27,6 +25,7 @@
           />
 
           <a-table
+            class="mb-5"
             :pagination="{
               pageSize: 1000,
               hideOnSinglePage: true
@@ -56,16 +55,13 @@
           textAlign: 'right'
         }"
       >
-        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose"
-          >Huỷ</a-button
-        >
+        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose">Huỷ</a-button>
         <a-button
           type="primary"
           :style="{ marginRight: '8px' }"
           @click="onSubmit"
           :loading="loading"
-          >Gán</a-button
-        >
+        >Gán</a-button>
       </div>
     </a-drawer>
   </div>

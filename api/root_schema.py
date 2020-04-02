@@ -77,6 +77,8 @@ class Mutation(graphene.ObjectType):
     update_user = user_schema.UpdateUser.Field()
     delete_user = user_schema.DeleteUser.Field()
     login_user = user_schema.LoginUser.Field()
+    logout_user = user_schema.LogoutUser.Field()
+    change_password = user_schema.ChangePassword.Field()
     # group
     create_group = group_schema.CreateGroup.Field()
     update_group = group_schema.UpdateGroup.Field()

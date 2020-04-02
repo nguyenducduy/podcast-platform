@@ -21,11 +21,7 @@
                       }
                     ]"
                   >
-                    <a-icon
-                      slot="prefix"
-                      type="user"
-                      style="color: rgba(0,0,0,.25);"
-                    />
+                    <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25);" />
                   </a-input>
                 </a-form-item>
                 <a-form-item label="Password">
@@ -44,11 +40,7 @@
                       }
                     ]"
                   >
-                    <a-icon
-                      slot="prefix"
-                      type="lock"
-                      style="color: rgba(0,0,0,.25);"
-                    />
+                    <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25);" />
                   </a-input>
                 </a-form-item>
                 <div>
@@ -56,8 +48,7 @@
                   <router-link
                     class="pull-right text-primary utils__link--blue utils__link--underlined"
                     to="/user/forgot"
-                    >Forgot password?</router-link
-                  >
+                  >Forgot password?</router-link>
                 </div>
                 <div class="form-actions">
                   <a-button
@@ -65,19 +56,7 @@
                     htmlType="submit"
                     class="login-form-button width-150"
                     :loading="loading"
-                    >Sign in</a-button
-                  >
-                </div>
-                <div class="form-group">
-                  <p>Use another service to Log In</p>
-                  <div class="mt-2">
-                    <a href="javascript: void(0);" class="btn btn-icon mr-2">
-                      <i class="icmn-facebook" />
-                    </a>
-                    <a href="javascript: void(0);" class="btn btn-icon mr-2">
-                      <i class="icmn-google" />
-                    </a>
-                  </div>
+                  >Sign in</a-button>
                 </div>
               </a-form>
             </div>
@@ -120,7 +99,7 @@ export default class AdminLogin extends Vue {
             }
           });
 
-          if (resp.data !== null) {
+          if (resp && resp.data.loginUser !== null) {
             this.setAuth({
               user: resp.data.loginUser.user,
               token: resp.data.loginUser.token

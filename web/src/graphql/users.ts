@@ -88,9 +88,35 @@ export const LOGIN_BY_EMAIL = gql`
     loginUser(email: $email, password: $password) {
       user {
         id
+        email
         fullName
+        createdAt
+        group {
+          id
+          screenName
+          color
+        }
       }
       token
+    }
+  }
+`;
+
+export const LOGOUT_USER = gql`
+  mutation logoutUser {
+    logoutUser {
+      loggedOut
+    }
+  }
+`;
+
+export const CHANGE_PASSWORD = gql`
+  mutation changePassword($password: String!) {
+    changePassword(password: $password) {
+      user {
+        id
+        fullName
+      }
     }
   }
 `;

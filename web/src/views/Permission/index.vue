@@ -1,9 +1,7 @@
 <template>
   <a-layout-content class="lg">
     <div class="utils__title mb-3">
-      <strong class="text-uppercase font-size-16"
-        >Danh sách ({{ pagination.total }})</strong
-      >
+      <strong class="text-uppercase font-size-16">Danh sách ({{ pagination.total }})</strong>
       <permission-add-drawer />
     </div>
     <a-table
@@ -14,9 +12,7 @@
       :rowKey="record => record.node.id"
       :loading="$apollo.loading"
     >
-      <a slot="_id" slot-scope="value" class="utils__link--underlined">
-        {{ value }}
-      </a>
+      <a slot="_id" slot-scope="value" class="utils__link--underlined">{{ value }}</a>
 
       <span slot="_actions" slot-scope="record">
         <a-tooltip title="Sửa">
@@ -161,14 +157,14 @@ export default class PermissionPage extends Vue {
         mutation: DELETE_PERMISSION,
         variables: {
           id: id
-        }
+        },
+        refetchQueries: [{ query: GET_PERMISSIONS }]
       });
 
       if (res && res.data.deleted !== null) {
         this.$notification.success({
-          message: "Xoá quyền thành công!",
-          description: id,
-          duration: 5
+          message: "Quyền",
+          description: `Xoá quyền #${id} thành công`
         });
 
         this.$apollo.queries.permissionsGraph.skip = false;
@@ -177,8 +173,7 @@ export default class PermissionPage extends Vue {
     } catch (error) {
       this.$notification.error({
         message: "Lỗi trong quá trình xoá quyền!",
-        description: error.toString(),
-        duration: 5
+        description: error.toString()
       });
     }
   }

@@ -6,6 +6,7 @@ from gtypes import CommonDictType
 from db import db
 from models.user import User
 from models.group import Group
+from models.blacklist_token import BlacklistToken
 from schemas.group import GroupNode
 
 
@@ -112,6 +113,35 @@ class LoginUser(graphene.Mutation):
             raise Exception("Invalid credentials")
 
         return LoginUser(user=user, token=auth_token.decode())
+
+
+class LogoutUser(graphene.Mutation):
+    logged_out = graphene.Boolean()
+
+    def mutate(self, info, **kwargs):
+        myBlacklistToken = BlacklistToken(
+            token=kwargs.get('token')
+        )
+        save(myBlacklistToken)
+
+        return LogoutUser(logged_out=True)
+
+
+class ChangePassword(graphene.Mutation):
+    class Arguments:
+        password = graphene.String(required=True)
+
+    user = graphene.Field(lambda: UserNode)
+
+    def mutate(self, info, **kwargs):
+        myUser = User.query.get(kwargs.get('user').id)
+        if not myUser:
+            raise Exception('User not found')
+
+        myUser.password_hash = kwargs.get('password')
+        save(myUser)
+
+        return ChangePassword(user=myUser)
 
 
 def save(data):

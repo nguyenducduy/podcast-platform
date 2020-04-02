@@ -37,6 +37,8 @@ class AuthorizationMiddleware(object):
                         raise Exception('Forbidden')
 
                     kwargs['user'] = myUser
+                    kwargs['token'] = info.context.headers.get(
+                        'Authorization').split(" ")[1]
                 else:
                     raise Exception('Auth failed.')
 

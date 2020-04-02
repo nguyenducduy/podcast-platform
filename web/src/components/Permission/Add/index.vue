@@ -1,10 +1,8 @@
 <template>
-  <div
-    :style="{
+  <div :style="{
       position: 'relative',
       float: 'right'
-    }"
-  >
+    }">
     <a-button type="primary" icon="plus" @click="onShow">Thêm</a-button>
     <a-drawer
       title="Thêm quyền"
@@ -75,16 +73,13 @@
           textAlign: 'right'
         }"
       >
-        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose"
-          >Huỷ</a-button
-        >
+        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose">Huỷ</a-button>
         <a-button
           type="primary"
           :style="{ marginRight: '8px' }"
           @click="onSubmit"
           :loading="loading"
-          >Thêm</a-button
-        >
+        >Thêm</a-button>
       </div>
     </a-drawer>
   </div>
@@ -92,7 +87,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { CREATE_PERMISSION } from "@/graphql/permissions";
+import { CREATE_PERMISSION, GET_PERMISSIONS } from "@/graphql/permissions";
 import { bus } from "@/helpers/utils";
 
 @Component({
@@ -123,7 +118,8 @@ export default class PermissionAdd extends Vue {
             variables: {
               name: values.name,
               description: values.description
-            }
+            },
+            refetchQueries: [{ query: GET_PERMISSIONS }]
           });
 
           if (res && res.data.createPermission !== null) {
