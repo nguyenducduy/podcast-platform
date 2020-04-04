@@ -17,7 +17,10 @@ class EpisodeNode(SQLAlchemyObjectType):
     cover = graphene.String()
 
     def resolve_cover(self, info):
-        return filedrive.getPath('episode', self.cover)
+        if self.cover != None:
+            return filedrive.getPath('episode', self.cover)
+        else:
+            return ''
 
 
 class EpisodeFilter(FilterSet):
