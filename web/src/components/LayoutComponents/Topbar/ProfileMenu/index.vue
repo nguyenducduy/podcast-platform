@@ -51,7 +51,7 @@ export default class ProfileMenu extends Vue {
   // count: Number = 99;
 
   async onLogout() {
-    this.$nprogress.start();
+    (this as any).$nprogress.start();
 
     try {
       const res = await this.$apollo.mutate({
@@ -67,9 +67,9 @@ export default class ProfileMenu extends Vue {
         `);
       }
 
-      this.$nprogress.done();
+      (this as any).$nprogress.done();
     } catch (error) {
-      this.$nprogress.done();
+      (this as any).$nprogress.done();
 
       this.$notification.error({
         message: "Lỗi trong quá trình đăng xuất",
