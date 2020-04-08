@@ -94,6 +94,7 @@ class Mutation(graphene.ObjectType):
     common_upload = filedrive_schema.CommonUpload.Field()
     filedrive_edit_field = filedrive_schema.FiledriveEditField.Field()
     delete_filedrive = filedrive_schema.DeleteFiledrive.Field()
+    delete_user_filedrive = filedrive_schema.DeleteUserFiledrive.Field()
     # revision
     create_revision = revision_schema.CreateRevision.Field()
     detach_revision = revision_schema.DetachRevision.Field()

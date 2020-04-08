@@ -49,8 +49,7 @@ class FiledriveFilter(FilterSet):
         if value:
             auth_resp = decode_auth_token(
                 info.context.headers.get('Authorization'))
-            return Filedrive.u_id == User.query.filter_by(
-                id=auth_resp).first().id
+            return Filedrive.u_id == auth_resp
 
 
 class FiledriveConnection(graphene.Connection):
@@ -202,6 +201,26 @@ class DeleteFiledrive(graphene.Mutation):
     def mutate(self, info, **kwargs):
         myFiledrive = Filedrive.query.filter_by(
             id=kwargs.get('filedrive_id')).first()
+        if not myFiledrive:
+            raise Exception('Filedrive not found.')
+
+        filedrive.delete('audio', myFiledrive.path)
+        delete(myFiledrive)
+
+        return DeleteFiledrive(deleted=True)
+
+
+class DeleteUserFiledrive(graphene.Mutation):
+    class Arguments:
+        filedrive_id = graphene.Int(required=True)
+
+    deleted = graphene.Boolean()
+
+    def mutate(self, info, **kwargs):
+        myFiledrive = Filedrive.query.filter_by(
+            id=kwargs.get('filedrive_id'),
+            u_id=kwargs.get('user').id
+        ).first()
         if not myFiledrive:
             raise Exception('Filedrive not found.')
 

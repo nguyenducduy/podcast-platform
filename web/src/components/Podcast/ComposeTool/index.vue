@@ -247,7 +247,7 @@ export default class ComposeTool extends Vue {
     });
 
     bus.$on("composer:sessionSelected", async data => {
-      this.$nprogress.start();
+      (this as any).$nprogress.start();
 
       this.sessionId = data["sessionId"];
       this.version = data["version"];
@@ -258,7 +258,7 @@ export default class ComposeTool extends Vue {
       });
       this._loadRevision();
 
-      this.$nprogress.done();
+      (this as any).$nprogress.done();
     });
   }
 

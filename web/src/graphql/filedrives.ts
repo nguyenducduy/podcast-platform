@@ -174,3 +174,11 @@ export const DELETE_FILEDRIVE = gql`
     }
   }
 `;
+
+export const DELETE_USER_FILEDRIVE = gql`
+  mutation deleteUserFiledrive($filedriveId: Int!) {
+    deleteUserFiledrive(filedriveId: $filedriveId) {
+      deleted
+    }
+  }
+`;

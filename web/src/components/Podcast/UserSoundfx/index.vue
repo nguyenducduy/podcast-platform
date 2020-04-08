@@ -48,9 +48,19 @@
         <a-tooltip title="Mix">
           <a-button type="link" icon="experiment" :disabled="lock" @click="onMixTo(record.node)"></a-button>
         </a-tooltip>
-        <!-- <a-tooltip title="Trim silence">
-          <a-button type="link" icon="scissor" :disabled="lock" @click="onTrimSilence(record.node)"></a-button>
-        </a-tooltip>-->
+        <a-popconfirm
+          title="Chắn chắn xoá?"
+          okText="Xoá"
+          cancelText="Huỷ"
+          placement="left"
+          @confirm="onDelete(record.node.id)"
+        >
+          <a-tooltip title="Xoá">
+            <a-button type="link" size="small">
+              <a-icon type="delete" />
+            </a-button>
+          </a-tooltip>
+        </a-popconfirm>
       </template>
     </a-table>
   </div>
@@ -59,7 +69,11 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { bus } from "@/helpers/utils";
-import { GET_USER_FILEDRIVE, EDIT_FIELD } from "@/graphql/filedrives";
+import {
+  GET_USER_FILEDRIVE,
+  EDIT_FIELD,
+  DELETE_USER_FILEDRIVE
+} from "@/graphql/filedrives";
 import PodcastUpload from "@/components/Podcast/Upload/index.vue";
 import EditableCell from "@/components/EditableCell/index.vue";
 import InlinePlayer from "@/components/InlinePlayer/index.vue";
@@ -113,7 +127,6 @@ export default class UserSoundfx extends Vue {
     total: 0,
     pageSize: 10,
     showTotal: total => `Total ${total}`,
-    showQuickJumper: true,
     hideOnSinglePage: true
   };
   // data table
@@ -133,7 +146,7 @@ export default class UserSoundfx extends Vue {
     },
     {
       title: "",
-      width: "25%",
+      width: "35%",
       scopedSlots: {
         customRender: "__actions_slot"
       }
@@ -176,10 +189,6 @@ export default class UserSoundfx extends Vue {
     bus.$emit("mixtool:show", fromTrack, this.mainlineTrack, this.sessionId);
   }
 
-  onTrimSilence() {
-    console.log("trim action");
-  }
-
   async onPageChange(pagination) {
     const totalPages = pagination.total / this.pagination.pageSize;
 
@@ -201,6 +210,32 @@ export default class UserSoundfx extends Vue {
 
   appendTo(track) {
     bus.$emit("composer:append", track, this.crossfadeDuration);
+  }
+
+  async onDelete(filedriveId) {
+    try {
+      const res = await this.$apollo.mutate({
+        mutation: DELETE_USER_FILEDRIVE,
+        variables: {
+          filedriveId: filedriveId
+        }
+      });
+
+      if (res && res.data.deleted !== null) {
+        this.$notification.success({
+          message: "Filedrive",
+          description: `Xoá filedrive ${filedriveId} thành công`
+        });
+
+        this.$apollo.queries.filedrivesGraph.skip = false;
+        await this.$apollo.queries.filedrivesGraph.refetch();
+      }
+    } catch (error) {
+      this.$notification.error({
+        message: "Lỗi trong quá trình xoá filedrive!",
+        description: error.toString()
+      });
+    }
   }
 
   mounted() {
