@@ -23,20 +23,20 @@ else:
 
 with app.app_context():
     from root_schema import schema
-    from depot.manager import DepotManager
+    # from depot.manager import DepotManager
     from db import db
     app.db = db
 
-    depot_name = 'podcast_audio_data'
-    depot_config = {
-        'depot.backend': 'depot.io.boto3.S3Storage',
-        'depot.endpoint_url': 'https://storage.googleapis.com',
-        'depot.access_key_id': app.config['GOOGLE_CLOUD_STORAGE_ACCESS_KEY'],
-        'depot.secret_access_key': app.config['GOOGLE_CLOUD_STORAGE_SECRET_KEY'],
-        'depot.bucket': app.config['GOOGLE_CLOUD_STORAGE_BUCKET']
-    }
+    # depot_name = 'podcast_audio_data'
+    # depot_config = {
+    #     'depot.backend': 'depot.io.boto3.S3Storage',
+    #     'depot.endpoint_url': 'https://storage.googleapis.com',
+    #     'depot.access_key_id': app.config['GOOGLE_CLOUD_STORAGE_ACCESS_KEY'],
+    #     'depot.secret_access_key': app.config['GOOGLE_CLOUD_STORAGE_SECRET_KEY'],
+    #     'depot.bucket': app.config['GOOGLE_CLOUD_STORAGE_BUCKET']
+    # }
 
-    DepotManager.configure(depot_name, depot_config)
+    # DepotManager.configure(depot_name, depot_config)
 
     @app.teardown_appcontext
     def shutdown_session(exception=None):
