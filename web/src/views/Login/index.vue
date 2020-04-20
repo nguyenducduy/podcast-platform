@@ -5,6 +5,7 @@
         <div class="col-xl-12">
           <div :class="$style.inner">
             <div :class="$style.form">
+              <small>admin@mksoftware.com/1111</small>
               <a-form class="login-form" :form="form" @submit="onSubmit">
                 <a-form-item label="Email">
                   <a-input
